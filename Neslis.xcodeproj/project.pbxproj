@@ -7,25 +7,92 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		68BCD6BC2565013000DDE889 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6BB2565013000DDE889 /* AppDelegate.swift */; };
-		68BCD6BE2565013000DDE889 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6BD2565013000DDE889 /* SceneDelegate.swift */; };
-		68BCD6C02565013000DDE889 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6BF2565013000DDE889 /* ContentView.swift */; };
-		68BCD6C32565013000DDE889 /* Neslis.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6C12565013000DDE889 /* Neslis.xcdatamodeld */; };
 		68BCD6C52565013200DDE889 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68BCD6C42565013200DDE889 /* Assets.xcassets */; };
 		68BCD6C82565013200DDE889 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68BCD6C72565013200DDE889 /* Preview Assets.xcassets */; };
 		68BCD6CB2565013200DDE889 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68BCD6C92565013200DDE889 /* LaunchScreen.storyboard */; };
+		68BCD6D62565022D00DDE889 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68BCD6D52565022D00DDE889 /* StoreKit.framework */; };
+		68BCD6D92565024C00DDE889 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68BCD6D82565024C00DDE889 /* CloudKit.framework */; };
+		68BCD6E42565030800DDE889 /* IconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6E22565030800DDE889 /* IconModel.swift */; };
+		68BCD6E52565030800DDE889 /* ColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6E32565030800DDE889 /* ColorModel.swift */; };
+		68BCD6EA2565032900DDE889 /* IconSetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6E82565032900DDE889 /* IconSetViewModel.swift */; };
+		68BCD6EB2565032900DDE889 /* ColorSetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6E92565032900DDE889 /* ColorSetViewModel.swift */; };
+		68BCD6FF2565036900DDE889 /* PurchaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6EE2565036900DDE889 /* PurchaseView.swift */; };
+		68BCD7002565036900DDE889 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6EF2565036900DDE889 /* SettingsView.swift */; };
+		68BCD7022565036900DDE889 /* NewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6F22565036900DDE889 /* NewListView.swift */; };
+		68BCD7032565036900DDE889 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6F32565036900DDE889 /* ListView.swift */; };
+		68BCD7042565036900DDE889 /* NewListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6F42565036900DDE889 /* NewListItemView.swift */; };
+		68BCD7052565036900DDE889 /* ListOfListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6F52565036900DDE889 /* ListOfListsView.swift */; };
+		68BCD7062565036900DDE889 /* ListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6F62565036900DDE889 /* ListItemView.swift */; };
+		68BCD7072565036900DDE889 /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6F82565036900DDE889 /* IconView.swift */; };
+		68BCD7082565036900DDE889 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6F92565036900DDE889 /* ColorView.swift */; };
+		68BCD7092565036900DDE889 /* IconImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6FA2565036900DDE889 /* IconImageView.swift */; };
+		68BCD70A2565036900DDE889 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6FB2565036900DDE889 /* ActivityIndicatorView.swift */; };
+		68BCD70B2565036900DDE889 /* CloudSharingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6FC2565036900DDE889 /* CloudSharingButton.swift */; };
+		68BCD70C2565036900DDE889 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6FD2565036900DDE889 /* AppDelegate.swift */; };
+		68BCD70D2565036900DDE889 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6FE2565036900DDE889 /* SceneDelegate.swift */; };
+		68BCD71F256503A200DDE889 /* UDKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD711256503A200DDE889 /* UDKeys.swift */; };
+		68BCD720256503A200DDE889 /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD713256503A200DDE889 /* IAPManager.swift */; };
+		68BCD721256503A200DDE889 /* NotifManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD714256503A200DDE889 /* NotifManager.swift */; };
+		68BCD722256503A200DDE889 /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD715256503A200DDE889 /* CloudKitManager.swift */; };
+		68BCD723256503A200DDE889 /* SettingButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD717256503A200DDE889 /* SettingButtonStyle.swift */; };
+		68BCD724256503A200DDE889 /* SettingButtonModifire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD718256503A200DDE889 /* SettingButtonModifire.swift */; };
+		68BCD725256503A200DDE889 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD719256503A200DDE889 /* UserSettings.swift */; };
+		68BCD726256503A200DDE889 /* UserAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD71A256503A200DDE889 /* UserAlert.swift */; };
+		68BCD727256503A200DDE889 /* LoadSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD71B256503A200DDE889 /* LoadSpinner.swift */; };
+		68BCD728256503A200DDE889 /* UIColor+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD71D256503A200DDE889 /* UIColor+Extention.swift */; };
+		68BCD729256503A200DDE889 /* EditMode+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD71E256503A200DDE889 /* EditMode+Extention.swift */; };
+		68BCD731256503B100DDE889 /* ListCD+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD72C256503B100DDE889 /* ListCD+CoreDataClass.swift */; };
+		68BCD732256503B100DDE889 /* ListItemCD+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD72D256503B100DDE889 /* ListItemCD+CoreDataClass.swift */; };
+		68BCD733256503B100DDE889 /* ListCD+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD72E256503B100DDE889 /* ListCD+CoreDataProperties.swift */; };
+		68BCD734256503B100DDE889 /* ListItemCD+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD72F256503B100DDE889 /* ListItemCD+CoreDataProperties.swift */; };
+		68BCD735256503B100DDE889 /* CDStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD730256503B100DDE889 /* CDStack.swift */; };
+		68BCD739256503BE00DDE889 /* Neslis.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD737256503BE00DDE889 /* Neslis.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		68BCD6B82565013000DDE889 /* Neslis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Neslis.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		68BCD6BB2565013000DDE889 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		68BCD6BD2565013000DDE889 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		68BCD6BF2565013000DDE889 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		68BCD6C22565013000DDE889 /* Neslis.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Neslis.xcdatamodel; sourceTree = "<group>"; };
 		68BCD6C42565013200DDE889 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68BCD6C72565013200DDE889 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		68BCD6CA2565013200DDE889 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		68BCD6CC2565013200DDE889 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		68BCD6D52565022D00DDE889 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		68BCD6D72565024000DDE889 /* Neslis.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Neslis.entitlements; sourceTree = "<group>"; };
+		68BCD6D82565024C00DDE889 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		68BCD6E22565030800DDE889 /* IconModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconModel.swift; sourceTree = "<group>"; };
+		68BCD6E32565030800DDE889 /* ColorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorModel.swift; sourceTree = "<group>"; };
+		68BCD6E82565032900DDE889 /* IconSetViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconSetViewModel.swift; sourceTree = "<group>"; };
+		68BCD6E92565032900DDE889 /* ColorSetViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSetViewModel.swift; sourceTree = "<group>"; };
+		68BCD6EE2565036900DDE889 /* PurchaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseView.swift; sourceTree = "<group>"; };
+		68BCD6EF2565036900DDE889 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		68BCD6F22565036900DDE889 /* NewListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewListView.swift; sourceTree = "<group>"; };
+		68BCD6F32565036900DDE889 /* ListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		68BCD6F42565036900DDE889 /* NewListItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewListItemView.swift; sourceTree = "<group>"; };
+		68BCD6F52565036900DDE889 /* ListOfListsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListOfListsView.swift; sourceTree = "<group>"; };
+		68BCD6F62565036900DDE889 /* ListItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItemView.swift; sourceTree = "<group>"; };
+		68BCD6F82565036900DDE889 /* IconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
+		68BCD6F92565036900DDE889 /* ColorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
+		68BCD6FA2565036900DDE889 /* IconImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconImageView.swift; sourceTree = "<group>"; };
+		68BCD6FB2565036900DDE889 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
+		68BCD6FC2565036900DDE889 /* CloudSharingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudSharingButton.swift; sourceTree = "<group>"; };
+		68BCD6FD2565036900DDE889 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		68BCD6FE2565036900DDE889 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		68BCD711256503A200DDE889 /* UDKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDKeys.swift; sourceTree = "<group>"; };
+		68BCD713256503A200DDE889 /* IAPManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
+		68BCD714256503A200DDE889 /* NotifManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotifManager.swift; sourceTree = "<group>"; };
+		68BCD715256503A200DDE889 /* CloudKitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
+		68BCD717256503A200DDE889 /* SettingButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingButtonStyle.swift; sourceTree = "<group>"; };
+		68BCD718256503A200DDE889 /* SettingButtonModifire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingButtonModifire.swift; sourceTree = "<group>"; };
+		68BCD719256503A200DDE889 /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		68BCD71A256503A200DDE889 /* UserAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAlert.swift; sourceTree = "<group>"; };
+		68BCD71B256503A200DDE889 /* LoadSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadSpinner.swift; sourceTree = "<group>"; };
+		68BCD71D256503A200DDE889 /* UIColor+Extention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extention.swift"; sourceTree = "<group>"; };
+		68BCD71E256503A200DDE889 /* EditMode+Extention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EditMode+Extention.swift"; sourceTree = "<group>"; };
+		68BCD72C256503B100DDE889 /* ListCD+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ListCD+CoreDataClass.swift"; sourceTree = "<group>"; };
+		68BCD72D256503B100DDE889 /* ListItemCD+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ListItemCD+CoreDataClass.swift"; sourceTree = "<group>"; };
+		68BCD72E256503B100DDE889 /* ListCD+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ListCD+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		68BCD72F256503B100DDE889 /* ListItemCD+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ListItemCD+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		68BCD730256503B100DDE889 /* CDStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDStack.swift; sourceTree = "<group>"; };
+		68BCD738256503BE00DDE889 /* Neslis.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Neslis.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +100,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68BCD6D62565022D00DDE889 /* StoreKit.framework in Frameworks */,
+				68BCD6D92565024C00DDE889 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +113,7 @@
 			children = (
 				68BCD6BA2565013000DDE889 /* Neslis */,
 				68BCD6B92565013000DDE889 /* Products */,
+				68BCD6D42565022D00DDE889 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,13 +128,16 @@
 		68BCD6BA2565013000DDE889 /* Neslis */ = {
 			isa = PBXGroup;
 			children = (
-				68BCD6BB2565013000DDE889 /* AppDelegate.swift */,
-				68BCD6BD2565013000DDE889 /* SceneDelegate.swift */,
-				68BCD6BF2565013000DDE889 /* ContentView.swift */,
+				68BCD6D72565024000DDE889 /* Neslis.entitlements */,
+				68BCD6E12565030800DDE889 /* Model */,
+				68BCD6E72565032900DDE889 /* ViewModel */,
+				68BCD6ED2565036900DDE889 /* View */,
+				68BCD710256503A200DDE889 /* SupportFiles */,
+				68BCD72B256503B100DDE889 /* CoreData */,
 				68BCD6C42565013200DDE889 /* Assets.xcassets */,
 				68BCD6C92565013200DDE889 /* LaunchScreen.storyboard */,
 				68BCD6CC2565013200DDE889 /* Info.plist */,
-				68BCD6C12565013000DDE889 /* Neslis.xcdatamodeld */,
+				68BCD737256503BE00DDE889 /* Neslis.xcdatamodeld */,
 				68BCD6C62565013200DDE889 /* Preview Content */,
 			);
 			path = Neslis;
@@ -76,6 +149,124 @@
 				68BCD6C72565013200DDE889 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		68BCD6D42565022D00DDE889 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				68BCD6D82565024C00DDE889 /* CloudKit.framework */,
+				68BCD6D52565022D00DDE889 /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		68BCD6E12565030800DDE889 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				68BCD6E22565030800DDE889 /* IconModel.swift */,
+				68BCD6E32565030800DDE889 /* ColorModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		68BCD6E72565032900DDE889 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				68BCD6E82565032900DDE889 /* IconSetViewModel.swift */,
+				68BCD6E92565032900DDE889 /* ColorSetViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		68BCD6ED2565036900DDE889 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				68BCD6FD2565036900DDE889 /* AppDelegate.swift */,
+				68BCD6FE2565036900DDE889 /* SceneDelegate.swift */,
+				68BCD6EE2565036900DDE889 /* PurchaseView.swift */,
+				68BCD6EF2565036900DDE889 /* SettingsView.swift */,
+				68BCD6F12565036900DDE889 /* ListView */,
+				68BCD6F72565036900DDE889 /* SupportedView */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		68BCD6F12565036900DDE889 /* ListView */ = {
+			isa = PBXGroup;
+			children = (
+				68BCD6F52565036900DDE889 /* ListOfListsView.swift */,
+				68BCD6F32565036900DDE889 /* ListView.swift */,
+				68BCD6F62565036900DDE889 /* ListItemView.swift */,
+				68BCD6F22565036900DDE889 /* NewListView.swift */,
+				68BCD6F42565036900DDE889 /* NewListItemView.swift */,
+			);
+			path = ListView;
+			sourceTree = "<group>";
+		};
+		68BCD6F72565036900DDE889 /* SupportedView */ = {
+			isa = PBXGroup;
+			children = (
+				68BCD6F82565036900DDE889 /* IconView.swift */,
+				68BCD6F92565036900DDE889 /* ColorView.swift */,
+				68BCD6FA2565036900DDE889 /* IconImageView.swift */,
+				68BCD6FB2565036900DDE889 /* ActivityIndicatorView.swift */,
+				68BCD6FC2565036900DDE889 /* CloudSharingButton.swift */,
+			);
+			path = SupportedView;
+			sourceTree = "<group>";
+		};
+		68BCD710256503A200DDE889 /* SupportFiles */ = {
+			isa = PBXGroup;
+			children = (
+				68BCD711256503A200DDE889 /* UDKeys.swift */,
+				68BCD712256503A200DDE889 /* Managers */,
+				68BCD716256503A200DDE889 /* ButtonsStyle */,
+				68BCD719256503A200DDE889 /* UserSettings.swift */,
+				68BCD71A256503A200DDE889 /* UserAlert.swift */,
+				68BCD71B256503A200DDE889 /* LoadSpinner.swift */,
+				68BCD71C256503A200DDE889 /* Extentions */,
+			);
+			path = SupportFiles;
+			sourceTree = "<group>";
+		};
+		68BCD712256503A200DDE889 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				68BCD713256503A200DDE889 /* IAPManager.swift */,
+				68BCD714256503A200DDE889 /* NotifManager.swift */,
+				68BCD715256503A200DDE889 /* CloudKitManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		68BCD716256503A200DDE889 /* ButtonsStyle */ = {
+			isa = PBXGroup;
+			children = (
+				68BCD717256503A200DDE889 /* SettingButtonStyle.swift */,
+				68BCD718256503A200DDE889 /* SettingButtonModifire.swift */,
+			);
+			path = ButtonsStyle;
+			sourceTree = "<group>";
+		};
+		68BCD71C256503A200DDE889 /* Extentions */ = {
+			isa = PBXGroup;
+			children = (
+				68BCD71D256503A200DDE889 /* UIColor+Extention.swift */,
+				68BCD71E256503A200DDE889 /* EditMode+Extention.swift */,
+			);
+			path = Extentions;
+			sourceTree = "<group>";
+		};
+		68BCD72B256503B100DDE889 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				68BCD72C256503B100DDE889 /* ListCD+CoreDataClass.swift */,
+				68BCD72D256503B100DDE889 /* ListItemCD+CoreDataClass.swift */,
+				68BCD72E256503B100DDE889 /* ListCD+CoreDataProperties.swift */,
+				68BCD72F256503B100DDE889 /* ListItemCD+CoreDataProperties.swift */,
+				68BCD730256503B100DDE889 /* CDStack.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,10 +339,41 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68BCD6BC2565013000DDE889 /* AppDelegate.swift in Sources */,
-				68BCD6C32565013000DDE889 /* Neslis.xcdatamodeld in Sources */,
-				68BCD6BE2565013000DDE889 /* SceneDelegate.swift in Sources */,
-				68BCD6C02565013000DDE889 /* ContentView.swift in Sources */,
+				68BCD7062565036900DDE889 /* ListItemView.swift in Sources */,
+				68BCD6E42565030800DDE889 /* IconModel.swift in Sources */,
+				68BCD722256503A200DDE889 /* CloudKitManager.swift in Sources */,
+				68BCD720256503A200DDE889 /* IAPManager.swift in Sources */,
+				68BCD723256503A200DDE889 /* SettingButtonStyle.swift in Sources */,
+				68BCD7052565036900DDE889 /* ListOfListsView.swift in Sources */,
+				68BCD71F256503A200DDE889 /* UDKeys.swift in Sources */,
+				68BCD735256503B100DDE889 /* CDStack.swift in Sources */,
+				68BCD7002565036900DDE889 /* SettingsView.swift in Sources */,
+				68BCD721256503A200DDE889 /* NotifManager.swift in Sources */,
+				68BCD70D2565036900DDE889 /* SceneDelegate.swift in Sources */,
+				68BCD728256503A200DDE889 /* UIColor+Extention.swift in Sources */,
+				68BCD727256503A200DDE889 /* LoadSpinner.swift in Sources */,
+				68BCD7082565036900DDE889 /* ColorView.swift in Sources */,
+				68BCD725256503A200DDE889 /* UserSettings.swift in Sources */,
+				68BCD6FF2565036900DDE889 /* PurchaseView.swift in Sources */,
+				68BCD6EB2565032900DDE889 /* ColorSetViewModel.swift in Sources */,
+				68BCD7042565036900DDE889 /* NewListItemView.swift in Sources */,
+				68BCD726256503A200DDE889 /* UserAlert.swift in Sources */,
+				68BCD70A2565036900DDE889 /* ActivityIndicatorView.swift in Sources */,
+				68BCD734256503B100DDE889 /* ListItemCD+CoreDataProperties.swift in Sources */,
+				68BCD7032565036900DDE889 /* ListView.swift in Sources */,
+				68BCD70B2565036900DDE889 /* CloudSharingButton.swift in Sources */,
+				68BCD729256503A200DDE889 /* EditMode+Extention.swift in Sources */,
+				68BCD6EA2565032900DDE889 /* IconSetViewModel.swift in Sources */,
+				68BCD7072565036900DDE889 /* IconView.swift in Sources */,
+				68BCD6E52565030800DDE889 /* ColorModel.swift in Sources */,
+				68BCD739256503BE00DDE889 /* Neslis.xcdatamodeld in Sources */,
+				68BCD732256503B100DDE889 /* ListItemCD+CoreDataClass.swift in Sources */,
+				68BCD70C2565036900DDE889 /* AppDelegate.swift in Sources */,
+				68BCD731256503B100DDE889 /* ListCD+CoreDataClass.swift in Sources */,
+				68BCD733256503B100DDE889 /* ListCD+CoreDataProperties.swift in Sources */,
+				68BCD724256503A200DDE889 /* SettingButtonModifire.swift in Sources */,
+				68BCD7022565036900DDE889 /* NewListView.swift in Sources */,
+				68BCD7092565036900DDE889 /* IconImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,7 +442,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -275,7 +497,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -290,16 +512,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Neslis/Neslis.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Neslis/Preview Content\"";
 				DEVELOPMENT_TEAM = 7C46924T49;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Neslis/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = VSA.Neslis;
+				PRODUCT_BUNDLE_IDENTIFIER = VSA.NesLis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -311,16 +535,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Neslis/Neslis.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Neslis/Preview Content\"";
 				DEVELOPMENT_TEAM = 7C46924T49;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Neslis/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = VSA.Neslis;
+				PRODUCT_BUNDLE_IDENTIFIER = VSA.NesLis;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -351,13 +577,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		68BCD6C12565013000DDE889 /* Neslis.xcdatamodeld */ = {
+		68BCD737256503BE00DDE889 /* Neslis.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				68BCD6C22565013000DDE889 /* Neslis.xcdatamodel */,
+				68BCD738256503BE00DDE889 /* Neslis.xcdatamodel */,
 			);
-			currentVersion = 68BCD6C22565013000DDE889 /* Neslis.xcdatamodel */;
-			path = Neslis.xcdatamodeld;
+			currentVersion = 68BCD738256503BE00DDE889 /* Neslis.xcdatamodel */;
+			name = Neslis.xcdatamodeld;
+			path = "../../!Archive/Neslis-SwiftUILifeCycle/Neslis/Neslis.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
