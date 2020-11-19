@@ -162,9 +162,6 @@ struct CloudKitManager {
         
     }
     
-    
-    
-    
     static func saveObjectsToCloud(insertedObjects: Set<NSManagedObject>, modifedObjects: Set<NSManagedObject>, deleteObjectsID: [CKRecord.ID], db: CKDatabase, completion: @escaping (Result<Int, Error>) -> Void) {
         
         var records = [CKRecord]()
@@ -193,8 +190,6 @@ struct CloudKitManager {
         }
         db.add(operation)
     }
-    
-    
     
     static func saveAllObjectsToCloud(cd: CDStack, completion: @escaping (Error?)->Void) {
         let semaphore = DispatchSemaphore(value: 0)

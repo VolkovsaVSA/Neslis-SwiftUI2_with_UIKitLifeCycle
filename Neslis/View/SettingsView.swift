@@ -80,7 +80,7 @@ struct SettingsView: View {
                 CloudKitManager.createZone { createError in
                     if createError == nil {
                         print(#function)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             CloudKitManager.saveAllObjectsToCloud(cd: cd) { error in
                                 print("end uploading")
                                 loading = false
@@ -217,9 +217,7 @@ struct SettingsView: View {
                     Alert(title: Text("Atention"),
                           message: Text("If you save your data, all previous data Neslis app in iCloud will be rewritten! Are you sure?"),
                           primaryButton: .destructive(Text("Save data"), action: {
-                            
                             saveData()
-                            
                           }),
                           secondaryButton: .cancel())
                 }

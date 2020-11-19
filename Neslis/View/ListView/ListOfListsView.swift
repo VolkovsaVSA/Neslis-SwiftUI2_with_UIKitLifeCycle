@@ -30,8 +30,8 @@ struct ListOfListsView: View {
     )
     var lists: FetchedResults<ListCD>
     
-    @ObservedObject var colorVM = ColorSetViewModel()
-    @ObservedObject var iconVM = IconSetViewModel()
+    @StateObject var colorVM = ColorSetViewModel()
+    @StateObject var iconVM = IconSetViewModel()
 
     var body: some View {
         NavigationView {
