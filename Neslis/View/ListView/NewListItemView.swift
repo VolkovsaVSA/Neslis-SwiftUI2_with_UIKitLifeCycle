@@ -9,8 +9,10 @@ import SwiftUI
 
 struct NewListItemView: View {
     
+    var userSettings: UserSettings
     var cd: CDStack
     @ObservedObject var list: ListCD
+
     var firstLevel: Bool = true
     var parentList: ListCD?
     var parentListItem: ListItemCD?
@@ -22,21 +24,26 @@ struct NewListItemView: View {
         HStack {
             Image(systemName: "plus.circle.fill")
                 .font(Font.system(size: 20))
-                .foregroundColor(Color(UIColor.color(data: list.systemImageColor) ?? UIColor.red))
-            TextField("Enter new task", text: $newTitle, onEditingChanged: { tfCnange in
-            }) {
-                cd.createListItem(title: self.newTitle, parentList: parentList, parentListItem: parentListItem, share: firstLevel ? parentList!.share : parentListItem!.share)
-                self.newTitle = ""
-                
+                .foregroundColor(userSettings.useListColor ? Color(UIColor.color(data: list.systemImageColor) ?? UIColor.red) : .red)
+            TextField("Enter new task", text: $newTitle, onEditingChanged: { tfChange in
+                addNewsublist = tfChange
+            })
+            {
+                cd.createListItem(title: newTitle, parentList: parentList, parentListItem: parentListItem, share: firstLevel ? parentList!.share : parentListItem!.share)
+                newTitle = ""
+
                 if parentList != nil {
+                    parentList!.setIndex()
                     parentList!.childrenUpdate = true
                 } else if parentListItem != nil {
+                    parentListItem!.setIndex()
                     parentListItem!.childrenUpdate = true
                 }
-                
+
                 addNewsublist = false
                 cd.saveContext()
             }
+            
         }
     }
 }

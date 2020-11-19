@@ -79,7 +79,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 }
                 CloudKitManager.fetchShare(cloudKitShareMetadata) { (rc, er) in
                     if let error = er {
-                        print("shareRecordToObject :\(error.localizedDescription)")
+                        print("shareRecordToObject error:\(error.localizedDescription)")
                         DispatchQueue.main.async {
                             self.loading.animateSpinner = false
                             self.loading.message = error.localizedDescription
@@ -105,7 +105,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             }
                         } else {
                             DispatchQueue.main.async {
-                                CDStack.shared.saveContext()
+                                self.coreData.saveContext()
                             }
                         }
                         DispatchQueue.main.async {
@@ -115,7 +115,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     }
 
                     CloudKitManager.Subscription.saveSubscription()
-                    
                 }
             }
         }

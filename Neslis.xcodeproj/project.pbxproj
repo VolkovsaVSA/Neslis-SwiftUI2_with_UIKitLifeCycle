@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		68BCD6C52565013200DDE889 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68BCD6C42565013200DDE889 /* Assets.xcassets */; };
 		68BCD6C82565013200DDE889 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68BCD6C72565013200DDE889 /* Preview Assets.xcassets */; };
-		68BCD6CB2565013200DDE889 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68BCD6C92565013200DDE889 /* LaunchScreen.storyboard */; };
 		68BCD6D62565022D00DDE889 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68BCD6D52565022D00DDE889 /* StoreKit.framework */; };
 		68BCD6D92565024C00DDE889 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68BCD6D82565024C00DDE889 /* CloudKit.framework */; };
 		68BCD6E42565030800DDE889 /* IconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD6E22565030800DDE889 /* IconModel.swift */; };
@@ -47,13 +46,13 @@
 		68BCD734256503B100DDE889 /* ListItemCD+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD72F256503B100DDE889 /* ListItemCD+CoreDataProperties.swift */; };
 		68BCD735256503B100DDE889 /* CDStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD730256503B100DDE889 /* CDStack.swift */; };
 		68BCD739256503BE00DDE889 /* Neslis.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD737256503BE00DDE889 /* Neslis.xcdatamodeld */; };
+		68BCD74025650CC300DDE889 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68BCD73F25650CC300DDE889 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		68BCD6B82565013000DDE889 /* Neslis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Neslis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68BCD6C42565013200DDE889 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68BCD6C72565013200DDE889 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		68BCD6CA2565013200DDE889 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		68BCD6CC2565013200DDE889 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		68BCD6D52565022D00DDE889 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		68BCD6D72565024000DDE889 /* Neslis.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Neslis.entitlements; sourceTree = "<group>"; };
@@ -93,6 +92,7 @@
 		68BCD72F256503B100DDE889 /* ListItemCD+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ListItemCD+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		68BCD730256503B100DDE889 /* CDStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDStack.swift; sourceTree = "<group>"; };
 		68BCD738256503BE00DDE889 /* Neslis.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Neslis.xcdatamodel; sourceTree = "<group>"; };
+		68BCD73F25650CC300DDE889 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,7 +135,7 @@
 				68BCD710256503A200DDE889 /* SupportFiles */,
 				68BCD72B256503B100DDE889 /* CoreData */,
 				68BCD6C42565013200DDE889 /* Assets.xcassets */,
-				68BCD6C92565013200DDE889 /* LaunchScreen.storyboard */,
+				68BCD73F25650CC300DDE889 /* LaunchScreen.storyboard */,
 				68BCD6CC2565013200DDE889 /* Info.plist */,
 				68BCD737256503BE00DDE889 /* Neslis.xcdatamodeld */,
 				68BCD6C62565013200DDE889 /* Preview Content */,
@@ -183,8 +183,8 @@
 			children = (
 				68BCD6FD2565036900DDE889 /* AppDelegate.swift */,
 				68BCD6FE2565036900DDE889 /* SceneDelegate.swift */,
-				68BCD6EE2565036900DDE889 /* PurchaseView.swift */,
 				68BCD6EF2565036900DDE889 /* SettingsView.swift */,
+				68BCD6EE2565036900DDE889 /* PurchaseView.swift */,
 				68BCD6F12565036900DDE889 /* ListView */,
 				68BCD6F72565036900DDE889 /* SupportedView */,
 			);
@@ -218,9 +218,9 @@
 		68BCD710256503A200DDE889 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
-				68BCD711256503A200DDE889 /* UDKeys.swift */,
 				68BCD712256503A200DDE889 /* Managers */,
 				68BCD716256503A200DDE889 /* ButtonsStyle */,
+				68BCD711256503A200DDE889 /* UDKeys.swift */,
 				68BCD719256503A200DDE889 /* UserSettings.swift */,
 				68BCD71A256503A200DDE889 /* UserAlert.swift */,
 				68BCD71B256503A200DDE889 /* LoadSpinner.swift */,
@@ -326,7 +326,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68BCD6CB2565013200DDE889 /* LaunchScreen.storyboard in Resources */,
+				68BCD74025650CC300DDE889 /* LaunchScreen.storyboard in Resources */,
 				68BCD6C82565013200DDE889 /* Preview Assets.xcassets in Resources */,
 				68BCD6C52565013200DDE889 /* Assets.xcassets in Resources */,
 			);
@@ -378,17 +378,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		68BCD6C92565013200DDE889 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				68BCD6CA2565013200DDE889 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		68BCD6CD2565013200DDE889 /* Debug */ = {

@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import CloudKit
 
 struct ListView: View {
     var cd: CDStack
     
+    @ObservedObject var userSettings: UserSettings
     @ObservedObject var colorVM: ColorSetViewModel
     @ObservedObject var iconVM: IconSetViewModel
     @ObservedObject var list: ListCD
@@ -22,13 +24,15 @@ struct ListView: View {
     @State var addNewSublist = false
     @State var expand = false
     
+    @State var recordToShare: CKRecord?
+    
     var body: some View {
         ZStack {
             List(selection: $selectedRows) {
                 Section {
                     if let array = list.childrenArray {
                         ForEach(cd.prepareArrayListItem(array: array, list: list), id: \.self) { localItem in
-                            ListItemView(cd: cd, isExpand: true, list: list, item: localItem)
+                            ListItemView(userSettings: userSettings, cd: cd, isExpand: true, list: list, item: localItem)
                                 .onReceive(localItem.objectWillChange) { _ in
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                             self.list.objectWillChange.send()
@@ -39,21 +43,23 @@ struct ListView: View {
                         .onMove(perform: onMove)
                     }
                     
-                    NewListItemView(cd: cd, list: list, firstLevel: true, parentList: list, parentListItem: nil, addNewsublist: $addNewSublist)
+                    NewListItemView(userSettings: userSettings, cd: cd, list: list, firstLevel: true, parentList: list, parentListItem: nil, addNewsublist: $addNewSublist)
+                }
+
+            }
+
+            if !addNewSublist && list.childrenArray?.count ?? 0 != 0 {
+                VStack {
+                    Spacer()
+                    Text(" \(cd.nonCompleteCount(list: list.childrenArray ?? [])) / \(list.childrenArray?.count ?? 0) completed ")
+                        .font(.subheadline)
+                        .background(cd.nonCompleteCount(list: list.childrenArray ?? []) == (list.childrenArray?.count ?? 0) ? Color.green : Color(UIColor.systemBackground), alignment: .center)
+                        .cornerRadius(6)
+                        .padding(.bottom, 2)
                 }
             }
             
-            VStack {
-                Spacer()
-                Text(" \(cd.nonCompleteCount(list: list.childrenArray ?? [])) / \(list.childrenArray?.count ?? 0) completed ")
-                    .font(.subheadline)
-                    .background(cd.nonCompleteCount(list: list.childrenArray ?? []) == (list.childrenArray?.count ?? 0) ? Color.green : Color(UIColor.systemBackground), alignment: .center)
-                    .cornerRadius(6)
-                    
-            }
         }
-        
-        
         .navigationTitle(list.title)
         .navigationBarItems(
             leading: sharingButton,
@@ -104,6 +110,22 @@ struct ListView: View {
                         .font(Font.system(size: 20, weight: .regular, design: .default))
                 })
         })
+        .onAppear() {
+            if userSettings.icloudBackup {
+                if !list.share {
+                    CloudKitManager.fetchListRecordForSharing(id: list.id!.uuidString) { (record, error) in
+                        if let localError = error {
+                            print("fetchListForSharing error: \(localError.localizedDescription)")
+                        }
+                        if let sharingRecord = record {
+                            recordToShare = sharingRecord
+                            sharingButton = CloudSharingButton(toShare: list, recordToShare: sharingRecord)
+                            print("fetchListForSharing success")
+                        }
+                    }
+                }
+            }
+        }
         .sheet(isPresented: $showModal) {
             NewListView(colorVM: colorVM, iconVM: iconVM, newListTitle: list.title, isAutoNumbering: list.isAutoNumbering, isShowCheckedItem: list.isShowCheckedItem, isShowSublistCount: list.isShowSublistCount, lvm: list, cd: cd)
                 //.edgesIgnoringSafeArea(.all)
@@ -113,7 +135,7 @@ struct ListView: View {
     }
     
     private func onDelete(offsets: IndexSet) {
-        guard let array = self.list.childrenArray else { return }
+        guard let array = list.childrenArray else { return }
         for index in offsets {
             cd.deleteObject(object: array[index])
         }

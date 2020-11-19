@@ -25,9 +25,3 @@ struct IconView: View {
         
     }
 }
-
-struct IconView_Previews: PreviewProvider {
-    static var previews: some View {
-        IconView(iconSetVM: IconSetViewModel(), localIcon: .constant(IconSetViewModel().iconSet.first!), size: UIScreen.main.bounds.width/10)
-    }
-}

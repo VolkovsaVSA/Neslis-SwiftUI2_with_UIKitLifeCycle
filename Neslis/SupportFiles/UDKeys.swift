@@ -15,5 +15,6 @@ struct UDKeys {
         static let autoBackup = "autoBackup"
         static let sharingNotification = "sharingNotification"
         static let proVersion = "proVersion"
+        static let useListColor = "useListColor"
     }
 }

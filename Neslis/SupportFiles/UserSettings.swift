@@ -35,10 +35,16 @@ class UserSettings: ObservableObject {
             UserDefaults.standard.set(proVersion, forKey: UDKeys.Settings.sharingNotification)
         }
     }
+    @Published var useListColor: Bool {
+        didSet {
+            UserDefaults.standard.setValue(useListColor, forKey: UDKeys.Settings.useListColor)
+        }
+    }
     
     init() {
         self.icloudBackup = UserDefaults.standard.object(forKey: UDKeys.Settings.icloudBackup) as? Bool ?? false
         self.sharingNotification = UserDefaults.standard.object(forKey: UDKeys.Settings.sharingNotification) as? Bool ?? false
         self.proVersion = UserDefaults.standard.object(forKey: UDKeys.Settings.proVersion) as? Bool ?? false
+        self.useListColor = UserDefaults.standard.object(forKey: UDKeys.Settings.useListColor) as? Bool ?? false
     }
 }

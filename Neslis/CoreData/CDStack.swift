@@ -26,19 +26,58 @@ struct CDStack {
             container.viewContext.automaticallyMergesChangesFromParent = true
         })
     }
-    
-    
-    
+      
     func saveContext() {
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                print("Error save context: \(error.localizedDescription)")
+        DispatchQueue.main.async {
+            if self.context.hasChanges {
+
+                let insertedObjects = self.context.insertedObjects
+                let modifiedObjects = self.context.updatedObjects
+                let deletedRecordIDs = self.context.deletedObjects
+
+                var deleteRecordsID = [CKRecord.ID]()
+                deletedRecordIDs.forEach { object in
+                    let id = object.value(forKey: "id") as! UUID
+                    let recordID = CKRecord.ID(recordName: id.uuidString, zoneID: CloudKitManager.recordZone.zoneID)
+                    deleteRecordsID.append(recordID)
+                }
+
+                do {
+
+                    if UserDefaults.standard.bool(forKey: UDKeys.Settings.icloudBackup) {
+                        print("icloudBackup")
+                        CloudKitManager.saveObjectsToCloud(insertedObjects: insertedObjects, modifedObjects: modifiedObjects, deleteObjectsID: deleteRecordsID, db: CloudKitManager.cloudKitPrivateDB) { result in
+                            switch result {
+                            case .success(let count):
+                                print("Save \(count) objects to icloudBackup")
+                            case .failure(let error):
+                                print("Error icloudBackup  \(error.localizedDescription)")
+                            }
+                        }
+                    }
+
+                    try self.context.save()
+                    
+                } catch {
+                    self.context.rollback()
+                    let error = error as Error
+                    print(error.localizedDescription)
+                }
+
             }
         }
-        
+
     }
+    
+//    func saveContext() {
+//        do {
+//            try self.context.save()
+//        } catch {
+//            print("ERROR SAVE CD: \(error.localizedDescription)")
+//        }
+//
+//    }
+    
     func deleteObject(object: NSManagedObject) {
         context.delete(object)
     }

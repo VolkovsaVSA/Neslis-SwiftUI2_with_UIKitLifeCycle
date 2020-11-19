@@ -36,6 +36,8 @@ struct SettingsView: View {
     @State var showingAlert = UserAlert.shared.show
     
     @State var showPurchase = false
+    
+    @State var showSaveAlert = false
 
     fileprivate func loadData() {
         showingAlert = false
@@ -69,21 +71,11 @@ struct SettingsView: View {
             }
         }
     }
-    
-    fileprivate func clearDB(completion: @escaping (Error?)->Void) {
-        CloudKitManager.cloudKitPrivateDB.delete(withRecordZoneID: CloudKitManager.recordZone.zoneID) { (zoneID, error) in
-            if zoneID != nil {
-                print("Data deletion was successful!")
-            }
-            completion(error)
-        }
-    }
-    
     fileprivate func saveData() {
         showingAlert = false
         activityText = "Saving..."
         loading = true
-        clearDB { clearError in
+        CloudKitManager.clearDB { clearError in
             if clearError == nil {
                 CloudKitManager.createZone { createError in
                     if createError == nil {
@@ -129,63 +121,75 @@ struct SettingsView: View {
     var body: some View {
         LoadingView(isShowing: $loading, text: activityText) {
             NavigationView {
-                Form {
-                    Section(header: Text("Purchases").font(.title)) {
-                        Button("Pro Version") {
-                            print("\(IAPManager.shared.products.isEmpty)")
-                            if IAPManager.shared.products.isEmpty {
-                                UserAlert.shared.title = errorNetworkAlert.title
-                                UserAlert.shared.text = errorNetworkAlert.text
-                                showingAlert = true
-                            } else {
-                                showPurchase = true
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 16) {
+                        Section(header: Text("Purchases").font(.title).foregroundColor(.gray)) {
+                            Button("Pro Version") {
+                                print("\(IAPManager.shared.products.isEmpty)")
+                                if IAPManager.shared.products.isEmpty {
+                                    UserAlert.shared.title = errorNetworkAlert.title
+                                    UserAlert.shared.text = errorNetworkAlert.text
+                                    showingAlert = true
+                                } else {
+                                    showPurchase = true
+                                }
                             }
+                            .modifier(SettingButtonModifire(disable: false))
+                            Button("Restore purchases") {
+                                //temp data
+                                userSettings.proVersion = true
+                            }
+                            .modifier(SettingButtonModifire(disable: false))
+                        }
+                        //.listRowBackground(Color(UIColor.systemGroupedBackground))
+                        Section(header: Text("iCloud").font(.title).foregroundColor(.gray)) {
                             
-                        }
-                        .modifier(SettingButtonModifire(disable: false))
-                        Button("Restore purchases") {
-                            //temp data
-                            userSettings.proVersion = true
-                        }
-                        .modifier(SettingButtonModifire(disable: false))
-                    }
-                    .listRowBackground(Color(UIColor.systemGroupedBackground))
-                    Section(header: Text("iCloud").font(.title)) {
-                        
-                        if userSettings.proVersion {
-                            if acountStatus == .available {
-                                Toggle("Enable backup to iCloud and sharing lists", isOn: $userSettings.icloudBackup)
-                                if userSettings.icloudBackup {
-                                    Button("Restore data") {
-                                        loadData()
-                                    }
-                                    .modifier(SettingButtonModifire(disable: false))
-                                    Button("Clear icloud DB") {
-                                        clearDB { error in
-                                            print("error in clear DB: \(String(describing: error))")
+                            if userSettings.proVersion {
+                                if acountStatus == .available {
+                                    Toggle("Enable backup to iCloud and sharing lists", isOn: $userSettings.icloudBackup)
+                                    if userSettings.icloudBackup {
+                                        Button("Save data") {
+                                            showSaveAlert = true
                                         }
+                                        .modifier(SettingButtonModifire(disable: false))
+                                        Button("Restore data") {
+                                            loadData()
+                                        }
+                                        .modifier(SettingButtonModifire(disable: false))
+//                                        Button("Clear iCloud DB") {
+//                                            CloudKitManager.clearDB { error in
+//                                                if let clearError = error {
+//                                                    print("error in clear DB: \(clearError.localizedDescription))")
+//                                                }
+//                                            }
+//                                        }
+//                                        .modifier(SettingDeleteButtonModifire())
+                                        Toggle("Notifications of changes to shared lists", isOn: $userSettings.sharingNotification)
                                     }
-                                    .modifier(SettingDeleteButtonModifire())
-                                    Toggle("Notifications of changes to shared lists", isOn: $userSettings.sharingNotification)
+                                } else {
+                                    HStack {
+                                        Text("You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup.")
+                                            .multilineTextAlignment(.center)
+                                            .font(.system(size: 17, weight: .thin, design: .default))
+                                    }
                                 }
                             } else {
                                 HStack {
-                                    Text("You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup.")
+                                    Text("Purchase Pro version for backup and sharing lists.")
                                         .multilineTextAlignment(.center)
                                         .font(.system(size: 17, weight: .thin, design: .default))
                                 }
                             }
-                        } else {
-                            HStack {
-                                Text("Purchase Pro version for backup and sharing lists.")
-                                    .multilineTextAlignment(.center)
-                                    .font(.system(size: 17, weight: .thin, design: .default))
-                            }
+                            
+                            
                         }
-                        
-                        
+                        //.listRowBackground(Color(UIColor.systemGroupedBackground))
+                        Section(header: Text("Visual settings").font(.title).foregroundColor(.gray)) {
+                            Toggle("Use the color of the list-icon to visual style the list", isOn: $userSettings.useListColor)
+                        }
                     }
-                    .listRowBackground(Color(UIColor.systemGroupedBackground))
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 16)
                 }
                 .onAppear {
                     CloudKitManager.checkIcloudStatus { status in
@@ -208,6 +212,16 @@ struct SettingsView: View {
                         message: Text(UserAlert.shared.title),
                         dismissButton: .default(Text("OK"))
                     )
+                }
+                .alert(isPresented: $showSaveAlert) {
+                    Alert(title: Text("Atention"),
+                          message: Text("If you save your data, all previous data Neslis app in iCloud will be rewritten! Are you sure?"),
+                          primaryButton: .destructive(Text("Save data"), action: {
+                            
+                            saveData()
+                            
+                          }),
+                          secondaryButton: .cancel())
                 }
 
                 .navigationBarTitle("Settings")

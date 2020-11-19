@@ -100,7 +100,7 @@ class IAPManager: NSObject {
     }
     
     func valRec() {
-        print(#function)
+        //print(#function)
         if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL,
            FileManager.default.fileExists(atPath: appStoreReceiptURL.path) {
             
@@ -113,7 +113,7 @@ class IAPManager: NSObject {
                 print("Couldn't read receipt data with error: " + error.localizedDescription)
             }
         } else {
-            print("error")
+            print("error valRec")
         }
     }
     

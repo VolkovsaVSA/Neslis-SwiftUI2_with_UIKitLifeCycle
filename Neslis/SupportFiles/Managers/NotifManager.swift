@@ -33,7 +33,6 @@ class NotifManager {
                     return
                 }
                 
-                UserSettings.shared.sharingNotification = true
             }
         }
         

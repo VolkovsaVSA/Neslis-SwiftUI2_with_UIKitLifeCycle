@@ -53,6 +53,37 @@ struct CloudKitManager {
         }
     }
     
+    static func createZone(completion: @escaping (Error?) -> Void) {
+        let operation = CKModifyRecordZonesOperation(recordZonesToSave: [recordZone], recordZoneIDsToDelete: [])
+        operation.modifyRecordZonesCompletionBlock = { _, _, error in
+            guard error == nil else {
+                completion(error)
+                return
+            }
+            completion(nil)
+            print("Create zone successeful")
+        }
+        operation.qualityOfService = .userInitiated
+        CloudKitManager.cloudKitPrivateDB.add(operation)
+    }
+    static func clearDB(completion: @escaping (Error?)->Void) {
+        CloudKitManager.cloudKitPrivateDB.delete(withRecordZoneID: CloudKitManager.recordZone.zoneID) { (zoneID, zoneError) in
+            
+            if let deleteZoneError = zoneError {
+                completion(deleteZoneError)
+            } else {
+                createZone { createError in
+                    if let createZoneError = createError {
+                        completion(createZoneError)
+                    } else {
+                        completion(nil)
+                    }
+                }
+            }
+
+        }
+    }
+    
     static func objectToCKRecord(object: NSManagedObject)->CKRecord? {
         
         switch object {
@@ -131,19 +162,8 @@ struct CloudKitManager {
         
     }
     
-    static func createZone(completion: @escaping (Error?) -> Void) {
-        let operation = CKModifyRecordZonesOperation(recordZonesToSave: [recordZone], recordZoneIDsToDelete: [])
-        operation.modifyRecordZonesCompletionBlock = { _, _, error in
-            guard error == nil else {
-                completion(error)
-                return
-            }
-            completion(nil)
-            print("Create zone successeful")
-        }
-        operation.qualityOfService = .userInitiated
-        CloudKitManager.cloudKitPrivateDB.add(operation)
-    }
+    
+    
     
     static func saveObjectsToCloud(insertedObjects: Set<NSManagedObject>, modifedObjects: Set<NSManagedObject>, deleteObjectsID: [CKRecord.ID], db: CKDatabase, completion: @escaping (Result<Int, Error>) -> Void) {
         
@@ -198,7 +218,6 @@ struct CloudKitManager {
             let list = object as! ListCD
             semaphore.wait()
             if flag {
-                
                 if let children = list.children {
                     if !children.array.isEmpty {
                         saveItem(children.array)
@@ -262,7 +281,6 @@ struct CloudKitManager {
                     if db == container.sharedCloudDatabase {
                         list.share = true
                     }
-                    
                     
                     if let tempChildArray = record.object(forKey: RecordType.ListFileds.children.rawValue) as? [String] {
                         if !tempChildArray.isEmpty {
@@ -342,8 +360,13 @@ struct CloudKitManager {
         completion(item, retError)
     }
     
+    static func fetchListRecordForSharing(id: String, completion: @escaping (CKRecord?, Error?) -> Void) {
+        let recordID = CKRecord.ID(recordName: id, zoneID: recordZone.zoneID)
+        cloudKitPrivateDB.fetch(withRecordID: recordID) { (record, error) in
+            completion(record, error)
+        }
+    }
     static func fetchShare(_ metadata: CKShare.Metadata, completion: @escaping (CKRecord?, Error?)->Void) {
-
         let operation = CKFetchRecordsOperation(recordIDs: [metadata.rootRecordID])
         operation.perRecordCompletionBlock = { record, _, error in
             guard error == nil, record != nil else {
@@ -354,13 +377,11 @@ struct CloudKitManager {
             print("Share record: \(record!.description)")
             completion(record, error)
         }
-
         CloudKitManager.container.sharedCloudDatabase.add(operation)
     }
     
     static func shareRecordToObject(rootRecord: CKRecord, db: CKDatabase, completion: @escaping (ListCD, Error?)->Void) {
         print(#function)
-        
         
         var retError: Error?
         let list = ListCD(context: context)

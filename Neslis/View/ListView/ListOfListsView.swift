@@ -19,6 +19,7 @@ struct ListOfListsView: View {
     @State private var activeSheet: ActiveSheet?
     
     var cd: CDStack
+    
     @ObservedObject var userSettings: UserSettings
     @ObservedObject var loading: Loadspinner
     
@@ -36,7 +37,7 @@ struct ListOfListsView: View {
         NavigationView {
             List {
                 ForEach(lists) { list in
-                    NavigationLink(destination: ListView(cd: cd, colorVM: colorVM, iconVM: iconVM, list: list)) {
+                    NavigationLink(destination: ListView(cd: cd, userSettings: userSettings, colorVM: colorVM, iconVM: iconVM, list: list)) {
                         HStack {
                             IconImageView(image: list.systemImage, color: Color(UIColor.color(data: list.systemImageColor) ?? .red) , imageScale: 16)
                             Text("\(list.title)")
@@ -86,6 +87,7 @@ struct ListOfListsView: View {
                 switch item {
                 case .newList:
                     NewListView(colorVM: colorVM, iconVM: iconVM, cd: cd)
+                        .edgesIgnoringSafeArea(.all)
                 case .userSetting:
                     SettingsView(cd: cd, userSettings: userSettings)
                 }

@@ -16,6 +16,7 @@ struct SettingButtonModifire: ViewModifier {
     func body(content: Content) -> some View {
         content
             .buttonStyle(SettingButtonStyle(disable: disable))
+            .frame(/*width: 240, */height: 44, alignment: .center)
             .cornerRadius(6)
     }
 }

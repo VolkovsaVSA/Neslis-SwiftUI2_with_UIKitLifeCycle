@@ -66,7 +66,7 @@ struct NewListView: View {
                 }
                 
             }
-            .padding(size/1)
+            .padding([.horizontal, .top], size/1.5)
             .navigationTitle("List settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

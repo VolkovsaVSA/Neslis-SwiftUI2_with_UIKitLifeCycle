@@ -27,9 +27,3 @@ struct IconImageView: View {
         .clipShape(Circle())
     }
 }
-
-struct TaskImageView_Previews: PreviewProvider {
-    static var previews: some View {
-        IconImageView(image: "calendar", color: .blue, imageScale: 50)
-    }
-}
