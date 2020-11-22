@@ -452,6 +452,17 @@ struct CDStack {
         }
         return lists
     }
+    func fetchAmountAllItems(context: NSManagedObjectContext)->Int {
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "ListItemCD")
+        var items = [NSManagedObject]()
+        do {
+            items = try context.fetch(fetchRequest)
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        return items.count
+    }
     
     func fetchOneObject(entityName: String, id: String, context: NSManagedObjectContext)->NSManagedObject? {
         

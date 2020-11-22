@@ -17,4 +17,7 @@ struct UDKeys {
         static let proVersion = "proVersion"
         static let useListColor = "useListColor"
     }
+    struct ServiceData {
+        static let progressValue = "progressValue"
+    }
 }

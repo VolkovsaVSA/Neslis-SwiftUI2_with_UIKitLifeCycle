@@ -67,6 +67,7 @@ struct CloudKitManager {
         CloudKitManager.cloudKitPrivateDB.add(operation)
     }
     static func clearDB(completion: @escaping (Error?)->Void) {
+        
         CloudKitManager.cloudKitPrivateDB.delete(withRecordZoneID: CloudKitManager.recordZone.zoneID) { (zoneID, zoneError) in
             
             if let deleteZoneError = zoneError {
@@ -195,13 +196,13 @@ struct CloudKitManager {
         let semaphore = DispatchSemaphore(value: 0)
         var flag = false
         let lists = CDStack.shared.fetchList(context: context)
+        ProgressData.shared.allItesCount = CDStack.shared.fetchAmountAllItems(context: context)
         lists.forEach { object in
             saveObjectsToCloud(insertedObjects: [object], modifedObjects: [], deleteObjectsID: [], db: CloudKitManager.cloudKitPrivateDB) { result in
                 switch result {
                 case .success(let count):
                     print("Save \(count) listObject")
                     flag = true
-                    completion(nil)
                 case .failure(let error):
                     print("Error listObject: \(error.localizedDescription)")
                     flag = false
@@ -218,10 +219,18 @@ struct CloudKitManager {
                         saveItem(children.array)
                     }
                 }
-                
             }
             
+//            DispatchQueue.main.async {
+//                ProgressData.shared.value = (couner / Double(lists.count)) * 100
+//            }
+            
+            
+            
         }
+        
+        completion(nil)
+        
     }
     
     fileprivate static func saveItem(_ array: [Any]) {
@@ -235,8 +244,9 @@ struct CloudKitManager {
             switch result {
             case .success(let count):
                 print("Save \(count) object")
+                ProgressData.shared.counter += count
             case .failure(let error):
-                print("Error object: \(error.localizedDescription)")
+                print("Error save object: \(error.localizedDescription)")
                 return
             }
             semaphore.signal()

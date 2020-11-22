@@ -25,6 +25,10 @@ struct ActivityIndicator: UIViewRepresentable {
 struct LoadingView<Content>: View where Content: View {
 
     @Binding var isShowing: Bool
+    @Binding var messageText: String
+    @Binding var result: Bool
+    @Binding var progressBar: Double
+    
     var text: String
     var content: () -> Content
 
@@ -32,20 +36,36 @@ struct LoadingView<Content>: View where Content: View {
         GeometryReader { geometry in
             ZStack(alignment: .center) {
 
-                self.content()
-                    .disabled(self.isShowing)
-                    .blur(radius: self.isShowing ? 3 : 0)
+                content()
+                    .disabled(isShowing)
+                    .blur(radius: isShowing ? 3 : 0)
 
                 VStack {
-                    Text(self.text)
-                    ActivityIndicator(isAnimating: .constant(true), style: .large)
+                    if result {
+                        Text(messageText)
+                            .multilineTextAlignment(.center)
+                            .padding()
+                        Button("OK") {
+                            isShowing = false
+                        }
+                        .modifier(SettingButtonModifire(disable: false))
+                        .frame(width: 100)
+                        .padding(.bottom)
+                    } else {
+                        Text(text)
+                        ActivityIndicator(isAnimating: .constant(true), style: .large)
+                            .padding()
+                        ProgressView(value: progressBar, total: 100)
+                            .padding(.horizontal)
+                    }
+                    
                 }
-                .frame(width: geometry.size.width / 2,
-                       height: geometry.size.height / 5)
+                .frame(width: geometry.size.width / 1.5,
+                       height: geometry.size.height / 3)
                 .background(Color.secondary.colorInvert())
                 .foregroundColor(Color.primary)
                 .cornerRadius(20)
-                .opacity(self.isShowing ? 1 : 0)
+                .opacity(isShowing ? 1 : 0)
 
             }
         }

@@ -18,6 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var settings = UserSettings.shared
     let coreData = CDStack.shared
     
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         let contentView = ListOfListsView(userSettings: settings, loading: loading)

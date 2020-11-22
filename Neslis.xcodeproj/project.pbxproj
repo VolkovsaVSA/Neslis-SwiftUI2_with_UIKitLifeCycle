@@ -47,6 +47,7 @@
 		68BCD735256503B100DDE889 /* CDStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD730256503B100DDE889 /* CDStack.swift */; };
 		68BCD739256503BE00DDE889 /* Neslis.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD737256503BE00DDE889 /* Neslis.xcdatamodeld */; };
 		68BCD74025650CC300DDE889 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68BCD73F25650CC300DDE889 /* LaunchScreen.storyboard */; };
+		68BCD791256ACBC800DDE889 /* ProgressData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD790256ACBC800DDE889 /* ProgressData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +94,7 @@
 		68BCD730256503B100DDE889 /* CDStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDStack.swift; sourceTree = "<group>"; };
 		68BCD738256503BE00DDE889 /* Neslis.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Neslis.xcdatamodel; sourceTree = "<group>"; };
 		68BCD73F25650CC300DDE889 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		68BCD790256ACBC800DDE889 /* ProgressData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,8 +183,7 @@
 		68BCD6ED2565036900DDE889 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				68BCD6FD2565036900DDE889 /* AppDelegate.swift */,
-				68BCD6FE2565036900DDE889 /* SceneDelegate.swift */,
+				68BCD6F52565036900DDE889 /* ListOfListsView.swift */,
 				68BCD6EF2565036900DDE889 /* SettingsView.swift */,
 				68BCD6EE2565036900DDE889 /* PurchaseView.swift */,
 				68BCD6F12565036900DDE889 /* ListView */,
@@ -194,7 +195,6 @@
 		68BCD6F12565036900DDE889 /* ListView */ = {
 			isa = PBXGroup;
 			children = (
-				68BCD6F52565036900DDE889 /* ListOfListsView.swift */,
 				68BCD6F32565036900DDE889 /* ListView.swift */,
 				68BCD6F62565036900DDE889 /* ListItemView.swift */,
 				68BCD6F22565036900DDE889 /* NewListView.swift */,
@@ -220,11 +220,14 @@
 			children = (
 				68BCD712256503A200DDE889 /* Managers */,
 				68BCD716256503A200DDE889 /* ButtonsStyle */,
+				68BCD71C256503A200DDE889 /* Extentions */,
+				68BCD6FD2565036900DDE889 /* AppDelegate.swift */,
+				68BCD6FE2565036900DDE889 /* SceneDelegate.swift */,
 				68BCD711256503A200DDE889 /* UDKeys.swift */,
 				68BCD719256503A200DDE889 /* UserSettings.swift */,
 				68BCD71A256503A200DDE889 /* UserAlert.swift */,
+				68BCD790256ACBC800DDE889 /* ProgressData.swift */,
 				68BCD71B256503A200DDE889 /* LoadSpinner.swift */,
-				68BCD71C256503A200DDE889 /* Extentions */,
 			);
 			path = SupportFiles;
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 				68BCD7072565036900DDE889 /* IconView.swift in Sources */,
 				68BCD6E52565030800DDE889 /* ColorModel.swift in Sources */,
 				68BCD739256503BE00DDE889 /* Neslis.xcdatamodeld in Sources */,
+				68BCD791256ACBC800DDE889 /* ProgressData.swift in Sources */,
 				68BCD732256503B100DDE889 /* ListItemCD+CoreDataClass.swift in Sources */,
 				68BCD70C2565036900DDE889 /* AppDelegate.swift in Sources */,
 				68BCD731256503B100DDE889 /* ListCD+CoreDataClass.swift in Sources */,

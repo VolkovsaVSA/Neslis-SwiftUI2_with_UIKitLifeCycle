@@ -15,7 +15,7 @@ struct SettingsView: View {
         var text = ""
     }
     
-    private let errorNetworkAlert = NetworkAlert(title: "Network error", text: "Please check the internet connection or re-authenticate in an iCloud account.")
+    private let errorNetworkAlert = NetworkAlert(title: "Network error", text: "Network error. Please check the internet connection or re-authenticate in an iCloud account.")
     private let saveNetworkAlert = NetworkAlert(title: "Success", text: "Backup data is saved successfully.")
     private let loadNetworkAlert = NetworkAlert(title: "Success", text: "Backup data is loaded successfully.")
 
@@ -32,14 +32,17 @@ struct SettingsView: View {
     
     @State var loading = false
     @State var activityText = ""
-    @State var showingAlert = UserAlert.shared.show
+    @State var message = ""
+    @State var result = false
+    @ObservedObject var progressBar = ProgressData.shared
+    
+    @State private var downloadAmount = 0.0
     
     @State var showPurchase = false
-    
     @State var showSaveAlert = false
 
     fileprivate func loadData() {
-        showingAlert = false
+        //showingAlert = false
         activityText = "Restoring..."
         listsCD.forEach { list in
             viewContext.delete(list)
@@ -53,9 +56,6 @@ struct SettingsView: View {
                 loading = false
                 UserAlert.shared.title = errorNetworkAlert.title
                 UserAlert.shared.text = errorNetworkAlert.text
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    showingAlert = true
-                }
                 return
             }
             print("end loading")
@@ -64,61 +64,36 @@ struct SettingsView: View {
             UserAlert.shared.text = loadNetworkAlert.text
             loading = false
             CDStack.shared.saveContext(context: viewContext)
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                showingAlert = true
-            }
         }
     }
     fileprivate func saveData() {
-        showingAlert = false
+        progressBar.setZero()
         activityText = "Saving..."
+        result = false
         loading = true
         CloudKitManager.clearDB { clearError in
             if clearError == nil {
-                CloudKitManager.createZone { createError in
-                    if createError == nil {
-                        print(#function)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            CloudKitManager.saveAllObjectsToCloud() { error in
-                                print("end uploading")
-                                loading = false
-                                UserAlert.shared.title = saveNetworkAlert.title
-                                UserAlert.shared.text = saveNetworkAlert.text
-                                showingAlert = true
-                                if error != nil {
-                                    UserAlert.shared.title = errorNetworkAlert.title
-                                    UserAlert.shared.text =  errorNetworkAlert.text
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                        showingAlert = true
-                                    }
-                                }
-                            }
-                        }
+                CloudKitManager.saveAllObjectsToCloud() { error in
+                    print("end uploading. Progress: \(ProgressData.shared.value)")
+                    if error != nil {
+                        message = errorNetworkAlert.text
                     } else {
-                        print("createError: \(createError!.localizedDescription)")
-                        loading = false
-                        UserAlert.shared.title = errorNetworkAlert.title
-                        UserAlert.shared.text =  errorNetworkAlert.text
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            showingAlert = true
-                        }
+                        message = saveNetworkAlert.text
                     }
+
                 }
             } else {
                 print("clearError: \(clearError!.localizedDescription)")
-                loading = false
-                UserAlert.shared.title = errorNetworkAlert.title
-                UserAlert.shared.text =  errorNetworkAlert.text
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    showingAlert = true
-                }
+                message =  errorNetworkAlert.text
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                result = true
             }
         }
     }
     
     var body: some View {
-        LoadingView(isShowing: $loading, text: activityText) {
+        LoadingView(isShowing: $loading, messageText: $message, result: $result, progressBar: $progressBar.value, text: activityText) {
             NavigationView {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
@@ -128,7 +103,7 @@ struct SettingsView: View {
                                 if IAPManager.shared.products.isEmpty {
                                     UserAlert.shared.title = errorNetworkAlert.title
                                     UserAlert.shared.text = errorNetworkAlert.text
-                                    showingAlert = true
+                                    //showingAlert = true
                                 } else {
                                     showPurchase = true
                                 }
@@ -206,13 +181,32 @@ struct SettingsView: View {
                     PurchaseView()
                         .environment(\.managedObjectContext, viewContext)
                 }
-                .alert(isPresented: $showingAlert) {
-                    Alert(
-                        title: Text(UserAlert.shared.text),
-                        message: Text(UserAlert.shared.title),
-                        dismissButton: .default(Text("OK"))
-                    )
-                }
+//                .alert(item: $activeAlert) { item in
+//                    
+//                    switch item {
+//                    case .first:
+//                        //print("first")
+//                        return Alert(
+//                            title: Text(UserAlert.shared.title),
+//                            message: Text(UserAlert.shared.text),
+//                            dismissButton: .default(Text("OK"))
+//                        )
+//                    case .second:
+//                        //print("second")
+//                        return Alert(
+//                            title: Text(UserAlert.shared.title),
+//                            message: Text(UserAlert.shared.text),
+//                            dismissButton: .default(Text("OK"))
+//                        )
+//                    }
+//                }
+//                .alert(isPresented: $showingAlert) {
+//                    Alert(
+//                        title: Text(UserAlert.shared.text),
+//                        message: Text(UserAlert.shared.title),
+//                        dismissButton: .default(Text("OK"))
+//                    )
+//                }
                 .alert(isPresented: $showSaveAlert) {
                     Alert(title: Text("Atention"),
                           message: Text("If you save your data, all previous data Neslis app in iCloud will be rewritten! Are you sure?"),
@@ -225,6 +219,7 @@ struct SettingsView: View {
                 .navigationBarTitle("Settings")
             }
         }
+        
         
     }
 }

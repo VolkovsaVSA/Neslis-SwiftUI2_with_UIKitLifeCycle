@@ -5,13 +5,13 @@
 //  Created by Sergey Volkov on 14.11.2020.
 //
 
-import Foundation
+import SwiftUI
 
-class UserAlert {
+class UserAlert: ObservableObject {
 
     static let shared = UserAlert()
     
     var title = ""
     var text = ""
-    var show = false
+    @Published var show = false
 }
