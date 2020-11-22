@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct NewListItemView: View {
+    @Environment(\.managedObjectContext) private var viewContext
     
     var userSettings: UserSettings
-    var cd: CDStack
     @ObservedObject var list: ListCD
 
     var firstLevel: Bool = true
@@ -29,7 +29,7 @@ struct NewListItemView: View {
                 addNewsublist = tfChange
             })
             {
-                cd.createListItem(title: newTitle, parentList: parentList, parentListItem: parentListItem, share: firstLevel ? parentList!.share : parentListItem!.share)
+                CDStack.shared.createListItem(title: newTitle, parentList: parentList, parentListItem: parentListItem, share: firstLevel ? parentList!.share : parentListItem!.share, context: viewContext)
                 newTitle = ""
 
                 if parentList != nil {
@@ -41,7 +41,7 @@ struct NewListItemView: View {
                 }
 
                 addNewsublist = false
-                cd.saveContext()
+                CDStack.shared.saveContext(context: viewContext)
             }
             
         }

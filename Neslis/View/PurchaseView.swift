@@ -12,6 +12,7 @@ import SwiftUI
 struct PurchaseView: View {
     
     @EnvironmentObject var loading: Loadspinner
+    @Environment(\.managedObjectContext) private var viewContext
     
     var body: some View {
         

@@ -18,8 +18,6 @@ struct ListOfListsView: View {
     }
     @State private var activeSheet: ActiveSheet?
     
-    var cd: CDStack
-    
     @ObservedObject var userSettings: UserSettings
     @ObservedObject var loading: Loadspinner
     
@@ -37,9 +35,10 @@ struct ListOfListsView: View {
         NavigationView {
             List {
                 ForEach(lists) { list in
-                    NavigationLink(destination: ListView(cd: cd, userSettings: userSettings, colorVM: colorVM, iconVM: iconVM, list: list)) {
+                    NavigationLink(destination: ListView(userSettings: userSettings, colorVM: colorVM, iconVM: iconVM, list: list)) {
                         HStack {
-                            IconImageView(image: list.systemImage, color: Color(UIColor.color(data: list.systemImageColor) ?? .red) , imageScale: 16)
+                            IconImageView(image: list.systemImage, color: Color(UIColor.color(data: list.systemImageColor) ??
+                                                                                    .red) , imageScale: 16)
                             Text("\(list.title)")
                             Spacer()
                             if list.share {
@@ -86,10 +85,12 @@ struct ListOfListsView: View {
             .sheet(item: $activeSheet) { item in
                 switch item {
                 case .newList:
-                    NewListView(colorVM: colorVM, iconVM: iconVM, cd: cd)
+                    NewListView(colorVM: colorVM, iconVM: iconVM)
+                        .environment(\.managedObjectContext, viewContext)
                         .edgesIgnoringSafeArea(.all)
                 case .userSetting:
-                    SettingsView(cd: cd, userSettings: userSettings)
+                    SettingsView(userSettings: userSettings)
+                        .environment(\.managedObjectContext, viewContext)
                 }
             }
         }
@@ -98,7 +99,7 @@ struct ListOfListsView: View {
     
     private func deleteList(offsets: IndexSet) {
         offsets.map { lists[$0] }.forEach(viewContext.delete)
-        cd.saveContext()
+        CDStack.shared.saveContext(context: viewContext)
     }
     
     

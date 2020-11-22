@@ -9,7 +9,7 @@ import SwiftUI
 import CloudKit
 
 struct ListView: View {
-    var cd: CDStack
+    @Environment(\.managedObjectContext) private var viewContext
     
     @ObservedObject var userSettings: UserSettings
     @ObservedObject var colorVM: ColorSetViewModel
@@ -31,8 +31,8 @@ struct ListView: View {
             List(selection: $selectedRows) {
                 Section {
                     if let array = list.childrenArray {
-                        ForEach(cd.prepareArrayListItem(array: array, list: list), id: \.self) { localItem in
-                            ListItemView(userSettings: userSettings, cd: cd, isExpand: true, list: list, item: localItem)
+                        ForEach(CDStack.shared.prepareArrayListItem(array: array, list: list), id: \.self) { localItem in
+                            ListItemView(userSettings: userSettings, isExpand: true, list: list, item: localItem)
                                 .onReceive(localItem.objectWillChange) { _ in
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                             self.list.objectWillChange.send()
@@ -43,7 +43,7 @@ struct ListView: View {
                         .onMove(perform: onMove)
                     }
                     
-                    NewListItemView(userSettings: userSettings, cd: cd, list: list, firstLevel: true, parentList: list, parentListItem: nil, addNewsublist: $addNewSublist)
+                    NewListItemView(userSettings: userSettings, list: list, firstLevel: true, parentList: list, parentListItem: nil, addNewsublist: $addNewSublist)
                 }
 
             }
@@ -51,9 +51,9 @@ struct ListView: View {
             if !addNewSublist && list.childrenArray?.count ?? 0 != 0 {
                 VStack {
                     Spacer()
-                    Text(" \(cd.nonCompleteCount(list: list.childrenArray ?? [])) / \(list.childrenArray?.count ?? 0) completed ")
+                    Text(" \(CDStack.shared.nonCompleteCount(list: list.childrenArray ?? [])) / \(list.childrenArray?.count ?? 0) completed ")
                         .font(.subheadline)
-                        .background(cd.nonCompleteCount(list: list.childrenArray ?? []) == (list.childrenArray?.count ?? 0) ? Color.green : Color(UIColor.systemBackground), alignment: .center)
+                        .background(CDStack.shared.nonCompleteCount(list: list.childrenArray ?? []) == (list.childrenArray?.count ?? 0) ? Color.green : Color(UIColor.systemBackground), alignment: .center)
                         .cornerRadius(6)
                         .padding(.bottom, 2)
                 }
@@ -80,7 +80,7 @@ struct ListView: View {
                     Button {
                         expand.toggle()
                         expandAll(array: list.childrenArray ?? [], expand: expand)
-                        cd.saveContext()
+                        CDStack.shared.saveContext(context: viewContext)
                     } label: {
                         Image(systemName:"chevron.right.circle")
                             .font(Font.system(size: 20, weight: .regular, design: .default))
@@ -127,7 +127,7 @@ struct ListView: View {
             }
         }
         .sheet(isPresented: $showModal) {
-            NewListView(colorVM: colorVM, iconVM: iconVM, newListTitle: list.title, isAutoNumbering: list.isAutoNumbering, isShowCheckedItem: list.isShowCheckedItem, isShowSublistCount: list.isShowSublistCount, lvm: list, cd: cd)
+            NewListView(colorVM: colorVM, iconVM: iconVM, newListTitle: list.title, isAutoNumbering: list.isAutoNumbering, isShowCheckedItem: list.isShowCheckedItem, isShowSublistCount: list.isShowSublistCount, lvm: list)
                 //.edgesIgnoringSafeArea(.all)
         }
         .environment(\.editMode, $editMode)
@@ -137,14 +137,14 @@ struct ListView: View {
     private func onDelete(offsets: IndexSet) {
         guard let array = list.childrenArray else { return }
         for index in offsets {
-            cd.deleteObject(object: array[index])
+            viewContext.delete(array[index])
         }
         list.childrenUpdate = true
-        cd.saveContext()
+        CDStack.shared.saveContext(context: viewContext)
     }
     private func deleteObjects(objects: Set<ListItemCD>) {
         objects.forEach { item in
-            cd.deleteObject(object: item)
+            viewContext.delete(item)
             if let lst = item.parentList {
                 lst.childrenUpdate = true
             }
@@ -152,7 +152,7 @@ struct ListView: View {
                 itm.childrenUpdate = true
             }
         }
-        cd.saveContext()
+        CDStack.shared.saveContext(context: viewContext)
         selectedRows = Set<ListItemCD>()
     }
     private func onMove(source: IndexSet, destination: Int) {
@@ -160,7 +160,7 @@ struct ListView: View {
         array.move(fromOffsets: source, toOffset: destination)
         list.children = NSOrderedSet(array: array)
         list.childrenUpdate = true
-        cd.saveContext()
+        CDStack.shared.saveContext(context: viewContext)
     }
     
     private func expandAll(array: [ListItemCD], expand: Bool) {

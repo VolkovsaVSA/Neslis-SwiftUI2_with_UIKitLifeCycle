@@ -19,13 +19,12 @@ struct SettingsView: View {
     private let saveNetworkAlert = NetworkAlert(title: "Success", text: "Backup data is saved successfully.")
     private let loadNetworkAlert = NetworkAlert(title: "Success", text: "Backup data is loaded successfully.")
 
+    @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(
         entity: ListCD.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \ListCD.dateAdded, ascending: true)]
     )
     var listsCD: FetchedResults<ListCD>
-    
-    var cd: CDStack
     @ObservedObject var userSettings: UserSettings
     
     @State var acountStatus: CKAccountStatus?
@@ -43,11 +42,11 @@ struct SettingsView: View {
         showingAlert = false
         activityText = "Restoring..."
         listsCD.forEach { list in
-            CDStack.shared.deleteObject(object: list)
+            viewContext.delete(list)
         }
-        CDStack.shared.saveContext()
+        CDStack.shared.saveContext(context: viewContext)
         loading = true
-        CloudKitManager.fetchListData(db: CloudKitManager.cloudKitPrivateDB, cd: cd) { (lists, error) in
+        CloudKitManager.fetchListData(db: CloudKitManager.cloudKitPrivateDB) { (lists, error) in
             guard error == nil else {
                 print("fetch error")
                 print(error!.localizedDescription)
@@ -64,7 +63,7 @@ struct SettingsView: View {
             UserAlert.shared.title = loadNetworkAlert.title
             UserAlert.shared.text = loadNetworkAlert.text
             loading = false
-            CDStack.shared.saveContext()
+            CDStack.shared.saveContext(context: viewContext)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 showingAlert = true
@@ -81,7 +80,7 @@ struct SettingsView: View {
                     if createError == nil {
                         print(#function)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            CloudKitManager.saveAllObjectsToCloud(cd: cd) { error in
+                            CloudKitManager.saveAllObjectsToCloud() { error in
                                 print("end uploading")
                                 loading = false
                                 UserAlert.shared.title = saveNetworkAlert.title
@@ -205,6 +204,7 @@ struct SettingsView: View {
                 
                 .sheet(isPresented: $showPurchase) {
                     PurchaseView()
+                        .environment(\.managedObjectContext, viewContext)
                 }
                 .alert(isPresented: $showingAlert) {
                     Alert(

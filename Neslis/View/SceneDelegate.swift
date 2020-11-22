@@ -20,8 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-        let contentView = ListOfListsView(cd: coreData, userSettings: settings, loading: loading)
-            .environment(\.managedObjectContext, coreData.context)
+        let contentView = ListOfListsView(userSettings: settings, loading: loading)
+            .environment(\.managedObjectContext, coreData.container.viewContext)
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
@@ -59,7 +59,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
         
         // Save changes in the application's managed object context when the application transitions to the background.
-        coreData.saveContext()
+        coreData.saveContext(context: coreData.container.viewContext)
     }
     
     
@@ -105,7 +105,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             }
                         } else {
                             DispatchQueue.main.async {
-                                self.coreData.saveContext()
+                                self.coreData.saveContext(context: self.coreData.container.viewContext)
                             }
                         }
                         DispatchQueue.main.async {

@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct ListItemView: View {
+    @Environment(\.managedObjectContext) private var viewContext
     
     var userSettings: UserSettings
-    var cd: CDStack
     var isExpand = true
     
     @ObservedObject var list: ListCD
@@ -22,9 +22,9 @@ struct ListItemView: View {
     var body: some View {
         Section {
             HStack {
-                Image(systemName: cd.isCompleteCheck(isComplete: item.isComplete))
+                Image(systemName: CDStack.shared.isCompleteCheck(isComplete: item.isComplete))
                     .onTapGesture {
-                        cd.isCompleteItem(listItem: item)
+                        CDStack.shared.isCompleteItem(listItem: item, context: viewContext)
                     }
                     .foregroundColor(userSettings.useListColor ? Color(UIColor.color(data: list.systemImageColor) ?? .label) : Color(UIColor.label))
                     .font(Font.system(size: 20))
@@ -35,9 +35,9 @@ struct ListItemView: View {
                 TextField("New task", text: $item.title, onEditingChanged: { isChange in
                     //isChange
                     item.isEditing = isChange
-                    cd.saveContext()
+                    CDStack.shared.saveContext(context: viewContext)
                 }) {
-                    cd.saveContext()
+                    CDStack.shared.saveContext(context: viewContext)
                     //onCommit
                 }
                 .font(Font.system(size: 17, weight: item.childrenArray?.isEmpty ?? true ? .regular : .bold, design: .default))
@@ -64,7 +64,7 @@ struct ListItemView: View {
                 
                 if let array = item.childrenArray {
                     if !array.isEmpty && list.isShowSublistCount {
-                        Text(" \(cd.nonCompleteCount(list: array)) / \(array.count) ")
+                        Text(" \(CDStack.shared.nonCompleteCount(list: array)) / \(array.count) ")
                             .font(Font.system(size: 14, weight: .thin, design: .default))
                     }
                 }
@@ -76,8 +76,8 @@ struct ListItemView: View {
                 if !array.isEmpty {
                     if item.isExpand {
                         Section {
-                            ForEach(cd.prepareArrayListItem(array: array, list: list), id:\.self) { localItem in
-                                ListItemView(userSettings: userSettings, cd: cd, isExpand: true, list: list, item: localItem, parentIndex: parentIndex == nil ? item.index.description : parentIndex! + "." + item.index.description)
+                            ForEach(CDStack.shared.prepareArrayListItem(array: array, list: list), id:\.self) { localItem in
+                                ListItemView(userSettings: userSettings, isExpand: true, list: list, item: localItem, parentIndex: parentIndex == nil ? item.index.description : parentIndex! + "." + item.index.description)
                                     .onReceive(localItem.objectWillChange) { _ in
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                             self.item.objectWillChange.send()
@@ -94,7 +94,7 @@ struct ListItemView: View {
             }
             
             if addNewSublist {
-                NewListItemView(userSettings: userSettings, cd: cd, list: list, firstLevel: false, parentList: nil, parentListItem: item, newTitle: "", addNewsublist: $addNewSublist)
+                NewListItemView(userSettings: userSettings, list: list, firstLevel: false, parentList: nil, parentListItem: item, newTitle: "", addNewsublist: $addNewSublist)
                     .padding(.horizontal)
             }
 
@@ -107,17 +107,17 @@ struct ListItemView: View {
     private func onDelete(offsets: IndexSet) {
         guard let array = item.childrenArray else { return }
         for index in offsets {
-            cd.deleteObject(object: array[index])
+            viewContext.delete(array[index])
         }
         item.childrenUpdate = true
-        cd.saveContext()
+        CDStack.shared.saveContext(context: viewContext)
     }
     private func onMove(source: IndexSet, destination: Int) {
         guard var array = item.childrenArray else {return}
         array.move(fromOffsets: source, toOffset: destination)
         item.children = NSOrderedSet(array: array)
         item.childrenUpdate = true
-        cd.saveContext()
+        CDStack.shared.saveContext(context: viewContext)
     }
 }
 

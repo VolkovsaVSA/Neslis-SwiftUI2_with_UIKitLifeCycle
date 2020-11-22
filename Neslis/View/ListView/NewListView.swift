@@ -18,7 +18,7 @@ struct NewListView: View {
         GridItem(.flexible())
     ]
     
-    @Environment(\.managedObjectContext) var context
+    @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     
     @ObservedObject var colorVM: ColorSetViewModel
@@ -30,7 +30,6 @@ struct NewListView: View {
     @State var isShowSublistCount = true
     
     var lvm: ListCD?
-    var cd: CDStack
     
     var body: some View {
         
@@ -88,9 +87,9 @@ struct NewListView: View {
             localLvm.isShowCheckedItem = isShowCheckedItem
             localLvm.isShowSublistCount = isShowSublistCount
         } else {
-            cd.createList(title: newListTitle, systemImage: iconVM.iconSelected, systemImageColor: colorVM.colorSelected.encode()!, isAutoNumbering: isAutoNumbering, isShowCheckedItem: isShowCheckedItem, isShowSublistCount: isShowSublistCount, share: false)
+            CDStack.shared.createList(title: newListTitle, systemImage: iconVM.iconSelected, systemImageColor: colorVM.colorSelected.encode()!, isAutoNumbering: isAutoNumbering, isShowCheckedItem: isShowCheckedItem, isShowSublistCount: isShowSublistCount, share: false, context: viewContext)
         }
-        cd.saveContext()
+        CDStack.shared.saveContext(context: viewContext)
         self.presentationMode.wrappedValue.dismiss()
     }
 }

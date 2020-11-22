@@ -29,7 +29,7 @@ struct CloudKitManager {
     static let container = CKContainer(identifier: containerID)
     static let cloudKitPrivateDB = container.privateCloudDatabase
     static let cloudKitSharedDB = container.sharedCloudDatabase
-    private static let context = CDStack.shared.context
+    private static let context = CDStack.shared.container.viewContext
     
     struct Subscription {
         
@@ -191,10 +191,10 @@ struct CloudKitManager {
         db.add(operation)
     }
     
-    static func saveAllObjectsToCloud(cd: CDStack, completion: @escaping (Error?)->Void) {
+    static func saveAllObjectsToCloud(completion: @escaping (Error?)->Void) {
         let semaphore = DispatchSemaphore(value: 0)
         var flag = false
-        let lists = cd.fetchList()
+        let lists = CDStack.shared.fetchList(context: context)
         lists.forEach { object in
             saveObjectsToCloud(insertedObjects: [object], modifedObjects: [], deleteObjectsID: [], db: CloudKitManager.cloudKitPrivateDB) { result in
                 switch result {
@@ -253,7 +253,7 @@ struct CloudKitManager {
         }
     }
     
-    static func fetchListData(db: CKDatabase, cd: CDStack, completion: @escaping ([ListCD], Error?) -> Void) {
+    static func fetchListData(db: CKDatabase, completion: @escaping ([ListCD], Error?) -> Void) {
         var results = [ListCD]()
         var retError: Error?
         
@@ -268,7 +268,7 @@ struct CloudKitManager {
                 retError = error
             } else {
                 records?.forEach({ record in
-                    let list = cd.createListFromRecord(record: record)
+                    let list = CDStack.shared.createListFromRecord(record: record, context: context)
                     
                     if db == container.privateCloudDatabase {
                         list.share = false
