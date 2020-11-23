@@ -220,17 +220,10 @@ struct CloudKitManager {
                     }
                 }
             }
-            
-//            DispatchQueue.main.async {
-//                ProgressData.shared.value = (couner / Double(lists.count)) * 100
-//            }
-            
-            
-            
+
         }
         
         completion(nil)
-        
     }
     
     fileprivate static func saveItem(_ array: [Any]) {
@@ -271,6 +264,16 @@ struct CloudKitManager {
         let sort = NSSortDescriptor(key: "dateAdded", ascending: true)
         let query = CKQuery(recordType: RecordType.List.rawValue, predicate: predicate)
         query.sortDescriptors = [sort]
+        
+        //countig listItem recors
+        let queryItems = CKQuery(recordType: RecordType.ListItem.rawValue, predicate: predicate)
+        db.perform(queryItems, inZoneWith: recordZone.zoneID) { (records, error) in
+            print("records Items count: \(records?.count)")
+            if let recordsCount = records {
+                ProgressData.shared.allItesCount = recordsCount.count
+            }
+            
+        }
         
         db.perform(query, inZoneWith: recordZone.zoneID) { (records: [CKRecord]?, error: Error?) in
             if let error = error {
@@ -340,7 +343,7 @@ struct CloudKitManager {
                 if let listParent = parentListItem {
                     listItem.share = listParent.share
                 }
-                
+                ProgressData.shared.counter += 1
                 if let tempChildArray = localRecord.object(forKey: RecordType.ListItemFields.children.rawValue) as? [String] {
                     if !tempChildArray.isEmpty {
                         tempChildArray.forEach { id in

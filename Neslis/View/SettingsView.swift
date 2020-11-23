@@ -42,28 +42,33 @@ struct SettingsView: View {
     @State var showSaveAlert = false
 
     fileprivate func loadData() {
-        //showingAlert = false
+        progressBar.setZero()
         activityText = "Restoring..."
+        
+        userSettings.icloudBackup = false
         listsCD.forEach { list in
             viewContext.delete(list)
         }
         CDStack.shared.saveContext(context: viewContext)
+    
+        result = false
         loading = true
         CloudKitManager.fetchListData(db: CloudKitManager.cloudKitPrivateDB) { (lists, error) in
-            guard error == nil else {
-                print("fetch error")
-                print(error!.localizedDescription)
-                loading = false
-                UserAlert.shared.title = errorNetworkAlert.title
-                UserAlert.shared.text = errorNetworkAlert.text
-                return
+            
+            print("end loading. Progress: \(ProgressData.shared.value)")
+            if error != nil {
+                print("error load from icloud: \(String(describing: error?.localizedDescription))")
+                message = errorNetworkAlert.text
+            } else {
+                message = loadNetworkAlert.text
             }
-            print("end loading")
-
-            UserAlert.shared.title = loadNetworkAlert.title
-            UserAlert.shared.text = loadNetworkAlert.text
-            loading = false
+            
             CDStack.shared.saveContext(context: viewContext)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                result = true
+                userSettings.icloudBackup = true
+            }
+
         }
     }
     fileprivate func saveData() {
@@ -76,6 +81,7 @@ struct SettingsView: View {
                 CloudKitManager.saveAllObjectsToCloud() { error in
                     print("end uploading. Progress: \(ProgressData.shared.value)")
                     if error != nil {
+                        print("error save to icloud: \(String(describing: error?.localizedDescription))")
                         message = errorNetworkAlert.text
                     } else {
                         message = saveNetworkAlert.text
@@ -120,7 +126,8 @@ struct SettingsView: View {
                             
                             if userSettings.proVersion {
                                 if acountStatus == .available {
-                                    Toggle("Enable backup to iCloud and sharing lists", isOn: $userSettings.icloudBackup)
+                                    Toggle("Enable backup to iCloud and sharing lists", isOn: $userSettings.icloudBackup.animation())
+                                    
                                     if userSettings.icloudBackup {
                                         Button("Save data") {
                                             showSaveAlert = true
@@ -140,6 +147,7 @@ struct SettingsView: View {
 //                                        .modifier(SettingDeleteButtonModifire())
                                         Toggle("Notifications of changes to shared lists", isOn: $userSettings.sharingNotification)
                                     }
+                                    
                                 } else {
                                     HStack {
                                         Text("You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup.")
@@ -175,8 +183,8 @@ struct SettingsView: View {
                         }
                     }
                     IAPManager.shared.getProducts()
+                        
                 }
-                
                 .sheet(isPresented: $showPurchase) {
                     PurchaseView()
                         .environment(\.managedObjectContext, viewContext)
