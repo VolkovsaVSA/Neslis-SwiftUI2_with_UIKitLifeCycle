@@ -140,6 +140,7 @@ struct ListView: View {
             viewContext.delete(array[index])
         }
         list.childrenUpdate = true
+        list.setIndex()
         CDStack.shared.saveContext(context: viewContext)
     }
     private func deleteObjects(objects: Set<ListItemCD>) {
@@ -147,9 +148,11 @@ struct ListView: View {
             viewContext.delete(item)
             if let lst = item.parentList {
                 lst.childrenUpdate = true
+                lst.setIndex()
             }
             if let itm = item.parentListItem {
                 itm.childrenUpdate = true
+                itm.setIndex()
             }
         }
         CDStack.shared.saveContext(context: viewContext)
@@ -160,6 +163,7 @@ struct ListView: View {
         array.move(fromOffsets: source, toOffset: destination)
         list.children = NSOrderedSet(array: array)
         list.childrenUpdate = true
+        list.setIndex()
         CDStack.shared.saveContext(context: viewContext)
     }
     

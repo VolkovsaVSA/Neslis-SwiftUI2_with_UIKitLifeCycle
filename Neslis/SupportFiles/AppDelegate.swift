@@ -111,7 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 IAPManager.shared.getProducts()
             }
         }
-        
+
         IAPManager.shared.valRec()
         application.registerForRemoteNotifications()
 

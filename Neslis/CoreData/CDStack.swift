@@ -26,6 +26,13 @@ struct CDStack {
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
     
+    func deleteAllLists(context: NSManagedObjectContext) {
+        let lists = fetchList(context: context)
+        lists.forEach { list in
+            context.delete(list)
+        }
+        saveContext(context: context)
+    }
       
     func saveContext(context: NSManagedObjectContext) {
         
@@ -67,11 +74,6 @@ struct CDStack {
         }
 
     }
-    
-//    func deleteObject(object: NSManagedObject) {
-//        context.delete(object)
-//    }
-    
     
     func isCompleteCheck(isComplete: Bool) -> String {
         return isComplete ? "checkmark.circle.fill" : "circle"
@@ -153,8 +155,8 @@ struct CDStack {
         var lists = [NSManagedObject]()
         do {
             lists = try context.fetch(fetchRequest)
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
+        } catch let error {
+            print(error.localizedDescription)
         }
         return lists
     }

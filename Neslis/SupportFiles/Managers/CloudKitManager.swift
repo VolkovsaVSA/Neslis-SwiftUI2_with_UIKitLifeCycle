@@ -193,6 +193,7 @@ struct CloudKitManager {
     }
     
     static func saveAllObjectsToCloud(completion: @escaping (Error?)->Void) {
+        
         let semaphore = DispatchSemaphore(value: 0)
         var flag = false
         let lists = CDStack.shared.fetchList(context: context)
@@ -212,7 +213,7 @@ struct CloudKitManager {
             }
             
             let list = object as! ListCD
-            semaphore.wait()
+            
             if flag {
                 if let children = list.children {
                     if !children.array.isEmpty {
@@ -255,7 +256,17 @@ struct CloudKitManager {
             }
         }
     }
-    
+    static func fetchListCount(completion: @escaping (Result<Int, Error>) -> Void) {
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: RecordType.List.rawValue, predicate: predicate)
+        cloudKitPrivateDB.perform(query, inZoneWith: recordZone.zoneID) { (records, error) in
+            if let performError = error {
+                completion(.failure(performError))
+            } else {
+                completion(.success(records?.count ?? 0))
+            }
+        }
+    }
     static func fetchListData(db: CKDatabase, completion: @escaping ([ListCD], Error?) -> Void) {
         var results = [ListCD]()
         var retError: Error?
@@ -268,7 +279,7 @@ struct CloudKitManager {
         //countig listItem recors
         let queryItems = CKQuery(recordType: RecordType.ListItem.rawValue, predicate: predicate)
         db.perform(queryItems, inZoneWith: recordZone.zoneID) { (records, error) in
-            print("records Items count: \(records?.count)")
+            print("records Items count: \(String(describing: records?.count))")
             if let recordsCount = records {
                 ProgressData.shared.allItesCount = recordsCount.count
             }

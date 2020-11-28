@@ -22,9 +22,11 @@ class ProgressData: ObservableObject {
     }
     var allItesCount = 0
     func setZero() {
-        allItesCount = 0
-        value = 0
-        counter = 0
+        DispatchQueue.main.async {
+            self.allItesCount = 0
+            self.value = 0
+            self.counter = 0
+        }
     }
     
 }

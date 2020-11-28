@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		68AA914D257254B800044A25 /* Binding+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AA914C257254B800044A25 /* Binding+Extention.swift */; };
 		68BCD6C52565013200DDE889 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68BCD6C42565013200DDE889 /* Assets.xcassets */; };
 		68BCD6C82565013200DDE889 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68BCD6C72565013200DDE889 /* Preview Assets.xcassets */; };
 		68BCD6D62565022D00DDE889 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68BCD6D52565022D00DDE889 /* StoreKit.framework */; };
@@ -51,6 +52,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		68AA914C257254B800044A25 /* Binding+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extention.swift"; sourceTree = "<group>"; };
 		68BCD6B82565013000DDE889 /* Neslis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Neslis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68BCD6C42565013200DDE889 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68BCD6C72565013200DDE889 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 			children = (
 				68BCD71D256503A200DDE889 /* UIColor+Extention.swift */,
 				68BCD71E256503A200DDE889 /* EditMode+Extention.swift */,
+				68AA914C257254B800044A25 /* Binding+Extention.swift */,
 			);
 			path = Extentions;
 			sourceTree = "<group>";
@@ -264,8 +267,8 @@
 			isa = PBXGroup;
 			children = (
 				68BCD72C256503B100DDE889 /* ListCD+CoreDataClass.swift */,
-				68BCD72D256503B100DDE889 /* ListItemCD+CoreDataClass.swift */,
 				68BCD72E256503B100DDE889 /* ListCD+CoreDataProperties.swift */,
+				68BCD72D256503B100DDE889 /* ListItemCD+CoreDataClass.swift */,
 				68BCD72F256503B100DDE889 /* ListItemCD+CoreDataProperties.swift */,
 				68BCD730256503B100DDE889 /* CDStack.swift */,
 			);
@@ -365,6 +368,7 @@
 				68BCD734256503B100DDE889 /* ListItemCD+CoreDataProperties.swift in Sources */,
 				68BCD7032565036900DDE889 /* ListView.swift in Sources */,
 				68BCD70B2565036900DDE889 /* CloudSharingButton.swift in Sources */,
+				68AA914D257254B800044A25 /* Binding+Extention.swift in Sources */,
 				68BCD729256503A200DDE889 /* EditMode+Extention.swift in Sources */,
 				68BCD6EA2565032900DDE889 /* IconSetViewModel.swift in Sources */,
 				68BCD7072565036900DDE889 /* IconView.swift in Sources */,
@@ -442,6 +446,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -496,6 +501,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

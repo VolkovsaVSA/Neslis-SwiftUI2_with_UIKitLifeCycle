@@ -11,5 +11,5 @@ import CoreData
 
 @objc(ListCD)
 public class ListCD: NSManagedObject {
-
+    
 }

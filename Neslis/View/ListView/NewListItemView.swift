@@ -33,11 +33,11 @@ struct NewListItemView: View {
                 newTitle = ""
 
                 if parentList != nil {
-                    parentList!.setIndex()
                     parentList!.childrenUpdate = true
+                    parentList!.setIndex()
                 } else if parentListItem != nil {
-                    parentListItem!.setIndex()
                     parentListItem!.childrenUpdate = true
+                    parentListItem!.setIndex()
                 }
 
                 addNewsublist = false
