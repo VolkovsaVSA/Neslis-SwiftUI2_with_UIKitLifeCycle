@@ -70,7 +70,7 @@ struct SettingsView: View {
         
         result = false
         loading = true
-        CloudKitManager.fetchListData(db: CloudKitManager.cloudKitPrivateDB) { (lists, error) in
+        CloudKitManager.FetchFromCloud.fetchListData(db: CloudKitManager.cloudKitPrivateDB) { (lists, error) in
             
             print("end loading. Progress: \(ProgressData.shared.value)")
             if error != nil {
@@ -90,7 +90,7 @@ struct SettingsView: View {
     }
     fileprivate func saveData(rewrite: Bool) {
         func saveAllObjects() {
-            CloudKitManager.saveAllObjectsToCloud() { error in
+            CloudKitManager.SaveToCloud.saveAllObjectsToCloud() { error in
                 print("end uploading. Progress: \(ProgressData.shared.value)")
                 if error != nil {
                     print("error save to icloud: \(String(describing: error?.localizedDescription))")
@@ -108,7 +108,7 @@ struct SettingsView: View {
         loading = true
         
         if rewrite {
-            CloudKitManager.clearDB { clearError in
+            CloudKitManager.Zone.deleteZone { clearError in
                 if clearError == nil {
                     saveAllObjects()
                 } else {
@@ -126,7 +126,7 @@ struct SettingsView: View {
     }
     
     var body: some View {
-        LoadingView(isShowing: $loading, messageText: $message, result: $result, progressBar: $progressBar.value, text: activityText) {
+        LoadingView(isShowing: $loading, text: activityText, messageText: $message, result: $result, progressBar: $progressBar.value) {
             NavigationView {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
@@ -155,7 +155,7 @@ struct SettingsView: View {
                                         if newValue {
                                             loading = true
                                             activityText = "Fetch data from iCloud"
-                                            CloudKitManager.fetchListCount { result in
+                                            CloudKitManager.FetchFromCloud.fetchListCount { result in
                                                 loading = false
                                                 activityText = ""
                                                 switch result {
@@ -177,7 +177,7 @@ struct SettingsView: View {
                                         Button("Save data") {
                                             loading = true
                                             activityText = "Fetch data from iCloud"
-                                            CloudKitManager.fetchListCount { result in
+                                            CloudKitManager.FetchFromCloud.fetchListCount { result in
                                                 loading = false
                                                 activityText = ""
                                                 switch result {
@@ -199,7 +199,7 @@ struct SettingsView: View {
                                             
                                             loading = true
                                             activityText = "Fetch data from iCloud"
-                                            CloudKitManager.fetchListCount { result in
+                                            CloudKitManager.FetchFromCloud.fetchListCount { result in
                                                 loading = false
                                                 activityText = ""
                                                 switch result {
@@ -222,7 +222,7 @@ struct SettingsView: View {
                                         }
                                         .modifier(SettingButtonModifire(disable: false))
                                         Button("Clear iCloud DB") {
-                                            CloudKitManager.clearDB { error in
+                                            CloudKitManager.Zone.deleteZone { error in
                                                 if let clearError = error {
                                                     print("error in clear DB: \(clearError.localizedDescription))")
                                                 }
@@ -261,7 +261,7 @@ struct SettingsView: View {
                     CloudKitManager.checkIcloudStatus { status in
                         acountStatus = status
                     }
-                    CloudKitManager.createZone { error in
+                    CloudKitManager.Zone.createZone { error in
                         if let error = error {
                             print(error.localizedDescription)
                         }

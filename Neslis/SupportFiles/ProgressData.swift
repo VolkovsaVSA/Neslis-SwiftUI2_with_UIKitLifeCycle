@@ -12,21 +12,27 @@ class ProgressData: ObservableObject {
     @Published var value = 0.0
     var counter = 0 {
         didSet {
-            if allItesCount != 0 {
+            if allItemsCount != 0 {
                 DispatchQueue.main.async {
-                    self.value = Double(self.counter) / Double(self.allItesCount) * 100
+                    let tempValue = Double(self.counter) / Double(self.allItemsCount) * 100
+                    self.value = tempValue < 100 ? tempValue : 100
                 }
             }
             print("ProgressData.value: \(value)")
         }
     }
-    var allItesCount = 0
+    var allItemsCount = 0
     func setZero() {
         DispatchQueue.main.async {
-            self.allItesCount = 0
+            self.allItemsCount = 0
             self.value = 0
             self.counter = 0
         }
     }
+    @Published var activitySpinnerAnimate = false
+    @Published var activitySpinnerText = ""
+    
+    @Published var finishMessage = ""
+    @Published var finishButtonShow = false
     
 }

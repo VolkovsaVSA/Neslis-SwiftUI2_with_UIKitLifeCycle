@@ -9,8 +9,8 @@
 import Foundation
 import SwiftUI
 
-class Loadspinner: ObservableObject {
-    @Published var animateSpinner = false
-    @Published var message = ""
-    @Published var showMessage = false
-}
+//class Loadspinner: ObservableObject {
+//    @Published var animateSpinner = false
+//    @Published var message = ""
+//    @Published var showMessage = false
+//}

@@ -25,11 +25,13 @@ struct ActivityIndicator: UIViewRepresentable {
 struct LoadingView<Content>: View where Content: View {
 
     @Binding var isShowing: Bool
+    var text: String
+    
     @Binding var messageText: String
     @Binding var result: Bool
     @Binding var progressBar: Double
     
-    var text: String
+    
     var content: () -> Content
 
     var body: some View {

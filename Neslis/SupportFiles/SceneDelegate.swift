@@ -14,14 +14,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     
-    var loading = Loadspinner()
+    //var loading = Loadspinner()
+    var progressData = ProgressData.shared
     var settings = UserSettings.shared
     let coreData = CDStack.shared
     
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-        let contentView = ListOfListsView(userSettings: settings, loading: loading)
+        let contentView = ListOfListsView(userSettings: settings, progressData: progressData)
             .environment(\.managedObjectContext, coreData.container.viewContext)
         
         if let windowScene = scene as? UIWindowScene {
@@ -67,7 +68,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func windowScene(_ windowScene: UIWindowScene, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
         
         //cloudKitShareMetadata.
-        
+        ProgressData.shared.setZero()
         let acceptSharesOperation = CKAcceptSharesOperation(shareMetadatas: [cloudKitShareMetadata])
         acceptSharesOperation.qualityOfService = .userInteractive
         
@@ -76,33 +77,34 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 print("error acceptSharesCompletionBlock: \(error!.localizedDescription)")
             } else {
                 DispatchQueue.main.async {
-                    self.loading.animateSpinner = true
+                    self.progressData.activitySpinnerText = "Fetch sharing data"
+                    self.progressData.activitySpinnerAnimate = true
                 }
-                CloudKitManager.fetchShare(cloudKitShareMetadata) { (rc, er) in
+                CloudKitManager.Sharing.fetchShare(cloudKitShareMetadata) { (rc, er) in
                     if let error = er {
                         print("shareRecordToObject error:\(error.localizedDescription)")
                         DispatchQueue.main.async {
-                            self.loading.animateSpinner = false
-                            self.loading.message = error.localizedDescription
-                            self.loading.showMessage = true
+                            self.progressData.activitySpinnerAnimate = false
+                            self.progressData.finishMessage = error.localizedDescription
+                            self.progressData.finishButtonShow = true
                         }
                         
                     }
                     guard let shareRecord = rc else {
                         DispatchQueue.main.async {
-                            self.loading.animateSpinner = false
-                            self.loading.message = "Error loading"
-                            self.loading.showMessage = true
+                            self.progressData.activitySpinnerAnimate = false
+                            self.progressData.finishMessage = "Error loading"
+                            self.progressData.finishButtonShow = true
                         }
                         return
                     }
                     
-                    CloudKitManager.shareRecordToObject(rootRecord: shareRecord, db: CloudKitManager.cloudKitSharedDB) { (_, error) in
+                    CloudKitManager.Sharing.shareRecordToObject(rootRecord: shareRecord, db: CloudKitManager.cloudKitSharedDB) { (_, error) in
                         if let localError = error {
-                            print("shareRecordToObject :\(localError.localizedDescription)")
+                            print("shareRecordToObject error:\(localError.localizedDescription)")
                             DispatchQueue.main.async {
-                                self.loading.message = localError.localizedDescription
-                                self.loading.showMessage = true
+                                self.progressData.finishMessage = localError.localizedDescription
+                                self.progressData.finishButtonShow = true
                             }
                         } else {
                             DispatchQueue.main.async {
@@ -110,8 +112,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             }
                         }
                         DispatchQueue.main.async {
-                            self.loading.message = ""
-                            self.loading.animateSpinner = false
+                            self.progressData.activitySpinnerAnimate = false
                         }
                     }
 

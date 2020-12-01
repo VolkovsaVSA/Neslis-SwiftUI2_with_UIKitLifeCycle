@@ -53,7 +53,7 @@ struct CDStack {
 
                 if UserDefaults.standard.bool(forKey: UDKeys.Settings.icloudBackup) {
                     print("icloudBackup")
-                    CloudKitManager.saveObjectsToCloud(insertedObjects: insertedObjects, modifedObjects: modifiedObjects, deleteObjectsID: deleteRecordsID, db: CloudKitManager.cloudKitPrivateDB) { result in
+                    CloudKitManager.SaveToCloud.saveObjectsToCloud(insertedObjects: insertedObjects, modifedObjects: modifiedObjects, deleteObjectsID: deleteRecordsID, db: CloudKitManager.cloudKitPrivateDB) { result in
                         switch result {
                         case .success(let count):
                             print("Save \(count) objects to icloudBackup")
@@ -211,15 +211,15 @@ struct CDStack {
     }
     
     func saveChangeRecord(record: CKRecord, context: NSManagedObjectContext) {
-        print("record.recordType: \(record.recordType)")
-        print("recordID: \(record.recordID)")
+        print("saveChangeRecord.recordType: \(record.recordType)")
+        print("saveChangeRecord: \(record.recordID)")
         
         guard let id = record.object(forKey: CloudKitManager.RecordType.ListFileds.id.rawValue) as? String else {return}
         guard let convertedRecordType = convertRecordTypeToCDEntity(recordType: record.recordType) else {return}
         
         var object = CDStack.shared.fetchOneObject(entityName: convertedRecordType, id: id, context: context)
-        print("object: \(String(describing: object?.description))")
-        
+//        print("object: \(String(describing: object?.description))")
+//
         func saveListItemData(listItem: inout ListItemCD, record: CKRecord) {
             listItem.title = record.object(forKey: CloudKitManager.RecordType.ListItemFields.title.rawValue) as! String
             listItem.index = record.object(forKey: CloudKitManager.RecordType.ListItemFields.index.rawValue) as! Int16
@@ -243,8 +243,10 @@ struct CDStack {
                     if !tempChilds.isEmpty {
                         var childs = [ListItemCD]()
                         tempChilds.forEach { childId in
-                            let child = CDStack.shared.fetchOneObject(entityName: ListItemCD.description(), id: childId, context: context) as! ListItemCD
-                            childs.append(child)
+                            if let child = CDStack.shared.fetchOneObject(entityName: ListItemCD.description(), id: childId, context: context) as? ListItemCD {
+                                childs.append(child)
+                            }
+                            
                         }
                         let childsSet = NSOrderedSet(array: childs)
                         list.children = childsSet

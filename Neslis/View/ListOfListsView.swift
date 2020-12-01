@@ -19,7 +19,8 @@ struct ListOfListsView: View {
     @State private var activeSheet: ActiveSheet?
     
     @ObservedObject var userSettings: UserSettings
-    @ObservedObject var loading: Loadspinner
+    @ObservedObject var progressData: ProgressData
+    //@ObservedObject var loading: Loadspinner
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(
@@ -30,70 +31,73 @@ struct ListOfListsView: View {
     
     @StateObject var colorVM = ColorSetViewModel()
     @StateObject var iconVM = IconSetViewModel()
-
+ 
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(lists) { list in
-                    NavigationLink(destination: ListView(userSettings: userSettings, colorVM: colorVM, iconVM: iconVM, list: list)) {
-                        HStack {
-                            IconImageView(image: list.systemImage, color: Color(UIColor.color(data: list.systemImageColor) ??
-                                                                                    .red) , imageScale: 16)
-                            Text("\(list.title)")
-                            Spacer()
-                            if list.share {
-                                Text("Share")
+        LoadingView(isShowing: $progressData.activitySpinnerAnimate, text: progressData.activitySpinnerText, messageText: $progressData.finishMessage, result: $progressData.finishButtonShow, progressBar: $progressData.value, content: {
+            NavigationView {
+                List {
+                    ForEach(lists) { list in
+                        NavigationLink(destination: ListView(userSettings: userSettings, colorVM: colorVM, iconVM: iconVM, list: list)) {
+                            HStack {
+                                IconImageView(image: list.systemImage, color: Color(UIColor.color(data: list.systemImageColor) ??
+                                                                                        .red) , imageScale: 16)
+                                Text("\(list.title)")
+                                Spacer()
+                                if list.share {
+                                    Image(systemName: "person.2.circle.fill")
+                                }
+                                Text("\(list.childrenArray?.count ?? 0)")
                             }
-                            Text("\(list.childrenArray?.count ?? 0)")
+                            
                         }
                         
                     }
+                    .onDelete(perform: deleteList)
                     
+                    Button(action: {
+                        activeSheet = .newList
+                        iconVM.iconSelected = "list.bullet"
+                        colorVM.colorSelected = .red
+                    }) {
+                        HStack(alignment: .center) {
+                            Spacer()
+                            Image(systemName: "plus.circle.fill")
+                                .font(Font.system(size: 20))
+                                .foregroundColor(Color(.systemRed))
+                            Text("Add new list")
+                                .foregroundColor(Color(.systemRed))
+                            Spacer()
+                        }
+                    }
                 }
-                .onDelete(perform: deleteList)
+                .listStyle(InsetGroupedListStyle())
+                .edgesIgnoringSafeArea(.bottom)
                 
-                Button(action: {
-                    activeSheet = .newList
-                    iconVM.iconSelected = "list.bullet"
-                    colorVM.colorSelected = .red
-                }) {
-                    HStack(alignment: .center) {
-                        Spacer()
-                        Image(systemName: "plus.circle.fill")
-                            .font(Font.system(size: 20))
-                            .foregroundColor(Color(.systemRed))
-                        Text("Add new list")
-                            .foregroundColor(Color(.systemRed))
-                        Spacer()
+                
+                .navigationTitle("Lists")
+                .navigationBarItems(
+                    leading: Button(action: {
+                        activeSheet = .userSetting
+                    }, label: {
+                        Image(systemName: "line.horizontal.3")
+                            .resizable()
+                            .frame(width: 24, height: 14)
+                    })
+                )
+                .sheet(item: $activeSheet) { item in
+                    switch item {
+                    case .newList:
+                        NewListView(colorVM: colorVM, iconVM: iconVM)
+                            .environment(\.managedObjectContext, viewContext)
+                            .edgesIgnoringSafeArea(.all)
+                    case .userSetting:
+                        SettingsView(userSettings: userSettings)
+                            .environment(\.managedObjectContext, viewContext)
                     }
                 }
             }
-            .listStyle(InsetGroupedListStyle())
-            .edgesIgnoringSafeArea(.bottom)
-            
-            
-            .navigationTitle("Lists")
-            .navigationBarItems(
-                leading: Button(action: {
-                    activeSheet = .userSetting
-                }, label: {
-                    Image(systemName: "line.horizontal.3")
-                        .resizable()
-                        .frame(width: 24, height: 14)
-                })
-            )
-            .sheet(item: $activeSheet) { item in
-                switch item {
-                case .newList:
-                    NewListView(colorVM: colorVM, iconVM: iconVM)
-                        .environment(\.managedObjectContext, viewContext)
-                        .edgesIgnoringSafeArea(.all)
-                case .userSetting:
-                    SettingsView(userSettings: userSettings)
-                        .environment(\.managedObjectContext, viewContext)
-                }
-            }
-        }
+        })
+        
         
     }
     

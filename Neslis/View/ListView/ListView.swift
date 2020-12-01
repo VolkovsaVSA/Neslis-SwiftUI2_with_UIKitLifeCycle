@@ -113,7 +113,7 @@ struct ListView: View {
         .onAppear() {
             if userSettings.icloudBackup {
                 if !list.share {
-                    CloudKitManager.fetchListRecordForSharing(id: list.id!.uuidString) { (record, error) in
+                    CloudKitManager.Sharing.fetchListRecordForSharing(id: list.id!.uuidString) { (record, error) in
                         if let localError = error {
                             print("fetchListForSharing error: \(localError.localizedDescription)")
                         }
@@ -138,9 +138,10 @@ struct ListView: View {
         guard let array = list.childrenArray else { return }
         for index in offsets {
             viewContext.delete(array[index])
+            
         }
         list.childrenUpdate = true
-        list.setIndex()
+        //list.setIndex()
         CDStack.shared.saveContext(context: viewContext)
     }
     private func deleteObjects(objects: Set<ListItemCD>) {
