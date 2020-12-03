@@ -46,7 +46,7 @@ struct CloudKitManager {
             subscriptionSharedDatabase.notificationInfo = sharedInfo
 
             let subShared = CKModifySubscriptionsOperation(subscriptionsToSave: [subscriptionSharedDatabase], subscriptionIDsToDelete: nil)
-            subShared.qualityOfService = .utility
+            subShared.qualityOfService = .default
             cloudKitSharedDB.add(subShared)
             
             UserDefaults.standard.set(true, forKey: self.subscriptionSavedKey)
@@ -202,21 +202,25 @@ struct CloudKitManager {
             let lists = CDStack.shared.fetchList(context: context)
             ProgressData.shared.allItemsCount = CDStack.shared.fetchAmountAllItems(context: context)
             lists.forEach { object in
+                
                 saveObjectsToCloud(insertedObjects: [object], modifedObjects: [], deleteObjectsID: [], db: cloudKitPrivateDB) { result in
                     switch result {
                     case .success(let count):
                         print("Save \(count) listObject")
                         flag = true
+                        
                     case .failure(let error):
                         print("Error listObject: \(error.localizedDescription)")
                         flag = false
                         completion(error)
+                       
                     }
                     semaphore.signal()
                 }
                 
                 let list = object as! ListCD
                 
+                semaphore.wait()
                 if flag {
                     if let children = list.children {
                         if !children.array.isEmpty {
@@ -357,10 +361,12 @@ struct CloudKitManager {
                     if let listParent = parentList {
                         listItem.share = listParent.share
                     }
-                    if let listParent = parentListItem {
-                        listItem.share = listParent.share
+                    if let listItemParent = parentListItem {
+                        listItem.share = listItemParent.share
                     }
+                    //count progress of fetching
                     ProgressData.shared.counter += 1
+                    
                     if let tempChildArray = localRecord.object(forKey: RecordType.ListItemFields.children.rawValue) as? [String] {
                         if !tempChildArray.isEmpty {
                             tempChildArray.forEach { id in
@@ -400,8 +406,6 @@ struct CloudKitManager {
                     print("fetchShare error: \(error!.localizedDescription)")
                     return
                 }
-                //show data
-                //print("Share record: \(record!.description)")
                 completion(record, error)
             }
             container.sharedCloudDatabase.add(operation)

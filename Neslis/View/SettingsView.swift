@@ -38,27 +38,31 @@ struct SettingsView: View {
     
     @State var acountStatus: CKAccountStatus?
     @State var firstCreateZone = UserDefaults.standard.bool(forKey: UDKeys.firstCreateZone)
-    
-    @State var loading = false
-    @State var activityText = ""
-    @State var message = ""
-    @State var result = false
+
     @ObservedObject var progressBar = ProgressData.shared
     
-    @State private var downloadAmount = 0.0
+    @State var activitySpinnerAnimate = false
+    @State var activitySpinnerText = ""
+    @State var finishMessage = ""
+    @State var finishButtonShow = false
+    
     @State var showPurchase = false
     
-    fileprivate func attentionAlert() -> Binding<Bool> {
-        Binding<Bool>(
-            get: { userSettings.icloudBackup },
-            set: { _ in }
-        )
-    }
-
+    @ObservedObject var userAlert = UserAlert.shared
+    
+//    fileprivate func attentionAlert() -> Binding<Bool> {
+//        Binding<Bool>(
+//            get: { userSettings.icloudBackup },
+//            set: { _ in }
+//        )
+//    }
+    
     fileprivate func loadData(rewrite: Bool) {
         progressBar.setZero()
-        activityText = "Restoring..."
         
+        activitySpinnerText = "Restoring..."
+        finishButtonShow = false
+        activitySpinnerAnimate = true
         userSettings.icloudBackup = false
         
         if rewrite {
@@ -68,65 +72,76 @@ struct SettingsView: View {
             CDStack.shared.saveContext(context: viewContext)
         }
         
-        result = false
-        loading = true
         CloudKitManager.FetchFromCloud.fetchListData(db: CloudKitManager.cloudKitPrivateDB) { (lists, error) in
             
             print("end loading. Progress: \(ProgressData.shared.value)")
+
             if error != nil {
                 print("error load from icloud: \(String(describing: error?.localizedDescription))")
-                message = errorNetworkAlert.text
+                finishMessage = errorNetworkAlert.text
             } else {
-                message = loadNetworkAlert.text
+                finishMessage = loadNetworkAlert.text
             }
             
             CDStack.shared.saveContext(context: viewContext)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                result = true
+                finishButtonShow = true
                 userSettings.icloudBackup = true
             }
 
         }
     }
     fileprivate func saveData(rewrite: Bool) {
-        func saveAllObjects() {
+        
+        finishButtonShow = false
+        activitySpinnerAnimate = true
+        progressBar.setZero()
+        activitySpinnerText = "Saving..."
+        
+        
+        func saveAllObjects(completion: @escaping (String)->Void) {
+            var message = ""
             CloudKitManager.SaveToCloud.saveAllObjectsToCloud() { error in
                 print("end uploading. Progress: \(ProgressData.shared.value)")
+
                 if error != nil {
                     print("error save to icloud: \(String(describing: error?.localizedDescription))")
                     message = errorNetworkAlert.text
                 } else {
                     message = saveNetworkAlert.text
                 }
+                completion(message)
 
             }
         }
         
-        progressBar.setZero()
-        activityText = "Saving..."
-        result = false
-        loading = true
-        
         if rewrite {
             CloudKitManager.Zone.deleteZone { clearError in
                 if clearError == nil {
-                    saveAllObjects()
+                    saveAllObjects { saveMessage1 in
+                        finishMessage = saveMessage1
+                    }
                 } else {
                     print("clearError: \(clearError!.localizedDescription)")
-                    message =  errorNetworkAlert.text
+                    finishMessage =  errorNetworkAlert.text
                 }
+                finishButtonShow = true
             }
         } else {
-            saveAllObjects()
+            saveAllObjects { saveMessage2 in
+                finishMessage = saveMessage2
+                finishButtonShow = true
+            }
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            result = true
-        }
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//            finishButtonShow = true
+//        }
         
     }
     
     var body: some View {
-        LoadingView(isShowing: $loading, text: activityText, messageText: $message, result: $result, progressBar: $progressBar.value) {
+        LoadingView(isShowing: $activitySpinnerAnimate, text: activitySpinnerText, messageText: $finishMessage, result: $finishButtonShow, progressBar: $progressBar.value) {
             NavigationView {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
@@ -146,18 +161,19 @@ struct SettingsView: View {
                             }
                             .modifier(SettingButtonModifire(disable: false))
                         }
-                        //.listRowBackground(Color(UIColor.systemGroupedBackground))
+                        
                         Section(header: Text("iCloud").font(.title).foregroundColor(.gray)) {
                             
                             if userSettings.proVersion {
                                 if acountStatus == .available {
                                     Toggle("Enable backup to iCloud and sharing lists", isOn: $userSettings.icloudBackup.didSet(execute: { newValue in
                                         if newValue {
-                                            loading = true
-                                            activityText = "Fetch data from iCloud"
+                                            activitySpinnerAnimate = true
+                                            activitySpinnerText = "Fetch data from iCloud"
                                             CloudKitManager.FetchFromCloud.fetchListCount { result in
-                                                loading = false
-                                                activityText = ""
+
+                                                activitySpinnerAnimate = false
+
                                                 switch result {
                                                 case .success(let count):
                                                     if count > 0 {
@@ -175,11 +191,13 @@ struct SettingsView: View {
                                     
                                     if userSettings.icloudBackup {
                                         Button("Save data") {
-                                            loading = true
-                                            activityText = "Fetch data from iCloud"
+
+                                            activitySpinnerAnimate = true
+                                            activitySpinnerText = "Fetch data from iCloud"
+                                            
                                             CloudKitManager.FetchFromCloud.fetchListCount { result in
-                                                loading = false
-                                                activityText = ""
+                                                activitySpinnerAnimate = false
+                                                
                                                 switch result {
                                                 case .success(let count):
                                                     if count > 0 {
@@ -196,12 +214,14 @@ struct SettingsView: View {
                                         .modifier(SettingButtonModifire(disable: false))
                                         Button("Restore data") {
                                             let coreDataCount = CDStack.shared.fetchList(context: viewContext).count
+
+                                            activitySpinnerAnimate = true
+                                            activitySpinnerText = "Fetch data from iCloud"
                                             
-                                            loading = true
-                                            activityText = "Fetch data from iCloud"
                                             CloudKitManager.FetchFromCloud.fetchListCount { result in
-                                                loading = false
-                                                activityText = ""
+
+                                                activitySpinnerAnimate = false
+
                                                 switch result {
                                                 case .success(let count):
                                                     if count > 0 {
@@ -249,7 +269,7 @@ struct SettingsView: View {
                             
                             
                         }
-                        //.listRowBackground(Color(UIColor.systemGroupedBackground))
+                        
                         Section(header: Text("Visual settings").font(.title).foregroundColor(.gray)) {
                             Toggle("Use the color of the list-icon to visual style the list", isOn: $userSettings.useListColor)
                         }
@@ -298,7 +318,9 @@ struct SettingsView: View {
                     }
                     
                 }
-
+//                .alert(isPresented: $userAlert.show, content: {
+//                    Alert(title: Text(userAlert.title), message: Text(userAlert.text), dismissButton: .cancel(Text("OK")))
+//                })
                 .navigationBarTitle("Settings")
             }
         }

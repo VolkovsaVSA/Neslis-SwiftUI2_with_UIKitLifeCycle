@@ -33,45 +33,50 @@ struct CDStack {
         }
         saveContext(context: context)
     }
-      
+    
     func saveContext(context: NSManagedObjectContext) {
-        
-        if context.hasChanges {
+        DispatchQueue.main.async {
+            if context.hasChanges {
 
-            let insertedObjects = context.insertedObjects
-            let modifiedObjects = context.updatedObjects
-            let deletedRecordIDs = context.deletedObjects
+                let insertedObjects = context.insertedObjects
+                let modifiedObjects = context.updatedObjects
+                let deletedRecordIDs = context.deletedObjects
 
-            var deleteRecordsID = [CKRecord.ID]()
-            deletedRecordIDs.forEach { object in
-                let id = object.value(forKey: "id") as! UUID
-                let recordID = CKRecord.ID(recordName: id.uuidString, zoneID: CloudKitManager.recordZone.zoneID)
-                deleteRecordsID.append(recordID)
-            }
-
-            do {
-
-                if UserDefaults.standard.bool(forKey: UDKeys.Settings.icloudBackup) {
-                    print("icloudBackup")
-                    CloudKitManager.SaveToCloud.saveObjectsToCloud(insertedObjects: insertedObjects, modifedObjects: modifiedObjects, deleteObjectsID: deleteRecordsID, db: CloudKitManager.cloudKitPrivateDB) { result in
-                        switch result {
-                        case .success(let count):
-                            print("Save \(count) objects to icloudBackup")
-                        case .failure(let error):
-                            print("Error icloudBackup  \(error.localizedDescription)")
-                        }
+                var deleteRecordsID = [CKRecord.ID]()
+                deletedRecordIDs.forEach { object in
+                    guard let qqq = object as? ListSharedProperties else {return}
+                    if !qqq.share {
+                        let id = object.value(forKey: "id") as! UUID
+                        let recordID = CKRecord.ID(recordName: id.uuidString, zoneID: CloudKitManager.recordZone.zoneID)
+                        deleteRecordsID.append(recordID)
                     }
                 }
 
-                try context.save()
-                
-            } catch {
-                context.rollback()
-                let error = error as Error
-                print(error.localizedDescription)
-            }
+                do {
 
+                    if UserDefaults.standard.bool(forKey: UDKeys.Settings.icloudBackup) {
+                        print("icloudBackup")
+                        CloudKitManager.SaveToCloud.saveObjectsToCloud(insertedObjects: insertedObjects, modifedObjects: modifiedObjects, deleteObjectsID: deleteRecordsID, db: CloudKitManager.cloudKitPrivateDB) { result in
+                            switch result {
+                            case .success(let count):
+                                print("Save \(count) objects to icloudBackup")
+                            case .failure(let error):
+                                print("Error icloudBackup \(error.localizedDescription)")
+                            }
+                        }
+                    }
+
+                    try context.save()
+                    
+                } catch {
+                    context.rollback()
+                    let error = error as Error
+                    print(error.localizedDescription)
+                }
+
+            }
         }
+        
 
     }
     
@@ -211,8 +216,8 @@ struct CDStack {
     }
     
     func saveChangeRecord(record: CKRecord, context: NSManagedObjectContext) {
-        print("saveChangeRecord.recordType: \(record.recordType)")
-        print("saveChangeRecord: \(record.recordID)")
+//        print("saveChangeRecord.recordType: \(record.recordType)")
+//        print("saveChangeRecord: \(record.recordID)")
         
         guard let id = record.object(forKey: CloudKitManager.RecordType.ListFileds.id.rawValue) as? String else {return}
         guard let convertedRecordType = convertRecordTypeToCDEntity(recordType: record.recordType) else {return}
@@ -261,7 +266,7 @@ struct CDStack {
                     if !tempChilds.isEmpty {
                         var childs = [ListItemCD]()
                         tempChilds.forEach { childId in
-                            let child = CDStack.shared.fetchOneObject(entityName: ListItemCD.description(), id: childId, context: context) as! ListItemCD
+                            guard let child = CDStack.shared.fetchOneObject(entityName: ListItemCD.description(), id: childId, context: context) as? ListItemCD else {return}
                             childs.append(child)
                         }
                         let childsSet = NSOrderedSet(array: childs)

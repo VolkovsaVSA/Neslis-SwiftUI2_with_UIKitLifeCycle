@@ -18,7 +18,7 @@ class ProgressData: ObservableObject {
                     self.value = tempValue < 100 ? tempValue : 100
                 }
             }
-            print("ProgressData.value: \(value)")
+            //print("ProgressData.value: \(value)")
         }
     }
     var allItemsCount = 0
@@ -31,8 +31,8 @@ class ProgressData: ObservableObject {
     }
     @Published var activitySpinnerAnimate = false
     @Published var activitySpinnerText = ""
-    
     @Published var finishMessage = ""
     @Published var finishButtonShow = false
+    
     
 }

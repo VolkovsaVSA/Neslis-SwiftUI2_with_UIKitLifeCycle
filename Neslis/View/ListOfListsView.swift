@@ -20,7 +20,6 @@ struct ListOfListsView: View {
     
     @ObservedObject var userSettings: UserSettings
     @ObservedObject var progressData: ProgressData
-    //@ObservedObject var loading: Loadspinner
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(

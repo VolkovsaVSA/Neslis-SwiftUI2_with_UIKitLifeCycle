@@ -49,6 +49,8 @@ struct LoadingView<Content>: View where Content: View {
                             .padding()
                         Button("OK") {
                             isShowing = false
+                            result = false
+                            progressBar = 0
                         }
                         .modifier(SettingButtonModifire(disable: false))
                         .frame(width: 100)

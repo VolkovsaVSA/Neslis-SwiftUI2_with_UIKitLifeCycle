@@ -17,7 +17,7 @@ class UserSettings: ObservableObject {
             UserDefaults.standard.set(icloudBackup, forKey: UDKeys.Settings.icloudBackup)
         }
     }
-    @Published var sharingNotification: Bool {
+    @Published var sharingNotification: Bool = false {
         didSet {
             UserDefaults.standard.set(sharingNotification, forKey: UDKeys.Settings.sharingNotification)
             if sharingNotification == true {

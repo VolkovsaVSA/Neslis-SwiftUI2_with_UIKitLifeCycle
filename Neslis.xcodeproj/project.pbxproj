@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		68AA914D257254B800044A25 /* Binding+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AA914C257254B800044A25 /* Binding+Extention.swift */; };
+		68AA91592576280200044A25 /* ListSharedProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AA91582576280200044A25 /* ListSharedProperties.swift */; };
 		68BCD6C52565013200DDE889 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68BCD6C42565013200DDE889 /* Assets.xcassets */; };
 		68BCD6C82565013200DDE889 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68BCD6C72565013200DDE889 /* Preview Assets.xcassets */; };
 		68BCD6D62565022D00DDE889 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68BCD6D52565022D00DDE889 /* StoreKit.framework */; };
@@ -53,6 +54,7 @@
 
 /* Begin PBXFileReference section */
 		68AA914C257254B800044A25 /* Binding+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extention.swift"; sourceTree = "<group>"; };
+		68AA91582576280200044A25 /* ListSharedProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSharedProperties.swift; sourceTree = "<group>"; };
 		68BCD6B82565013000DDE889 /* Neslis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Neslis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68BCD6C42565013200DDE889 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68BCD6C72565013200DDE889 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				68BCD72E256503B100DDE889 /* ListCD+CoreDataProperties.swift */,
 				68BCD72D256503B100DDE889 /* ListItemCD+CoreDataClass.swift */,
 				68BCD72F256503B100DDE889 /* ListItemCD+CoreDataProperties.swift */,
+				68AA91582576280200044A25 /* ListSharedProperties.swift */,
 				68BCD730256503B100DDE889 /* CDStack.swift */,
 			);
 			path = CoreData;
@@ -374,6 +377,7 @@
 				68BCD7072565036900DDE889 /* IconView.swift in Sources */,
 				68BCD6E52565030800DDE889 /* ColorModel.swift in Sources */,
 				68BCD739256503BE00DDE889 /* Neslis.xcdatamodeld in Sources */,
+				68AA91592576280200044A25 /* ListSharedProperties.swift in Sources */,
 				68BCD791256ACBC800DDE889 /* ProgressData.swift in Sources */,
 				68BCD732256503B100DDE889 /* ListItemCD+CoreDataClass.swift in Sources */,
 				68BCD70C2565036900DDE889 /* AppDelegate.swift in Sources */,

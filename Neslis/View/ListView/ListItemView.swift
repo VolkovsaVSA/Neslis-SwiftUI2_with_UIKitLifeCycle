@@ -110,16 +110,16 @@ struct ListItemView: View {
             viewContext.delete(array[index])
         }
         item.childrenUpdate = true
-        item.setIndex()
-        CDStack.shared.saveContext(context: viewContext)
+        //item.setIndex()
+        //CDStack.shared.saveContext(context: viewContext)
     }
     private func onMove(source: IndexSet, destination: Int) {
         guard var array = item.childrenArray else {return}
         array.move(fromOffsets: source, toOffset: destination)
         item.children = NSOrderedSet(array: array)
         item.childrenUpdate = true
-        item.setIndex()
-        CDStack.shared.saveContext(context: viewContext)
+        //item.setIndex()
+        //CDStack.shared.saveContext(context: viewContext)
     }
 }
 

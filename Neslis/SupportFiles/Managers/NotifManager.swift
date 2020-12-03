@@ -11,31 +11,28 @@ import UserNotifications
 import SwiftUI
 
 class NotifManager {
+    
     static func requestAuthoriz() {
-        //center.delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { authorised, error in
-
-            print("authorised: \(authorised)")
-            
             DispatchQueue.main.async {
-
+                let userSettings = UserSettings.shared
+                
                 guard authorised else {
                     print(error?.localizedDescription as Any)
                     
-                    UserSettings.shared.sharingNotification = false
-                    UserAlert.shared.title = "Error"
-                    UserAlert.shared.text = "You turned off notification in settings. Please turn on the notifications for this application in the system settings."
-                    UserAlert.shared.show = true
-                    
-                    print("settings.sharingNotification: \(UserSettings.shared.sharingNotification)")
-                    print("UserDefaults: \(UserDefaults.standard.object(forKey: UDKeys.Settings.sharingNotification) as! Bool)")
-
+                    userSettings.sharingNotification = false
+                    let userAlert = UserAlert.shared
+                    userAlert.title = "Error"
+                    userAlert.text = "You turned off notification in settings. Please turn on the notifications for this application in the system settings."
+                    userAlert.show = true
                     return
                 }
                 
+                !userSettings.sharingNotification ? userSettings.sharingNotification.toggle() : nil
             }
         }
-        
     }
+    
+    
     
 }

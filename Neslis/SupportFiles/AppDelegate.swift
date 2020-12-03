@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 
         //print("userInfo: \(userInfo.description)")
+        
         var fetchConfigurations = [CKRecordZone.ID : CKFetchRecordZoneChangesOperation.ZoneConfiguration]()
         var changeToken: CKServerChangeToken? = nil
         
@@ -52,9 +53,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             operation.recordWithIDWasDeletedBlock = { recordID, recordType in
                 //processing the received a delete record
-                print("deleteRecord: \(recordID)")
-                
-                
+                guard let entity = CDStack.shared.convertRecordTypeToCDEntity(recordType: recordType) else {return}
+                guard let deleteObject = CDStack.shared.fetchOneObject(entityName: entity, id: recordID.recordName, context: CDStack.shared.container.viewContext) else {return}
+                CDStack.shared.container.viewContext.delete(deleteObject)
+                CDStack.shared.saveContext(context: CDStack.shared.container.viewContext)
             }
             
             operation.recordZoneChangeTokensUpdatedBlock = { zoneID, changeToken, data in
@@ -92,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 //        if let notification = CKNotification(fromRemoteNotificationDictionary: userInfo) {
 //                    print("CloudKit database changed")
-//                    NotificationCenter.default.post(name: .cloudKitChanged, object: nil)
+//            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "CKchange"), object: nil)
 //                    completionHandler(.newData)
 //                    return
 //        }
@@ -113,6 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         IAPManager.shared.valRec()
+        NotifManager.requestAuthoriz()
         application.registerForRemoteNotifications()
 
         return true

@@ -140,23 +140,24 @@ struct ListView: View {
             viewContext.delete(array[index])
             
         }
+        //CDStack.shared.saveContext(context: viewContext)
         list.childrenUpdate = true
         //list.setIndex()
-        CDStack.shared.saveContext(context: viewContext)
+        //CDStack.shared.saveContext(context: viewContext)
     }
     private func deleteObjects(objects: Set<ListItemCD>) {
         objects.forEach { item in
             viewContext.delete(item)
             if let lst = item.parentList {
                 lst.childrenUpdate = true
-                lst.setIndex()
+                //lst.setIndex()
             }
             if let itm = item.parentListItem {
                 itm.childrenUpdate = true
-                itm.setIndex()
+                //itm.setIndex()
             }
         }
-        CDStack.shared.saveContext(context: viewContext)
+        //CDStack.shared.saveContext(context: viewContext)
         selectedRows = Set<ListItemCD>()
     }
     private func onMove(source: IndexSet, destination: Int) {
@@ -164,8 +165,8 @@ struct ListView: View {
         array.move(fromOffsets: source, toOffset: destination)
         list.children = NSOrderedSet(array: array)
         list.childrenUpdate = true
-        list.setIndex()
-        CDStack.shared.saveContext(context: viewContext)
+        //list.setIndex()
+        //CDStack.shared.saveContext(context: viewContext)
     }
     
     private func expandAll(array: [ListItemCD], expand: Bool) {

@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-extension ListCD {
+extension ListCD: ListSharedProperties {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<ListCD> {
         return NSFetchRequest<ListCD>(entityName: "ListCD")
@@ -27,24 +27,6 @@ extension ListCD {
     @NSManaged public var systemImageColor: Data
     @NSManaged public var children: NSOrderedSet?
     @NSManaged public var childrenUpdate: Bool
-
-    public var childrenArray: [ListItemCD]?  {
-        guard let arr = children?.array as? [ListItemCD] else { return nil }
-        if childrenUpdate {
-            setIndex()
-        }
-        let retArr = arr.isEmpty ? nil : arr
-        return retArr
-    }
-    public func setIndex() {
-        guard let arr = children?.array as? [ListItemCD] else { return }
-        var index = 1
-        arr.forEach { item in
-            item.index = Int16(index)
-            index += 1
-        }
-        childrenUpdate = false
-    }
 
 }
 
@@ -84,5 +66,22 @@ extension ListCD {
 }
 
 extension ListCD : Identifiable {
-
+    public var childrenArray: [ListItemCD]?  {
+        guard let arr = children?.array as? [ListItemCD] else { return nil }
+        if childrenUpdate {
+            setIndex()
+        }
+        let retArr = arr.isEmpty ? nil : arr
+        return retArr
+    }
+    public func setIndex() {
+        guard let arr = children?.array as? [ListItemCD] else { return }
+        var index = 1
+        arr.forEach { item in
+            item.index = Int16(index)
+            index += 1
+        }
+        childrenUpdate = false
+        CDStack.shared.saveContext(context: CDStack.shared.container.viewContext)
+    }
 }
