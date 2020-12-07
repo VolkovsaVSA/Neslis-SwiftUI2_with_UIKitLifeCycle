@@ -12,18 +12,20 @@ import SwiftUI
 
 struct CloudKitManager {
     
+    //static var rootRecord: CKRecord?
+    
     enum RecordType: String {
         case List, ListItem
         
         enum ListFileds: String {
-            case id, title, dateAdded, systemImageColor, isAutoNumbering, isShowCheckedItem, isShowSublistCount, systemImage, children, share
+            case id, title, dateAdded, systemImageColor, isAutoNumbering, isShowCheckedItem, isShowSublistCount, systemImage, children/*, share, ownerName*/
         }
         enum ListItemFields: String {
-            case id, title, dateAdded, parentList, parentListItem, index, isComplete, isEditing, isExpand, children, share
+            case id, title, dateAdded, parentList, parentListItem, index, isComplete, isEditing, isExpand, children/*, share, ownerName*/
         }
     }
     
-    private static let zoneName = "NeslisPrivateZone"
+    static let zoneName = "NeslisPrivateZone"
     private static let containerID = "iCloud.VSA.Neslis"
     static let recordZone = CKRecordZone(zoneName: zoneName)
     static let container = CKContainer(identifier: containerID)
@@ -33,39 +35,53 @@ struct CloudKitManager {
     
     struct Subscription {
         
-        static private let subscriptionID = "sharedListChanged"
-        static private let subscriptionSavedKey = "ckSubscriptionSaved"
+        static let sharedDbSubsID = "sharedDbSubsID"
+        static let sharedDbSubsSavedKey = "sharedDbSubsSavedKey"
+        static let privateDbSubsID = "privateDbSubsID"
+        static let privateDbSubsSavedKey = "privateDbSubsSavedKey"
         
-        static func saveSubscription() {
+        static func setSubscription(db: CKDatabase, subscriptionID: String, subscriptionSavedKey: String) {
             let alreadySaved = UserDefaults.standard.bool(forKey: subscriptionSavedKey)
             guard !alreadySaved else { return }
-            let subscriptionSharedDatabase = CKDatabaseSubscription(subscriptionID: subscriptionID)
+            let subscriptionDatabase = CKDatabaseSubscription(subscriptionID: subscriptionID)
             let sharedInfo = CKSubscription.NotificationInfo()
             sharedInfo.shouldSendContentAvailable = true
-            sharedInfo.alertBody = "Shared lists have changed"
-            subscriptionSharedDatabase.notificationInfo = sharedInfo
+            sharedInfo.alertBody = "Shared lists has been changed"
+            sharedInfo.soundName = "default"
+            //sharedInfo.soundName = .
+            subscriptionDatabase.notificationInfo = sharedInfo
 
-            let subShared = CKModifySubscriptionsOperation(subscriptionsToSave: [subscriptionSharedDatabase], subscriptionIDsToDelete: nil)
+            let subShared = CKModifySubscriptionsOperation(subscriptionsToSave: [subscriptionDatabase], subscriptionIDsToDelete: nil)
             subShared.qualityOfService = .default
-            cloudKitSharedDB.add(subShared)
+            db.add(subShared)
             
-            UserDefaults.standard.set(true, forKey: self.subscriptionSavedKey)
+            UserDefaults.standard.set(true, forKey: subscriptionSavedKey)
         }
+        
     }
     
     struct Zone {
+        
         static func createZone(completion: @escaping (Error?) -> Void) {
-            let operation = CKModifyRecordZonesOperation(recordZonesToSave: [recordZone], recordZoneIDsToDelete: [])
-            operation.modifyRecordZonesCompletionBlock = { _, _, error in
-                guard error == nil else {
-                    completion(error)
-                    return
+            
+            if !UserSettings.shared.zonIsCreated {
+                let operation = CKModifyRecordZonesOperation(recordZonesToSave: [recordZone], recordZoneIDsToDelete: [])
+                operation.modifyRecordZonesCompletionBlock = { _, _, error in
+                    guard error == nil else {
+                        completion(error)
+                        return
+                    }
+                    completion(nil)
+                    DispatchQueue.main.async {
+                        UserSettings.shared.zonIsCreated = true
+                    }
+                    
+                    print("Create zone successeful")
                 }
-                completion(nil)
-                print("Create zone successeful")
+                operation.qualityOfService = .userInitiated
+                cloudKitPrivateDB.add(operation)
             }
-            operation.qualityOfService = .userInitiated
-            cloudKitPrivateDB.add(operation)
+            
         }
         static func deleteZone(completion: @escaping (Error?)->Void) {
             
@@ -74,12 +90,12 @@ struct CloudKitManager {
                 if let deleteZoneError = zoneError {
                     completion(deleteZoneError)
                 } else {
+                    DispatchQueue.main.async {
+                        UserSettings.shared.zonIsCreated = false
+                    }
+                    
                     createZone { createError in
-                        if let createZoneError = createError {
-                            completion(createZoneError)
-                        } else {
-                            completion(nil)
-                        }
+                        completion(createError)
                     }
                 }
 
@@ -88,14 +104,24 @@ struct CloudKitManager {
     }
     
     struct SaveToCloud {
+        
         static func objectToCKRecord(object: NSManagedObject)->CKRecord? {
             
             switch object {
             case is ListCD:
                 let list = object as! ListCD
-                guard !list.share else {return nil}
-                let recordID = CKRecord.ID(recordName: list.id!.uuidString, zoneID: recordZone.zoneID)
-                let record = CKRecord(recordType: RecordType.List.rawValue, recordID: recordID)
+                var recordID: CKRecord.ID!
+                
+                if list.isShare {
+                    guard let sharedRecrodZoneID = list.shareRecrodZoneID else { return nil }
+                    recordID = CKRecord.ID(recordName: list.id!.uuidString, zoneID: sharedRecrodZoneID)
+                } else {
+                    recordID = CKRecord.ID(recordName: list.id!.uuidString, zoneID: recordZone.zoneID)
+                }
+                
+                guard let recordID2 = recordID  else { return nil }
+                
+                let record = CKRecord(recordType: RecordType.List.rawValue, recordID: recordID2)
                 record[RecordType.ListFileds.id.rawValue] = list.id!.uuidString as CKRecordValue
                 record[RecordType.ListFileds.title.rawValue] = list.title as  CKRecordValue
                 record[RecordType.ListFileds.dateAdded.rawValue] = list.dateAdded as CKRecordValue
@@ -104,8 +130,7 @@ struct CloudKitManager {
                 record[RecordType.ListFileds.isShowSublistCount.rawValue] = list.isShowSublistCount as CKRecordValue
                 record[RecordType.ListFileds.systemImage.rawValue] = list.systemImage as CKRecordValue
                 record[RecordType.ListFileds.systemImageColor.rawValue] = list.systemImageColor as CKRecordValue
-                record[RecordType.ListFileds.share.rawValue] = list.share as CKRecordValue
-                
+
                 if let children = list.children {
                     if !children.array.isEmpty {
                         var tempArray = [String]()
@@ -121,32 +146,53 @@ struct CloudKitManager {
                 
             case is ListItemCD:
                 let listItem = object as! ListItemCD
-                guard !listItem.share else { return nil }
-                let recordID = CKRecord.ID(recordName: listItem.id!.uuidString, zoneID: recordZone.zoneID)
+                var recordID: CKRecord.ID!
+                
+                if listItem.isShare {
+                    guard let sharedRecrodZoneID = listItem.shareRecrodZoneID else { return nil }
+                    recordID = CKRecord.ID(recordName: listItem.id!.uuidString, zoneID: sharedRecrodZoneID)
+                } else {
+                    recordID = CKRecord.ID(recordName: listItem.id!.uuidString, zoneID: recordZone.zoneID)
+                }
+                
                 let record = CKRecord(recordType: RecordType.ListItem.rawValue, recordID: recordID)
                 record[RecordType.ListItemFields.id.rawValue] = listItem.id!.uuidString as CKRecordValue
                 record[RecordType.ListItemFields.dateAdded.rawValue] = listItem.dateAdded as CKRecordValue
                 record[RecordType.ListItemFields.title.rawValue] = listItem.title as CKRecordValue
-                
+
                 if let parent = listItem.parentList {
-                    let refID = CKRecord.ID(recordName: parent.id!.uuidString, zoneID: recordZone.zoneID)
+                    var refID: CKRecord.ID!
+                    if listItem.isShare {
+                        guard let sharedRecrodZoneID = listItem.shareRecrodZoneID else { return nil }
+                        refID = CKRecord.ID(recordName: parent.id!.uuidString, zoneID: sharedRecrodZoneID)
+                    } else {
+                        refID = CKRecord.ID(recordName: parent.id!.uuidString, zoneID: recordZone.zoneID)
+                    }
                     let ref = CKRecord.Reference(recordID: refID, action: .deleteSelf)
                     record[RecordType.ListItemFields.parentList.rawValue] = ref as CKRecordValue
                     record.setParent(refID)
                 }
                 if let parent = listItem.parentListItem {
-                    let refID = CKRecord.ID(recordName: parent.id!.uuidString, zoneID: recordZone.zoneID)
+                    var refID: CKRecord.ID!
+                    if listItem.isShare {
+                        guard let sharedRecrodZoneID = listItem.shareRecrodZoneID else { return nil }
+                        refID = CKRecord.ID(recordName: parent.id!.uuidString, zoneID: sharedRecrodZoneID)
+                    } else {
+                        refID = CKRecord.ID(recordName: parent.id!.uuidString, zoneID: recordZone.zoneID)
+                    }
                     let ref = CKRecord.Reference(recordID: refID, action: .deleteSelf)
                     record[RecordType.ListItemFields.parentListItem.rawValue] = ref as CKRecordValue
                     record.setParent(refID)
                 }
                 
+                
+                
+                
                 record[RecordType.ListItemFields.index.rawValue] = listItem.index as CKRecordValue
                 record[RecordType.ListItemFields.isComplete.rawValue] = listItem.isComplete as CKRecordValue
                 record[RecordType.ListItemFields.isEditing.rawValue] = listItem.isEditing as CKRecordValue
                 record[RecordType.ListItemFields.isExpand.rawValue] = listItem.isExpand as CKRecordValue
-                record[RecordType.ListItemFields.share.rawValue] = listItem.share as CKRecordValue
-                
+
                 if let children = listItem.children {
                     if !children.array.isEmpty {
                         var tempArray = [String]()
@@ -166,10 +212,51 @@ struct CloudKitManager {
             
         }
         
+        static func saveObjectsToCloud2(objects: CDStack.SortedObjects, completion: @escaping (Result<Int, Error>) -> Void) {
+            
+            func createOperations(recordsToSave: [CKRecord], recordIDsToDelete: [CKRecord.ID], db: CKDatabase) {
+                let operation = CKModifyRecordsOperation(recordsToSave: recordsToSave, recordIDsToDelete: recordIDsToDelete)
+                operation.savePolicy = .allKeys
+                operation.isAtomic = true
+                operation.configuration.timeoutIntervalForRequest = 10
+                operation.configuration.timeoutIntervalForResource = 10
+                operation.modifyRecordsCompletionBlock = { saveRecords, deleteRecordsID, error in
+                    if let localError = error {
+                        print(#function, db)
+                        print("error operation: \(localError.localizedDescription)")
+//                        print("recordsToSave: \(recordsToSave.description)")
+                        completion(.failure(localError))
+                    } else {
+                        completion(.success(saveRecords!.count))
+                    }
+                }
+                db.add(operation)
+            }
+            
+            var privateRecords = [CKRecord]()
+            var shareRecords = [CKRecord]()
+
+            
+            objects.privateModifedObjects.forEach { object in
+                if let record = objectToCKRecord(object: object) {
+                    privateRecords.append(record)
+                }
+            }
+            objects.sharedModifedObjects.forEach { object in
+                if let record = objectToCKRecord(object: object) {
+                    shareRecords.append(record)
+                }
+            }
+            
+            createOperations(recordsToSave: privateRecords, recordIDsToDelete: objects.privateDeleteRecordsID, db: cloudKitPrivateDB)
+            createOperations(recordsToSave: shareRecords, recordIDsToDelete: objects.sharedDeleteRecordsID, db: cloudKitSharedDB)
+            
+        }
+        
         static func saveObjectsToCloud(insertedObjects: Set<NSManagedObject>, modifedObjects: Set<NSManagedObject>, deleteObjectsID: [CKRecord.ID], db: CKDatabase, completion: @escaping (Result<Int, Error>) -> Void) {
-            
+
             var records = [CKRecord]()
-            
+
             insertedObjects.forEach { object in
                 if let record = objectToCKRecord(object: object) {
                     records.append(record)
@@ -182,7 +269,7 @@ struct CloudKitManager {
             }
             let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: deleteObjectsID)
             operation.savePolicy = .allKeys
-            operation.isAtomic = false
+            operation.isAtomic = true
             operation.configuration.timeoutIntervalForRequest = 10
             operation.configuration.timeoutIntervalForResource = 10
             operation.modifyRecordsCompletionBlock = { saveRecords, deleteRecordsID, error in
@@ -266,7 +353,8 @@ struct CloudKitManager {
     }
     
     struct FetchFromCloud {
-        static func fetchListCount(completion: @escaping (Result<Int, Error>) -> Void) {
+        
+        static func fetchListCountFromPrivateDB(completion: @escaping (Result<Int, Error>) -> Void) {
             let predicate = NSPredicate(value: true)
             let query = CKQuery(recordType: RecordType.List.rawValue, predicate: predicate)
             cloudKitPrivateDB.perform(query, inZoneWith: recordZone.zoneID) { (records, error) in
@@ -277,7 +365,7 @@ struct CloudKitManager {
                 }
             }
         }
-        static func fetchListData(db: CKDatabase, completion: @escaping ([ListCD], Error?) -> Void) {
+        static func fetchListDataFromPrivateDB(db: CKDatabase, completion: @escaping ([ListCD], Error?) -> Void) {
             var results = [ListCD]()
             var retError: Error?
             
@@ -288,33 +376,28 @@ struct CloudKitManager {
             
             //countig listItem recors
             let queryItems = CKQuery(recordType: RecordType.ListItem.rawValue, predicate: predicate)
-            db.perform(queryItems, inZoneWith: recordZone.zoneID) { (records, error) in
-                print("records Items count: \(String(describing: records?.count))")
+            cloudKitPrivateDB.perform(queryItems, inZoneWith: recordZone.zoneID) { (records, error) in
+                //print("records Items count: \(String(describing: records?.count))")
                 if let recordsCount = records {
                     ProgressData.shared.allItemsCount = recordsCount.count
                 }
                 
             }
             
-            db.perform(query, inZoneWith: recordZone.zoneID) { (records: [CKRecord]?, error: Error?) in
+            cloudKitPrivateDB.perform(query, inZoneWith: recordZone.zoneID) { (records: [CKRecord]?, error: Error?) in
                 if let error = error {
                     print(#function, "fetch List error: \(error.localizedDescription)")
                     retError = error
                 } else {
                     records?.forEach({ record in
                         let list = CDStack.shared.createListFromRecord(record: record, context: context)
+                        list.isShare = false
                         
-                        if db == container.privateCloudDatabase {
-                            list.share = false
-                        }
-                        if db == container.sharedCloudDatabase {
-                            list.share = true
-                        }
                         
                         if let tempChildArray = record.object(forKey: RecordType.ListFileds.children.rawValue) as? [String] {
                             if !tempChildArray.isEmpty {
                                 tempChildArray.forEach { id in
-                                    print("forEach fetchItem: \(id)")
+                                    //print("forEach fetchItem: \(id)")
                                     fetchListItem(rootRecord: nil, db: db, id: id, parentList: list, parentListItem: nil) { (_, error) in
                                         if let localError = error {
                                             retError = localError
@@ -335,16 +418,18 @@ struct CloudKitManager {
             var item: ListItemCD?
             var retError: Error?
             var recordID: CKRecord.ID!
+            
             if db == cloudKitPrivateDB {
-    //            print("privateDB")
+//                print("privateDB")
                 recordID = CKRecord.ID(recordName: id, zoneID: recordZone.zoneID)
             } else {
-    //            print("sharedDB")
+                print("sharedDB")
                 guard let record = rootRecord else {return}
                 recordID = CKRecord.ID(recordName: id, zoneID: record.recordID.zoneID)
             }
             
             db.fetch(withRecordID: recordID) { (record: CKRecord?, error: Error?) in
+                
                 if let localRecord = record {
                     let listItem = ListItemCD(context: context)
                     listItem.id = UUID(uuidString: localRecord.object(forKey: RecordType.ListItemFields.id.rawValue) as! String)
@@ -357,12 +442,13 @@ struct CloudKitManager {
                     
                     listItem.parentList = parentList
                     listItem.parentListItem = parentListItem
+                    listItem.shareRecrodZoneID = rootRecord?.recordID.zoneID
                     
                     if let listParent = parentList {
-                        listItem.share = listParent.share
+                        listItem.isShare = listParent.isShare
                     }
                     if let listItemParent = parentListItem {
-                        listItem.share = listItemParent.share
+                        listItem.isShare = listItemParent.isShare
                     }
                     //count progress of fetching
                     ProgressData.shared.counter += 1
@@ -393,6 +479,7 @@ struct CloudKitManager {
     }
     
     struct Sharing {
+        
         static func fetchListRecordForSharing(id: String, completion: @escaping (CKRecord?, Error?) -> Void) {
             let recordID = CKRecord.ID(recordName: id, zoneID: recordZone.zoneID)
             cloudKitPrivateDB.fetch(withRecordID: recordID) { (record, error) in
@@ -406,12 +493,14 @@ struct CloudKitManager {
                     print("fetchShare error: \(error!.localizedDescription)")
                     return
                 }
+                
                 completion(record, error)
             }
             container.sharedCloudDatabase.add(operation)
+            
+            
         }
         static func shareRecordToObject(rootRecord: CKRecord, db: CKDatabase, completion: @escaping (ListCD, Error?)->Void) {
-            print(#function)
             
             var retError: Error?
             let list = ListCD(context: context)
@@ -423,8 +512,8 @@ struct CloudKitManager {
             list.isShowSublistCount = rootRecord.object(forKey: RecordType.ListFileds.isShowSublistCount.rawValue) as! Bool
             list.isShowCheckedItem = rootRecord.object(forKey: RecordType.ListFileds.isShowCheckedItem.rawValue) as! Bool
             list.isAutoNumbering = rootRecord.object(forKey: RecordType.ListFileds.isAutoNumbering.rawValue) as! Bool
-            //list.children = []
-            list.share = true
+            list.isShare = true
+            list.shareRecrodZoneID = rootRecord.recordID.zoneID
             
             if let tempChildArray = rootRecord.object(forKey: RecordType.ListFileds.children.rawValue) as? [String] {
                 if !tempChildArray.isEmpty {

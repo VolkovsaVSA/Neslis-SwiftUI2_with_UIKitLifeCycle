@@ -10,13 +10,14 @@ import CloudKit
 
 struct SettingsView: View {
     
-    enum AlertType: Identifiable {
-        case saveRewrite, loadRewrite, networkError, oldIcloudData, noIcloudData
-        var id: Int {
-            hashValue
-        }
-    }
-    @State var myAlert: AlertType?
+//    enum AlertType: Identifiable {
+//        case saveRewrite, loadRewrite, networkError, oldIcloudData, noIcloudData
+//        var id: Int {
+//            hashValue
+//        }
+//    }
+    //@State var myAlert: AlertType?
+    @ObservedObject var myAlert = UserAlert.shared
     
     struct NetworkAlert {
         var title = ""
@@ -37,7 +38,7 @@ struct SettingsView: View {
     @ObservedObject var userSettings: UserSettings
     
     @State var acountStatus: CKAccountStatus?
-    @State var firstCreateZone = UserDefaults.standard.bool(forKey: UDKeys.firstCreateZone)
+    //@State var firstCreateZone = UserDefaults.standard.bool(forKey: UDKeys.firstCreateZone)
 
     @ObservedObject var progressBar = ProgressData.shared
     
@@ -72,7 +73,7 @@ struct SettingsView: View {
             CDStack.shared.saveContext(context: viewContext)
         }
         
-        CloudKitManager.FetchFromCloud.fetchListData(db: CloudKitManager.cloudKitPrivateDB) { (lists, error) in
+        CloudKitManager.FetchFromCloud.fetchListDataFromPrivateDB(db: CloudKitManager.cloudKitPrivateDB) { (lists, error) in
             
             print("end loading. Progress: \(ProgressData.shared.value)")
 
@@ -139,6 +140,145 @@ struct SettingsView: View {
 //        }
         
     }
+    fileprivate func byFullVersion() {
+        print("\(IAPManager.shared.products)")
+        if IAPManager.shared.products.isEmpty {
+            DispatchQueue.main.async {
+                myAlert.alertType = .networkError
+            }
+        } else {
+            showPurchase = true
+        }
+    }
+    fileprivate func didsetIcloudBackupValue(_ newValue: Bool) {
+        if newValue {
+            activitySpinnerAnimate = true
+            activitySpinnerText = "Fetch data from iCloud"
+            CloudKitManager.FetchFromCloud.fetchListCountFromPrivateDB { result in
+                
+                activitySpinnerAnimate = false
+                
+                switch result {
+                case .success(let count):
+                    if count > 0 {
+                        DispatchQueue.main.async {
+                            myAlert.alertType = .oldIcloudData
+                        }
+                        
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    DispatchQueue.main.async {
+                        myAlert.alertType = .networkError
+                        userSettings.icloudBackup = false
+                    }
+                }
+            }
+        }
+    }
+    fileprivate func saveButtonAction() {
+        activitySpinnerAnimate = true
+        activitySpinnerText = "Fetch data from iCloud"
+        
+        CloudKitManager.FetchFromCloud.fetchListCountFromPrivateDB { result in
+            activitySpinnerAnimate = false
+            
+            switch result {
+            case .success(let count):
+                if count > 0 {
+                    DispatchQueue.main.async {
+                        myAlert.alertType = .saveRewrite
+                    }
+                } else {
+                    saveData(rewrite: true)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+                DispatchQueue.main.async {
+                    myAlert.alertType = .networkError
+                }
+            }
+        }
+    }
+    fileprivate func restoreButtonAction() {
+        let coreDataCount = CDStack.shared.fetchList(context: viewContext).count
+        activitySpinnerAnimate = true
+        activitySpinnerText = "Fetch data from iCloud"
+        
+        CloudKitManager.FetchFromCloud.fetchListCountFromPrivateDB { result in
+            activitySpinnerAnimate = false
+            switch result {
+            case .success(let count):
+                if count > 0 {
+                    if coreDataCount > 0 {
+                        DispatchQueue.main.async {
+                            myAlert.alertType = .loadRewrite
+                        }
+                    } else {
+                        loadData(rewrite: false)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        myAlert.alertType = .noIcloudData
+                    }
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+                DispatchQueue.main.async {
+                    myAlert.alertType = .networkError
+                }
+                
+            }
+        }
+    }
+    fileprivate func creatAlert(_ alert: AlertType) -> Alert {
+        switch alert {
+        case .saveRewrite:
+            return Alert(title: Text("Attention!"), message: Text("You are have another iCloud data. Do you want rewreite this data or joined all data?"), primaryButton: .destructive(Text("Rewrite"), action: {
+                saveData(rewrite: true)
+            }), secondaryButton: .default(Text("Joined"), action: {
+                saveData(rewrite: false)
+            }))
+        case .loadRewrite:
+            return Alert(
+                title: Text("Attention!"),
+                message: Text("You are have data on your phone. Do you want rewreite this data or joined all data?"),
+                primaryButton: .destructive(Text("Rewrite"), action: {
+                    loadData(rewrite: true)
+                }),
+                secondaryButton: .default(Text("Joined"), action: {
+                    loadData(rewrite: false)
+                })
+            )
+        case .networkError:
+            return Alert(
+                title: Text(errorNetworkAlert.title),
+                message: Text(errorNetworkAlert.text),
+                dismissButton: .cancel(Text("OK"))
+            )
+        case .oldIcloudData:
+            return Alert(
+                title: Text("Attention!"),
+                message: Text("You are have backup data! Do you want to load this data?"),
+                primaryButton: .default(Text("Load"), action: {
+                    loadData(rewrite: false)
+                }),
+                secondaryButton: .cancel(Text("Cancel"))
+            )
+        case .noIcloudData:
+            return Alert(
+                title: Text("Attention!"),
+                message: Text("No backup data in iCloud."),
+                dismissButton: .cancel(Text("OK"))
+            )
+        case .noAccessToNotification:
+            return Alert(
+                title: Text(""),
+                message: Text(""),
+                dismissButton: .cancel(Text("OK"))
+            )
+        }
+    }
     
     var body: some View {
         LoadingView(isShowing: $activitySpinnerAnimate, text: activitySpinnerText, messageText: $finishMessage, result: $finishButtonShow, progressBar: $progressBar.value) {
@@ -147,12 +287,7 @@ struct SettingsView: View {
                     VStack(alignment: .leading, spacing: 16) {
                         Section(header: Text("Purchases").font(.title).foregroundColor(.gray)) {
                             Button("Pro Version") {
-                                print("\(IAPManager.shared.products.isEmpty)")
-                                if IAPManager.shared.products.isEmpty {
-                                    myAlert = .networkError
-                                } else {
-                                    showPurchase = true
-                                }
+                                byFullVersion()
                             }
                             .modifier(SettingButtonModifire(disable: false))
                             Button("Restore purchases") {
@@ -167,78 +302,17 @@ struct SettingsView: View {
                             if userSettings.proVersion {
                                 if acountStatus == .available {
                                     Toggle("Enable backup to iCloud and sharing lists", isOn: $userSettings.icloudBackup.didSet(execute: { newValue in
-                                        if newValue {
-                                            activitySpinnerAnimate = true
-                                            activitySpinnerText = "Fetch data from iCloud"
-                                            CloudKitManager.FetchFromCloud.fetchListCount { result in
-
-                                                activitySpinnerAnimate = false
-
-                                                switch result {
-                                                case .success(let count):
-                                                    if count > 0 {
-                                                        myAlert = .oldIcloudData
-                                                    }
-                                                case .failure(let error):
-                                                    print(error.localizedDescription)
-                                                    myAlert = .networkError
-                                                    userSettings.icloudBackup = false
-                                                }
-                                            }
-                                        }
+                                        didsetIcloudBackupValue(newValue)
                                     })
                                     .animation())
                                     
                                     if userSettings.icloudBackup {
                                         Button("Save data") {
-
-                                            activitySpinnerAnimate = true
-                                            activitySpinnerText = "Fetch data from iCloud"
-                                            
-                                            CloudKitManager.FetchFromCloud.fetchListCount { result in
-                                                activitySpinnerAnimate = false
-                                                
-                                                switch result {
-                                                case .success(let count):
-                                                    if count > 0 {
-                                                        myAlert = .saveRewrite
-                                                    } else {
-                                                        saveData(rewrite: true)
-                                                    }
-                                                case .failure(let error):
-                                                    print(error.localizedDescription)
-                                                    myAlert = .networkError
-                                                }
-                                            }
+                                            saveButtonAction()
                                         }
                                         .modifier(SettingButtonModifire(disable: false))
                                         Button("Restore data") {
-                                            let coreDataCount = CDStack.shared.fetchList(context: viewContext).count
-
-                                            activitySpinnerAnimate = true
-                                            activitySpinnerText = "Fetch data from iCloud"
-                                            
-                                            CloudKitManager.FetchFromCloud.fetchListCount { result in
-
-                                                activitySpinnerAnimate = false
-
-                                                switch result {
-                                                case .success(let count):
-                                                    if count > 0 {
-                                                        if coreDataCount > 0 {
-                                                            myAlert = .loadRewrite
-                                                        } else {
-                                                            loadData(rewrite: false)
-                                                        }
-                                                    } else {
-                                                        myAlert = .noIcloudData
-                                                    }
-                                                case .failure(let error):
-                                                    print(error.localizedDescription)
-                                                    myAlert = .networkError
-                                                }
-                                            }
-                                           
+                                            restoreButtonAction()
                                         }
                                         .modifier(SettingButtonModifire(disable: false))
                                         Button("Clear iCloud DB") {
@@ -267,11 +341,11 @@ struct SettingsView: View {
                                 }
                             }
                             
-                            
                         }
                         
                         Section(header: Text("Visual settings").font(.title).foregroundColor(.gray)) {
                             Toggle("Use the color of the list-icon to visual style the list", isOn: $userSettings.useListColor)
+                            Toggle("Show 'expand all' button", isOn: $userSettings.showAllExpandButton)
                         }
                     }
                     .padding(.horizontal, 20)
@@ -281,46 +355,23 @@ struct SettingsView: View {
                     CloudKitManager.checkIcloudStatus { status in
                         acountStatus = status
                     }
-                    CloudKitManager.Zone.createZone { error in
-                        if let error = error {
-                            print(error.localizedDescription)
+                    if !userSettings.zonIsCreated {
+                        CloudKitManager.Zone.createZone { error in
+                            if let error = error {
+                                print(error.localizedDescription)
+                            }
                         }
                     }
+
                     IAPManager.shared.getProducts()
-                        
+                }
+                .alert(item: $myAlert.alertType) { alert in
+                    return creatAlert(alert)
                 }
                 .sheet(isPresented: $showPurchase) {
                     PurchaseView()
                         .environment(\.managedObjectContext, viewContext)
                 }
-                .alert(item: $myAlert) { alert in
-                    switch alert {
-                    case .saveRewrite:
-                        return Alert(title: Text("Attention!"), message: Text("You are have another iCloud data. Do you want rewreite this data or joined all data?"), primaryButton: .destructive(Text("Rewrite"), action: {
-                            saveData(rewrite: true)
-                        }), secondaryButton: .default(Text("Joined"), action: {
-                            saveData(rewrite: false)
-                        }))
-                    case .loadRewrite:
-                        return Alert(title: Text("Attention!"), message: Text("You are have data on your phone. Do you want rewreite this data or joined all data?"), primaryButton: .destructive(Text("Rewrite"), action: {
-                            loadData(rewrite: true)
-                        }), secondaryButton: .default(Text("Joined"), action: {
-                            loadData(rewrite: false)
-                        }))
-                    case .networkError:
-                        return Alert(title: Text(errorNetworkAlert.title), message: Text(errorNetworkAlert.text), dismissButton: .cancel(Text("OK")))
-                    case .oldIcloudData:
-                        return Alert(title: Text("Attention!"), message: Text("You are have backup data! Do you want to load this data?"), primaryButton: .default(Text("Load"), action: {
-                            loadData(rewrite: false)
-                        }), secondaryButton: .cancel(Text("Cancel")))
-                    case .noIcloudData:
-                        return Alert(title: Text("Attention!"), message: Text("No backup data in iCloud."), dismissButton: .cancel(Text("OK")))
-                    }
-                    
-                }
-//                .alert(isPresented: $userAlert.show, content: {
-//                    Alert(title: Text(userAlert.title), message: Text(userAlert.text), dismissButton: .cancel(Text("OK")))
-//                })
                 .navigationBarTitle("Settings")
             }
         }

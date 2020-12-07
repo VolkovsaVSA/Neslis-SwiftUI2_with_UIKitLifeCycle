@@ -43,6 +43,9 @@ struct CloudSharingButton: UIViewRepresentable {
         var shareRecord: CKRecord?
         
         func cloudSharingControllerDidSaveShare(_ csc: UICloudSharingController) {
+            
+            CloudKitManager.Subscription.setSubscription(db: CloudKitManager.cloudKitPrivateDB, subscriptionID: CloudKitManager.Subscription.privateDbSubsID, subscriptionSavedKey: CloudKitManager.Subscription.privateDbSubsSavedKey)
+            
             print("cloudSharingControllerDidSaveShare")
         }
         func cloudSharingController(_ csc: UICloudSharingController, failedToSaveShareWithError error: Error) {
@@ -68,13 +71,12 @@ struct CloudSharingButton: UIViewRepresentable {
             
 
             if let shareReference = record.share {
-                print("record.share: \(shareReference)")
+                //print("record.share: \(shareReference)")
                 
                 CloudKitManager.cloudKitPrivateDB.fetch(withRecordID: shareReference.recordID) { (record, error) in
                     //print("record: \(record?.description)")
                     guard let shareRecord = record as? CKShare else { //print(error?.localizedDescription);
                         return }
-                    print("controller")
                     DispatchQueue.main.async {
                         let controller = UICloudSharingController(share: shareRecord, container: CloudKitManager.container)
                         controller.delegate = self

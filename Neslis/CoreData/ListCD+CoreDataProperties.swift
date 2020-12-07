@@ -22,11 +22,12 @@ extension ListCD: ListSharedProperties {
     @NSManaged public var isAutoNumbering: Bool
     @NSManaged public var isShowCheckedItem: Bool
     @NSManaged public var isShowSublistCount: Bool
-    @NSManaged public var share: Bool
+    @NSManaged public var isShare: Bool
     @NSManaged public var systemImage: String
     @NSManaged public var systemImageColor: Data
     @NSManaged public var children: NSOrderedSet?
     @NSManaged public var childrenUpdate: Bool
+    @NSManaged public var shareRecrodZoneID: CKRecordZone.ID?
 
 }
 

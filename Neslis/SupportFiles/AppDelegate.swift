@@ -14,14 +14,10 @@ import CoreData
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-
-        //print("userInfo: \(userInfo.description)")
-        
+    fileprivate func fetchSharedCanges(db: CKDatabase) {
         var fetchConfigurations = [CKRecordZone.ID : CKFetchRecordZoneChangesOperation.ZoneConfiguration]()
         var changeToken: CKServerChangeToken? = nil
-        
-        CloudKitManager.cloudKitSharedDB.fetchAllRecordZones { (recordZones, error) in
+        db.fetchAllRecordZones { (recordZones, error) in
             
             guard let zones =  recordZones else {return}
             var zonesID = [CKRecordZone.ID]()
@@ -38,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         configuration.previousServerChangeToken = changeToken
                         fetchConfigurations[recordZone.zoneID] = configuration
                     } catch {
-                        print(error.localizedDescription)
+                        print("fetchAllRecordZones error: \(error.localizedDescription)")
                     }
                     
                 }
@@ -65,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let changeTokenData = try NSKeyedArchiver.archivedData(withRootObject: changeToken, requiringSecureCoding: false)
                     UserDefaults.standard.set(changeTokenData, forKey: zoneID.description)
                 } catch {
-                    print(error.localizedDescription)
+                    print("recordZoneChangeTokensUpdatedBlock error: \(error.localizedDescription)")
                 }
                 
             }
@@ -76,37 +72,60 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let changeTokenData = try NSKeyedArchiver.archivedData(withRootObject: changeToken, requiringSecureCoding: false)
                     UserDefaults.standard.set(changeTokenData, forKey: zoneID.description)
                 } catch {
-                    print(error.localizedDescription)
+                    print("recordZoneFetchCompletionBlock error: \(error.localizedDescription)")
                 }
             }
             operation.fetchRecordZoneChangesCompletionBlock = { error in
                 guard error == nil else {
-                    print(error!.localizedDescription)
+                    print("fetchRecordZoneChangesCompletionBlock error: \(error!.localizedDescription)")
                     return
                 }
             }
             
-            operation.qualityOfService = .utility
-            CloudKitManager.cloudKitSharedDB.add(operation)
-            completionHandler(.newData)
+            operation.qualityOfService = .userInitiated
+            db.add(operation)
+            //                    completionHandler(.newData)
         }
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+
+        //print("userInfo: \(userInfo.description)")
         
         
-//        if let notification = CKNotification(fromRemoteNotificationDictionary: userInfo) {
-//                    print("CloudKit database changed")
+        if let notification = CKNotification(fromRemoteNotificationDictionary: userInfo), let subscriptionID = notification.subscriptionID {
+            
+            switch subscriptionID {
+            case "sharedDbSubsID":
+                print("CloudKit shared database changed")
+                fetchSharedCanges(db: CloudKitManager.cloudKitSharedDB)
+            case "privateDbSubsID":
+                print("CloudKit private database changed")
+                fetchSharedCanges(db: CloudKitManager.cloudKitPrivateDB)
+            default:
+                break
+            }
+              
+            completionHandler(.newData)
+            
+            
+            
 //            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "CKchange"), object: nil)
 //                    completionHandler(.newData)
 //                    return
-//        }
+        }
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        CloudKitManager.Zone.createZone { error in
-            if let error = error {
-                print(error.localizedDescription)
+        if !UserSettings.shared.zonIsCreated {
+            CloudKitManager.Zone.createZone { error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
             }
         }
+        
         IAPManager.shared.setupPurchases { success in
             if success {
                 print("can make payments")

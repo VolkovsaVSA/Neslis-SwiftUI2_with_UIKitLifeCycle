@@ -24,13 +24,15 @@ class NotifManager {
                     let userAlert = UserAlert.shared
                     userAlert.title = "Error"
                     userAlert.text = "You turned off notification in settings. Please turn on the notifications for this application in the system settings."
-                    userAlert.show = true
+                    userAlert.alertType = .noAccessToNotification
                     return
                 }
                 
                 !userSettings.sharingNotification ? userSettings.sharingNotification.toggle() : nil
             }
         }
+        
+        
     }
     
     

@@ -77,16 +77,19 @@ struct ListView: View {
                             .foregroundColor(.red)
                     }
                 } else {
-                    Button {
-                        expand.toggle()
-                        expandAll(array: list.childrenArray ?? [], expand: expand)
-                        CDStack.shared.saveContext(context: viewContext)
-                    } label: {
-                        Image(systemName:"chevron.right.circle")
-                            .font(Font.system(size: 20, weight: .regular, design: .default))
-                            .rotationEffect(.degrees(expand ? 90 : 0))
-                            .animation(.spring())
+                    if userSettings.showAllExpandButton {
+                        Button {
+                            expand.toggle()
+                            expandAll(array: list.childrenArray ?? [], expand: expand)
+                            //CDStack.shared.saveContext(context: viewContext)
+                        } label: {
+                            Image(systemName:"chevron.right.circle.fill")
+                                .font(Font.system(size: 20, weight: .regular, design: .default))
+                                .rotationEffect(.degrees(expand ? 90 : 0))
+                                .animation(.spring())
+                        }
                     }
+                    
                 }
                 
                 Button(action: {
@@ -94,10 +97,10 @@ struct ListView: View {
                     selectedRows = Set<ListItemCD>()
                 }) {
                     if editMode == .active {
-                        Image(systemName: "checkmark.circle")
+                        Image(systemName: "checkmark.circle.fill")
                             .font(Font.system(size: 20, weight: .regular, design: .default))
                     } else {
-                        Image(systemName: "pencil.circle")
+                        Image(systemName: "pencil.circle.fill")
                             .font(Font.system(size: 20, weight: .regular, design: .default))
                     }
                 }
@@ -112,7 +115,7 @@ struct ListView: View {
         })
         .onAppear() {
             if userSettings.icloudBackup {
-                if !list.share {
+                if !list.isShare {
                     CloudKitManager.Sharing.fetchListRecordForSharing(id: list.id!.uuidString) { (record, error) in
                         if let localError = error {
                             print("fetchListForSharing error: \(localError.localizedDescription)")
@@ -138,26 +141,19 @@ struct ListView: View {
         guard let array = list.childrenArray else { return }
         for index in offsets {
             viewContext.delete(array[index])
-            
         }
-        //CDStack.shared.saveContext(context: viewContext)
         list.childrenUpdate = true
-        //list.setIndex()
-        //CDStack.shared.saveContext(context: viewContext)
     }
     private func deleteObjects(objects: Set<ListItemCD>) {
         objects.forEach { item in
             viewContext.delete(item)
             if let lst = item.parentList {
                 lst.childrenUpdate = true
-                //lst.setIndex()
             }
             if let itm = item.parentListItem {
                 itm.childrenUpdate = true
-                //itm.setIndex()
             }
         }
-        //CDStack.shared.saveContext(context: viewContext)
         selectedRows = Set<ListItemCD>()
     }
     private func onMove(source: IndexSet, destination: Int) {
@@ -165,8 +161,6 @@ struct ListView: View {
         array.move(fromOffsets: source, toOffset: destination)
         list.children = NSOrderedSet(array: array)
         list.childrenUpdate = true
-        //list.setIndex()
-        //CDStack.shared.saveContext(context: viewContext)
     }
     
     private func expandAll(array: [ListItemCD], expand: Bool) {

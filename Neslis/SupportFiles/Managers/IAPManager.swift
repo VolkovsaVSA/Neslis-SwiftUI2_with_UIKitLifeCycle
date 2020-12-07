@@ -36,6 +36,7 @@ class IAPManager: NSObject {
         completion(false)
     }
     public func getProducts() {
+        print(#function)
         let identifires: Set = [
             IAPManager.Products.MonthSubs.rawValue,
             IAPManager.Products.YearSubs.rawValue
@@ -51,7 +52,7 @@ class IAPManager: NSObject {
         return numberFormatter.string(from: product.price) ?? ""
     }
     public func purshase(product: SKProduct) {
-        //print(#function, product.localizedDescription)
+        print(#function, product.localizedDescription)
         let payment = SKPayment(product: product)
         
         SKPaymentQueue.default().add(payment)
@@ -161,7 +162,7 @@ extension IAPManager: SKPaymentTransactionObserver {
 extension IAPManager: SKProductsRequestDelegate {
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         self.products = response.products
-        //print(#function, #line, self.products.description)
+        print(#function, #line, self.products.description)
     }
     public func request(_ request: SKRequest, didFailWithError error: Error) {
         //print("\(#function) \(error.localizedDescription)")

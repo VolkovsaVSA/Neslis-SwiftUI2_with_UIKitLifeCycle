@@ -6,7 +6,9 @@
 //
 
 import Foundation
+import CloudKit
 
 protocol ListSharedProperties {
-    var share: Bool { get set }
+    var isShare: Bool { get set }
+    var shareRecrodZoneID: CKRecordZone.ID? { get set }
 }

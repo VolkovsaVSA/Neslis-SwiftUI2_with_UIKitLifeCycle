@@ -42,7 +42,7 @@ struct ListOfListsView: View {
                                                                                         .red) , imageScale: 16)
                                 Text("\(list.title)")
                                 Spacer()
-                                if list.share {
+                                if list.isShare {
                                     Image(systemName: "person.2.circle.fill")
                                 }
                                 Text("\(list.childrenArray?.count ?? 0)")
@@ -71,8 +71,6 @@ struct ListOfListsView: View {
                 }
                 .listStyle(InsetGroupedListStyle())
                 .edgesIgnoringSafeArea(.bottom)
-                
-                
                 .navigationTitle("Lists")
                 .navigationBarItems(
                     leading: Button(action: {

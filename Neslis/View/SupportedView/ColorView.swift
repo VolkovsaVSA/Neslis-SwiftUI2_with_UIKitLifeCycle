@@ -18,7 +18,7 @@ struct ColorView: View {
         
         Button(action: {
             self.colorSetVM.colorSelected = self.localColor.color
-            print(self.colorSetVM.colorSelected.description)
+            //print(self.colorSetVM.colorSelected.description)
         }) {
 //            Circle()
 //            .frame(width: self.size, height: self.size)

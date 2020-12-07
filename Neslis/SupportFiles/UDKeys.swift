@@ -8,7 +8,7 @@
 import Foundation
 
 struct UDKeys {
-    static let firstCreateZone = "firstCreateZone"
+    //static let firstCreateZone = "firstCreateZone"
     
     struct Settings {
         static let icloudBackup = "icloudBackup"
@@ -16,8 +16,8 @@ struct UDKeys {
         static let sharingNotification = "sharingNotification"
         static let proVersion = "proVersion"
         static let useListColor = "useListColor"
+        static let zonIsCreated = "zonIsCreated"
+        static let showAllExpandButton = "showAllExpandButton"
     }
-    struct ServiceData {
-        static let progressValue = "progressValue"
-    }
+
 }

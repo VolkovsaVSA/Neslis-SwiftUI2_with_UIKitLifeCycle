@@ -14,4 +14,12 @@ class UserAlert: ObservableObject {
     var title = ""
     var text = ""
     @Published var show = false
+    @Published var alertType: AlertType?
+}
+
+enum AlertType: Identifiable {
+    case saveRewrite, loadRewrite, networkError, oldIcloudData, noIcloudData, noAccessToNotification
+    var id: Int {
+        hashValue
+    }
 }

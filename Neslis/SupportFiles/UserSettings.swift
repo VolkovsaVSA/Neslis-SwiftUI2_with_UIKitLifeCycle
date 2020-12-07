@@ -40,11 +40,23 @@ class UserSettings: ObservableObject {
             UserDefaults.standard.setValue(useListColor, forKey: UDKeys.Settings.useListColor)
         }
     }
+    @Published var zonIsCreated : Bool {
+        didSet {
+            UserDefaults.standard.setValue(zonIsCreated, forKey: UDKeys.Settings.zonIsCreated)
+        }
+    }
+    @Published var showAllExpandButton: Bool {
+        didSet {
+            UserDefaults.standard.setValue(showAllExpandButton, forKey: UDKeys.Settings.showAllExpandButton)
+        }
+    }
     
     init() {
         self.icloudBackup = UserDefaults.standard.object(forKey: UDKeys.Settings.icloudBackup) as? Bool ?? false
         self.sharingNotification = UserDefaults.standard.object(forKey: UDKeys.Settings.sharingNotification) as? Bool ?? false
         self.proVersion = UserDefaults.standard.object(forKey: UDKeys.Settings.proVersion) as? Bool ?? false
         self.useListColor = UserDefaults.standard.object(forKey: UDKeys.Settings.useListColor) as? Bool ?? false
+        self.zonIsCreated = UserDefaults.standard.object(forKey: UDKeys.Settings.zonIsCreated) as? Bool ?? false
+        self.showAllExpandButton = UserDefaults.standard.object(forKey: UDKeys.Settings.showAllExpandButton) as? Bool ?? true
     }
 }

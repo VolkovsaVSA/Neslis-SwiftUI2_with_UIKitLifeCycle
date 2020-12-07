@@ -10,6 +10,13 @@ import CoreData
 struct CDStack {
     static let shared = CDStack()
     
+    struct SortedObjects {
+        var privateModifedObjects = [NSManagedObject]()
+        var privateDeleteRecordsID = [CKRecord.ID]()
+        var sharedModifedObjects = [NSManagedObject]()
+        var sharedDeleteRecordsID = [CKRecord.ID]()
+    }
+    
     let container: NSPersistentContainer
 
     init(inMemory: Bool = false) {
@@ -34,48 +41,110 @@ struct CDStack {
         saveContext(context: context)
     }
     
+    private func sortObjectsToDB()->SortedObjects {
+        
+        let insertedModifiedObjects = container.viewContext.insertedObjects.union(container.viewContext.updatedObjects)
+        let deletedOblects = container.viewContext.deletedObjects
+        
+        var sortObject = SortedObjects()
+
+        insertedModifiedObjects.forEach { object in
+            guard let cdEntity = object as? ListSharedProperties else {return}
+            if cdEntity.isShare {
+                sortObject.sharedModifedObjects.append(object)
+            } else {
+                sortObject.privateModifedObjects.append(object)
+            }
+        }
+        deletedOblects.forEach { object in
+            guard let cdEntity = object as? ListSharedProperties else {return}
+            if cdEntity.isShare {
+                guard let id = object.value(forKey: "id") as? UUID else {return}
+//                guard let rootRecord = CloudKitManager.rootRecord else {return}
+                guard let rootRecordZoneID = cdEntity.shareRecrodZoneID else {return}
+                let recordID = CKRecord.ID(recordName: id.uuidString, zoneID: rootRecordZoneID)
+                sortObject.sharedDeleteRecordsID.append(recordID)
+            } else {
+                guard let id = object.value(forKey: "id") as? UUID else {return}
+                let recordID = CKRecord.ID(recordName: id.uuidString, zoneID: CloudKitManager.recordZone.zoneID)
+                sortObject.privateDeleteRecordsID.append(recordID)
+            }
+        }
+//        print("shared sortObject: \(sortObject.sharedModifedObjects.description)")
+        return sortObject
+    }
+    
     func saveContext(context: NSManagedObjectContext) {
         DispatchQueue.main.async {
             if context.hasChanges {
-
-                let insertedObjects = context.insertedObjects
-                let modifiedObjects = context.updatedObjects
-                let deletedRecordIDs = context.deletedObjects
-
-                var deleteRecordsID = [CKRecord.ID]()
-                deletedRecordIDs.forEach { object in
-                    guard let qqq = object as? ListSharedProperties else {return}
-                    if !qqq.share {
-                        let id = object.value(forKey: "id") as! UUID
-                        let recordID = CKRecord.ID(recordName: id.uuidString, zoneID: CloudKitManager.recordZone.zoneID)
-                        deleteRecordsID.append(recordID)
-                    }
-                }
-
+                
+                let sortedObj = sortObjectsToDB()
+                
                 do {
-
+                    
                     if UserDefaults.standard.bool(forKey: UDKeys.Settings.icloudBackup) {
-                        print("icloudBackup")
-                        CloudKitManager.SaveToCloud.saveObjectsToCloud(insertedObjects: insertedObjects, modifedObjects: modifiedObjects, deleteObjectsID: deleteRecordsID, db: CloudKitManager.cloudKitPrivateDB) { result in
+                        
+                        CloudKitManager.SaveToCloud.saveObjectsToCloud2(objects: sortedObj) { result in
                             switch result {
                             case .success(let count):
                                 print("Save \(count) objects to icloudBackup")
                             case .failure(let error):
-                                print("Error icloudBackup \(error.localizedDescription)")
+                                print("Error iCloudBackup \(error.localizedDescription)")
                             }
                         }
+                        
                     }
-
-                    try context.save()
                     
+                    try context.save()
                 } catch {
                     context.rollback()
-                    let error = error as Error
                     print(error.localizedDescription)
                 }
-
+                
             }
         }
+        
+//        DispatchQueue.main.async {
+//            if context.hasChanges {
+//
+//                let insertedObjects = context.insertedObjects
+//                let modifiedObjects = context.updatedObjects
+//                let deletedOblects = context.deletedObjects
+//
+//                var deleteRecordsID = [CKRecord.ID]()
+//                deletedOblects.forEach { object in
+//                    guard let qqq = object as? ListSharedProperties else {return}
+//                    if !qqq.share {
+//                        let id = object.value(forKey: "id") as! UUID
+//                        let recordID = CKRecord.ID(recordName: id.uuidString, zoneID: CloudKitManager.recordZone.zoneID)
+//                        deleteRecordsID.append(recordID)
+//                    }
+//                }
+//
+//                do {
+//
+//                    if UserDefaults.standard.bool(forKey: UDKeys.Settings.icloudBackup) {
+//                        //print("icloudBackup")
+//                        CloudKitManager.SaveToCloud.saveObjectsToCloud(insertedObjects: insertedObjects, modifedObjects: modifiedObjects, deleteObjectsID: deleteRecordsID, db: CloudKitManager.cloudKitPrivateDB) { result in
+//                            switch result {
+//                            case .success(let count):
+//                                print("Save \(count) objects to icloudBackup")
+//                            case .failure(let error):
+//                                print("Error icloudBackup \(error.localizedDescription)")
+//                            }
+//                        }
+//                    }
+//
+//                    try context.save()
+//
+//                } catch {
+//                    context.rollback()
+//                    let error = error as Error
+//                    print(error.localizedDescription)
+//                }
+//
+//            }
+//        }
         
 
     }
@@ -111,7 +180,7 @@ struct CDStack {
         newList.systemImage = systemImage
         newList.systemImageColor = systemImageColor
         newList.title = title
-        newList.share = share
+        newList.isShare = share
     }
     
     func createListItem(title: String, parentList: ListCD?, parentListItem: ListItemCD?, share: Bool, context: NSManagedObjectContext) {
@@ -125,7 +194,7 @@ struct CDStack {
         newListItem.isComplete = false
         newListItem.isEditing = false
         newListItem.isExpand = true
-        newListItem.share = share
+        newListItem.isShare = share
         newListItem.childrenUpdate = false
     }
     
@@ -282,13 +351,12 @@ struct CDStack {
         if object != nil {
             saveEditedData(object: &object!, record: record)
         } else {
-            
             switch convertedRecordType {
             case ListCD.description():
                 let list = createListFromRecord(record: record, context: context)
-                list.share = true
+                list.isShare = true
             case ListItemCD.description():
-                
+//                let listItem = ListItemCD(context: context)
                 let listItem = ListItemCD(context: context)
                 listItem.id = UUID(uuidString: record.object(forKey: CloudKitManager.RecordType.ListItemFields.id.rawValue) as! String)
                 listItem.dateAdded = record.object(forKey: CloudKitManager.RecordType.ListItemFields.dateAdded.rawValue) as! Date
@@ -298,8 +366,8 @@ struct CDStack {
                 listItem.isExpand = record.object(forKey: CloudKitManager.RecordType.ListItemFields.isExpand.rawValue) as! Bool
                 listItem.isComplete = record.object(forKey: CloudKitManager.RecordType.ListItemFields.isComplete.rawValue) as! Bool
                 
-                print("record.parent!.recordID: \(record.parent!.recordID)")
-                print("record.parent.recordReferance: \(String(describing: record.object(forKey: "parent")?.description))")
+//                print("record.parent!.recordID: \(record.parent!.recordID)")
+//                print("record.parent.recordReferance: \(String(describing: record.object(forKey: "parent")?.description))")
                 
 //                CloudKitManager.cloudKitSharedDB.fetch(withRecordID: record.parent!.recordID) { (parentRecord, error) in
 //

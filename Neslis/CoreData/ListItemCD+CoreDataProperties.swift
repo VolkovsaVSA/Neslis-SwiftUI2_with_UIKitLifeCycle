@@ -23,13 +23,12 @@ extension ListItemCD: ListSharedProperties {
     @NSManaged public var isComplete: Bool
     @NSManaged public var isEditing: Bool
     @NSManaged public var isExpand: Bool
-    @NSManaged public var share: Bool
+    @NSManaged public var isShare: Bool
     @NSManaged public var parentList: ListCD?
     @NSManaged public var parentListItem: ListItemCD?
     @NSManaged public var children: NSOrderedSet?
     @NSManaged public var childrenUpdate: Bool
-    
-    
+    @NSManaged public var shareRecrodZoneID: CKRecordZone.ID?
 
 }
 

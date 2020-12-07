@@ -29,7 +29,7 @@ struct NewListItemView: View {
                 addNewsublist = tfChange
             })
             {
-                CDStack.shared.createListItem(title: newTitle, parentList: parentList, parentListItem: parentListItem, share: firstLevel ? parentList!.share : parentListItem!.share, context: viewContext)
+                CDStack.shared.createListItem(title: newTitle, parentList: parentList, parentListItem: parentListItem, share: firstLevel ? parentList!.isShare : parentListItem!.isShare, context: viewContext)
                 newTitle = ""
 
                 if parentList != nil {
