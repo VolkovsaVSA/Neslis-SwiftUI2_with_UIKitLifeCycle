@@ -184,6 +184,10 @@ struct CDStack {
     }
     
     func createListItem(title: String, parentList: ListCD?, parentListItem: ListItemCD?, share: Bool, context: NSManagedObjectContext) {
+        
+        print(#function, " parentList: \(parentList?.isShare)")
+        print(#function, " share: \(share) \(title)")
+        
         let newListItem = ListItemCD(context: context)
         newListItem.id = UUID()
         newListItem.dateAdded = Date()
@@ -285,15 +289,10 @@ struct CDStack {
     }
     
     func saveChangeRecord(record: CKRecord, context: NSManagedObjectContext) {
-//        print("saveChangeRecord.recordType: \(record.recordType)")
-//        print("saveChangeRecord: \(record.recordID)")
-        
         guard let id = record.object(forKey: CloudKitManager.RecordType.ListFileds.id.rawValue) as? String else {return}
         guard let convertedRecordType = convertRecordTypeToCDEntity(recordType: record.recordType) else {return}
-        
         var object = CDStack.shared.fetchOneObject(entityName: convertedRecordType, id: id, context: context)
-//        print("object: \(String(describing: object?.description))")
-//
+
         func saveListItemData(listItem: inout ListItemCD, record: CKRecord) {
             listItem.title = record.object(forKey: CloudKitManager.RecordType.ListItemFields.title.rawValue) as! String
             listItem.index = record.object(forKey: CloudKitManager.RecordType.ListItemFields.index.rawValue) as! Int16
@@ -312,6 +311,8 @@ struct CDStack {
                 list.isShowSublistCount = record.object(forKey: CloudKitManager.RecordType.ListFileds.isShowSublistCount.rawValue) as! Bool
                 list.isShowCheckedItem = record.object(forKey: CloudKitManager.RecordType.ListFileds.isShowCheckedItem.rawValue) as! Bool
                 list.isAutoNumbering = record.object(forKey: CloudKitManager.RecordType.ListFileds.isAutoNumbering.rawValue) as! Bool
+//                list.isShare = true
+//                list.shareRecrodZoneID = record.recordID.zoneID
                 
                 if let tempChilds = record.object(forKey: CloudKitManager.RecordType.ListFileds.children.rawValue) as? [String] {
                     if !tempChilds.isEmpty {
@@ -351,12 +352,13 @@ struct CDStack {
         if object != nil {
             saveEditedData(object: &object!, record: record)
         } else {
+            print("object nil")
             switch convertedRecordType {
             case ListCD.description():
                 let list = createListFromRecord(record: record, context: context)
                 list.isShare = true
+                list.shareRecrodZoneID = record.recordID.zoneID
             case ListItemCD.description():
-//                let listItem = ListItemCD(context: context)
                 let listItem = ListItemCD(context: context)
                 listItem.id = UUID(uuidString: record.object(forKey: CloudKitManager.RecordType.ListItemFields.id.rawValue) as! String)
                 listItem.dateAdded = record.object(forKey: CloudKitManager.RecordType.ListItemFields.dateAdded.rawValue) as! Date
@@ -365,6 +367,8 @@ struct CDStack {
                 listItem.isEditing = record.object(forKey: CloudKitManager.RecordType.ListItemFields.isEditing.rawValue) as! Bool
                 listItem.isExpand = record.object(forKey: CloudKitManager.RecordType.ListItemFields.isExpand.rawValue) as! Bool
                 listItem.isComplete = record.object(forKey: CloudKitManager.RecordType.ListItemFields.isComplete.rawValue) as! Bool
+                listItem.isShare = true
+                listItem.shareRecrodZoneID = record.recordID.zoneID
                 
 //                print("record.parent!.recordID: \(record.parent!.recordID)")
 //                print("record.parent.recordReferance: \(String(describing: record.object(forKey: "parent")?.description))")
@@ -378,13 +382,12 @@ struct CDStack {
 //                listItem.share = parent.share
                 
                 
-                
             default:
                 break
             }
         }
         
         
-        //CDStack.shared.saveContext()
+        //CDStack.shared.saveContext(context: context)
     }
 }

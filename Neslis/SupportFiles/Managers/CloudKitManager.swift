@@ -48,11 +48,10 @@ struct CloudKitManager {
             sharedInfo.shouldSendContentAvailable = true
             sharedInfo.alertBody = "Shared lists has been changed"
             sharedInfo.soundName = "default"
-            //sharedInfo.soundName = .
             subscriptionDatabase.notificationInfo = sharedInfo
 
             let subShared = CKModifySubscriptionsOperation(subscriptionsToSave: [subscriptionDatabase], subscriptionIDsToDelete: nil)
-            subShared.qualityOfService = .default
+            subShared.qualityOfService = .userInitiated
             db.add(subShared)
             
             UserDefaults.standard.set(true, forKey: subscriptionSavedKey)
@@ -113,7 +112,7 @@ struct CloudKitManager {
                 var recordID: CKRecord.ID!
                 
                 if list.isShare {
-                    guard let sharedRecrodZoneID = list.shareRecrodZoneID else { return nil }
+                    guard let sharedRecrodZoneID = list.shareRecrodZoneID else { print(#function, " guard let sharedRecrodZoneID"); return nil }
                     recordID = CKRecord.ID(recordName: list.id!.uuidString, zoneID: sharedRecrodZoneID)
                 } else {
                     recordID = CKRecord.ID(recordName: list.id!.uuidString, zoneID: recordZone.zoneID)
@@ -149,7 +148,7 @@ struct CloudKitManager {
                 var recordID: CKRecord.ID!
                 
                 if listItem.isShare {
-                    guard let sharedRecrodZoneID = listItem.shareRecrodZoneID else { return nil }
+                    guard let sharedRecrodZoneID = listItem.shareRecrodZoneID else { print(#function, " guard let sharedRecrodZoneID");return nil }
                     recordID = CKRecord.ID(recordName: listItem.id!.uuidString, zoneID: sharedRecrodZoneID)
                 } else {
                     recordID = CKRecord.ID(recordName: listItem.id!.uuidString, zoneID: recordZone.zoneID)
@@ -163,7 +162,7 @@ struct CloudKitManager {
                 if let parent = listItem.parentList {
                     var refID: CKRecord.ID!
                     if listItem.isShare {
-                        guard let sharedRecrodZoneID = listItem.shareRecrodZoneID else { return nil }
+                        guard let sharedRecrodZoneID = listItem.shareRecrodZoneID else {print(#function, " guard let sharedRecrodZoneID"); return nil }
                         refID = CKRecord.ID(recordName: parent.id!.uuidString, zoneID: sharedRecrodZoneID)
                     } else {
                         refID = CKRecord.ID(recordName: parent.id!.uuidString, zoneID: recordZone.zoneID)
@@ -175,7 +174,7 @@ struct CloudKitManager {
                 if let parent = listItem.parentListItem {
                     var refID: CKRecord.ID!
                     if listItem.isShare {
-                        guard let sharedRecrodZoneID = listItem.shareRecrodZoneID else { return nil }
+                        guard let sharedRecrodZoneID = listItem.shareRecrodZoneID else {print(#function, " guard let sharedRecrodZoneID"); return nil }
                         refID = CKRecord.ID(recordName: parent.id!.uuidString, zoneID: sharedRecrodZoneID)
                     } else {
                         refID = CKRecord.ID(recordName: parent.id!.uuidString, zoneID: recordZone.zoneID)
@@ -184,10 +183,7 @@ struct CloudKitManager {
                     record[RecordType.ListItemFields.parentListItem.rawValue] = ref as CKRecordValue
                     record.setParent(refID)
                 }
-                
-                
-                
-                
+
                 record[RecordType.ListItemFields.index.rawValue] = listItem.index as CKRecordValue
                 record[RecordType.ListItemFields.isComplete.rawValue] = listItem.isComplete as CKRecordValue
                 record[RecordType.ListItemFields.isEditing.rawValue] = listItem.isEditing as CKRecordValue
@@ -224,11 +220,18 @@ struct CloudKitManager {
                     if let localError = error {
                         print(#function, db)
                         print("error operation: \(localError.localizedDescription)")
-//                        print("recordsToSave: \(recordsToSave.description)")
                         completion(.failure(localError))
                     } else {
                         completion(.success(saveRecords!.count))
                     }
+                }
+                operation.perRecordCompletionBlock = { record, error in
+                    if let er = error {
+                        print(#function)
+                        print("perRecordCompletionBlock: \(er.localizedDescription)")
+                        //print(record.description)
+                    }
+                    //print(record.description)
                 }
                 db.add(operation)
             }
@@ -512,8 +515,8 @@ struct CloudKitManager {
             list.isShowSublistCount = rootRecord.object(forKey: RecordType.ListFileds.isShowSublistCount.rawValue) as! Bool
             list.isShowCheckedItem = rootRecord.object(forKey: RecordType.ListFileds.isShowCheckedItem.rawValue) as! Bool
             list.isAutoNumbering = rootRecord.object(forKey: RecordType.ListFileds.isAutoNumbering.rawValue) as! Bool
-            list.isShare = true
-            list.shareRecrodZoneID = rootRecord.recordID.zoneID
+//            list.isShare = true
+//            list.shareRecrodZoneID = rootRecord.recordID.zoneID
             
             if let tempChildArray = rootRecord.object(forKey: RecordType.ListFileds.children.rawValue) as? [String] {
                 if !tempChildArray.isEmpty {
