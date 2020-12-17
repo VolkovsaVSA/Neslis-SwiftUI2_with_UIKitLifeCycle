@@ -67,7 +67,14 @@ struct CDStack {
             } else {
                 guard let id = object.value(forKey: "id") as? UUID else {return}
                 let recordID = CKRecord.ID(recordName: id.uuidString, zoneID: CloudKitManager.recordZone.zoneID)
+                
                 sortObject.privateDeleteRecordsID.append(recordID)
+                
+                if let list = object as? ListCD {
+                    if let shareRecordID = list.shareRootRecrodID {
+                        sortObject.privateDeleteRecordsID.append(shareRecordID)
+                    }
+                }
             }
         }
 //        print("shared sortObject: \(sortObject.sharedModifedObjects.description)")
@@ -103,48 +110,7 @@ struct CDStack {
                 
             }
         }
-        
-//        DispatchQueue.main.async {
-//            if context.hasChanges {
-//
-//                let insertedObjects = context.insertedObjects
-//                let modifiedObjects = context.updatedObjects
-//                let deletedOblects = context.deletedObjects
-//
-//                var deleteRecordsID = [CKRecord.ID]()
-//                deletedOblects.forEach { object in
-//                    guard let qqq = object as? ListSharedProperties else {return}
-//                    if !qqq.share {
-//                        let id = object.value(forKey: "id") as! UUID
-//                        let recordID = CKRecord.ID(recordName: id.uuidString, zoneID: CloudKitManager.recordZone.zoneID)
-//                        deleteRecordsID.append(recordID)
-//                    }
-//                }
-//
-//                do {
-//
-//                    if UserDefaults.standard.bool(forKey: UDKeys.Settings.icloudBackup) {
-//                        //print("icloudBackup")
-//                        CloudKitManager.SaveToCloud.saveObjectsToCloud(insertedObjects: insertedObjects, modifedObjects: modifiedObjects, deleteObjectsID: deleteRecordsID, db: CloudKitManager.cloudKitPrivateDB) { result in
-//                            switch result {
-//                            case .success(let count):
-//                                print("Save \(count) objects to icloudBackup")
-//                            case .failure(let error):
-//                                print("Error icloudBackup \(error.localizedDescription)")
-//                            }
-//                        }
-//                    }
-//
-//                    try context.save()
-//
-//                } catch {
-//                    context.rollback()
-//                    let error = error as Error
-//                    print(error.localizedDescription)
-//                }
-//
-//            }
-//        }
+
         
 
     }
@@ -153,10 +119,10 @@ struct CDStack {
         return isComplete ? "checkmark.circle.fill" : "circle"
     }
     
-    func isCompleteItem(listItem: ListItemCD, context: NSManagedObjectContext) {
+    func isCompleteItem( listItem: ListItemCD, context: NSManagedObjectContext) {
         listItem.isComplete.toggle()
         isCompleteChildItem(listItem: listItem)
-        saveContext(context: context)
+//        saveContext(context: context)
     }
     private func isCompleteChildItem(listItem: ListItemCD) {
         if let arr = listItem.childrenArray {
@@ -184,10 +150,7 @@ struct CDStack {
     }
     
     func createListItem(title: String, parentList: ListCD?, parentListItem: ListItemCD?, share: Bool, context: NSManagedObjectContext) {
-        
-        print(#function, " parentList: \(parentList?.isShare)")
-        print(#function, " share: \(share) \(title)")
-        
+
         let newListItem = ListItemCD(context: context)
         newListItem.id = UUID()
         newListItem.dateAdded = Date()
@@ -200,6 +163,13 @@ struct CDStack {
         newListItem.isExpand = true
         newListItem.isShare = share
         newListItem.childrenUpdate = false
+        
+        if let parent = parentList {
+            newListItem.shareRecrodZoneID = parent.shareRecrodZoneID
+        }
+        if let parent = parentListItem {
+            newListItem.shareRecrodZoneID = parent.shareRecrodZoneID
+        }
     }
     
     func createListFromRecord(record: CKRecord, context: NSManagedObjectContext)->ListCD {
@@ -369,18 +339,6 @@ struct CDStack {
                 listItem.isComplete = record.object(forKey: CloudKitManager.RecordType.ListItemFields.isComplete.rawValue) as! Bool
                 listItem.isShare = true
                 listItem.shareRecrodZoneID = record.recordID.zoneID
-                
-//                print("record.parent!.recordID: \(record.parent!.recordID)")
-//                print("record.parent.recordReferance: \(String(describing: record.object(forKey: "parent")?.description))")
-                
-//                CloudKitManager.cloudKitSharedDB.fetch(withRecordID: record.parent!.recordID) { (parentRecord, error) in
-//
-//                }
-//
-//
-//                listItem.parent = parent
-//                listItem.share = parent.share
-                
                 
             default:
                 break

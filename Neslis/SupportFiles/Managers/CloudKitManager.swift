@@ -213,9 +213,9 @@ struct CloudKitManager {
             func createOperations(recordsToSave: [CKRecord], recordIDsToDelete: [CKRecord.ID], db: CKDatabase) {
                 let operation = CKModifyRecordsOperation(recordsToSave: recordsToSave, recordIDsToDelete: recordIDsToDelete)
                 operation.savePolicy = .allKeys
-                operation.isAtomic = true
-                operation.configuration.timeoutIntervalForRequest = 10
-                operation.configuration.timeoutIntervalForResource = 10
+                operation.isAtomic = false
+                operation.configuration.timeoutIntervalForRequest = 20
+                operation.configuration.timeoutIntervalForResource = 120
                 operation.modifyRecordsCompletionBlock = { saveRecords, deleteRecordsID, error in
                     if let localError = error {
                         print(#function, db)
@@ -272,7 +272,7 @@ struct CloudKitManager {
             }
             let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: deleteObjectsID)
             operation.savePolicy = .allKeys
-            operation.isAtomic = true
+            operation.isAtomic = false
             operation.configuration.timeoutIntervalForRequest = 10
             operation.configuration.timeoutIntervalForResource = 10
             operation.modifyRecordsCompletionBlock = { saveRecords, deleteRecordsID, error in
@@ -499,9 +499,7 @@ struct CloudKitManager {
                 
                 completion(record, error)
             }
-            container.sharedCloudDatabase.add(operation)
-            
-            
+            cloudKitSharedDB.add(operation)
         }
         static func shareRecordToObject(rootRecord: CKRecord, db: CKDatabase, completion: @escaping (ListCD, Error?)->Void) {
             
@@ -515,8 +513,8 @@ struct CloudKitManager {
             list.isShowSublistCount = rootRecord.object(forKey: RecordType.ListFileds.isShowSublistCount.rawValue) as! Bool
             list.isShowCheckedItem = rootRecord.object(forKey: RecordType.ListFileds.isShowCheckedItem.rawValue) as! Bool
             list.isAutoNumbering = rootRecord.object(forKey: RecordType.ListFileds.isAutoNumbering.rawValue) as! Bool
-//            list.isShare = true
-//            list.shareRecrodZoneID = rootRecord.recordID.zoneID
+            list.isShare = true
+            list.shareRecrodZoneID = rootRecord.recordID.zoneID
             
             if let tempChildArray = rootRecord.object(forKey: RecordType.ListFileds.children.rawValue) as? [String] {
                 if !tempChildArray.isEmpty {

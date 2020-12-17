@@ -25,6 +25,7 @@ struct ListItemView: View {
                 Image(systemName: CDStack.shared.isCompleteCheck(isComplete: item.isComplete))
                     .onTapGesture {
                         CDStack.shared.isCompleteItem(listItem: item, context: viewContext)
+                        CDStack.shared.saveContext(context: viewContext)
                     }
                     .foregroundColor(userSettings.useListColor ? Color(UIColor.color(data: list.systemImageColor) ?? .label) : Color(UIColor.label))
                     .font(Font.system(size: 20))

@@ -82,7 +82,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 }
                 CloudKitManager.Sharing.fetchShare(cloudKitShareMetadata) { (rc, er) in
                     if let error = er {
-                        //print("shareRecordToObject error:\(error.localizedDescription)")
+                        print("fetchShare error:\(error.localizedDescription)")
                         DispatchQueue.main.async {
                             self.progressData.activitySpinnerAnimate = false
                             self.progressData.finishMessage = error.localizedDescription
@@ -98,8 +98,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         }
                         return
                     }
-                    
-                    //CloudKitManager.rootRecord = shareRecord
                     
                     CloudKitManager.Sharing.shareRecordToObject(rootRecord: shareRecord, db: CloudKitManager.cloudKitSharedDB) { (_, error) in
                         if let localError = error {
@@ -119,8 +117,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     }
 
                     CloudKitManager.Subscription.setSubscription(db: CloudKitManager.cloudKitSharedDB, subscriptionID: CloudKitManager.Subscription.sharedDbSubsID, subscriptionSavedKey: CloudKitManager.Subscription.sharedDbSubsSavedKey)
-                    
-                    CloudKitManager.Subscription.setSubscription(db: CloudKitManager.cloudKitPrivateDB, subscriptionID: CloudKitManager.Subscription.privateDbSubsID, subscriptionSavedKey: CloudKitManager.Subscription.privateDbSubsSavedKey)
                 }
             }
         }

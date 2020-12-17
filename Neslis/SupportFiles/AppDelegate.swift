@@ -140,7 +140,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     operation.fetchAllChanges = true
                     operation.recordChangedBlock = { record in
                         //processing the received a modified record
-                        print("recordChangedBlock")
                         CDStack.shared.saveChangeRecord(record: record, context: CDStack.shared.container.viewContext)
                     }
                     operation.recordWithIDWasDeletedBlock = { recordID, recordType in

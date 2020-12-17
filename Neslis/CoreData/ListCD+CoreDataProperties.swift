@@ -28,6 +28,7 @@ extension ListCD: ListSharedProperties {
     @NSManaged public var children: NSOrderedSet?
     @NSManaged public var childrenUpdate: Bool
     @NSManaged public var shareRecrodZoneID: CKRecordZone.ID?
+    @NSManaged public var shareRootRecrodID: CKRecord.ID?
 
 }
 
