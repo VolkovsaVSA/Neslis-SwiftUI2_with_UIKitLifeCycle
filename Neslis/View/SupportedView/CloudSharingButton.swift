@@ -44,13 +44,11 @@ struct CloudSharingButton: UIViewRepresentable {
         
         func cloudSharingControllerDidSaveShare(_ csc: UICloudSharingController) {
             
-            
             CloudKitManager.Subscription.setSubscription(db: CloudKitManager.cloudKitPrivateDB, subscriptionID: CloudKitManager.Subscription.privateDbSubsID, subscriptionSavedKey: CloudKitManager.Subscription.privateDbSubsSavedKey)
             
             if let shareID = csc.share?.recordID {
                 parent.toShare.shareRootRecrodID = shareID
             }
-            
             
             print("cloudSharingControllerDidSaveShare")
         }
@@ -66,7 +64,6 @@ struct CloudSharingButton: UIViewRepresentable {
         }
         
         var parent: CloudSharingButton
-        
         init(_ parent: CloudSharingButton) {
             self.parent = parent
         }

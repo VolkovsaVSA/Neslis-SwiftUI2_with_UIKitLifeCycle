@@ -55,7 +55,10 @@ struct CloudKitManager {
             db.add(subShared)
             
             UserDefaults.standard.set(true, forKey: subscriptionSavedKey)
+            //CKRecordZoneSubscription(zoneID: <#T##CKRecordZone.ID#>, subscriptionID: <#T##CKSubscription.ID#>)
         }
+        
+        
         
     }
     
@@ -213,7 +216,7 @@ struct CloudKitManager {
             func createOperations(recordsToSave: [CKRecord], recordIDsToDelete: [CKRecord.ID], db: CKDatabase) {
                 let operation = CKModifyRecordsOperation(recordsToSave: recordsToSave, recordIDsToDelete: recordIDsToDelete)
                 operation.savePolicy = .allKeys
-                operation.isAtomic = false
+                operation.isAtomic = true
                 operation.configuration.timeoutIntervalForRequest = 20
                 operation.configuration.timeoutIntervalForResource = 120
                 operation.modifyRecordsCompletionBlock = { saveRecords, deleteRecordsID, error in
@@ -272,7 +275,7 @@ struct CloudKitManager {
             }
             let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: deleteObjectsID)
             operation.savePolicy = .allKeys
-            operation.isAtomic = false
+            operation.isAtomic = true
             operation.configuration.timeoutIntervalForRequest = 10
             operation.configuration.timeoutIntervalForResource = 10
             operation.modifyRecordsCompletionBlock = { saveRecords, deleteRecordsID, error in
@@ -356,6 +359,7 @@ struct CloudKitManager {
     }
     
     struct FetchFromCloud {
+        
         
         static func fetchListCountFromPrivateDB(completion: @escaping (Result<Int, Error>) -> Void) {
             let predicate = NSPredicate(value: true)

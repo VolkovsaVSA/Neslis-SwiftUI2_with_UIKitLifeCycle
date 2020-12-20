@@ -60,7 +60,6 @@ struct CDStack {
             guard let cdEntity = object as? ListSharedProperties else {return}
             if cdEntity.isShare {
                 guard let id = object.value(forKey: "id") as? UUID else {return}
-//                guard let rootRecord = CloudKitManager.rootRecord else {return}
                 guard let rootRecordZoneID = cdEntity.shareRecrodZoneID else {return}
                 let recordID = CKRecord.ID(recordName: id.uuidString, zoneID: rootRecordZoneID)
                 sortObject.sharedDeleteRecordsID.append(recordID)
@@ -71,8 +70,19 @@ struct CDStack {
                 sortObject.privateDeleteRecordsID.append(recordID)
                 
                 if let list = object as? ListCD {
+                    print("delete shareded list")
                     if let shareRecordID = list.shareRootRecrodID {
+                        print("shareRecordID: \(shareRecordID.description)")
                         sortObject.privateDeleteRecordsID.append(shareRecordID)
+                        
+                        CloudKitManager.cloudKitPrivateDB.fetch(withRecordID: shareRecordID) { (record, error) in
+                            if let shareRecord = record as? CKShare {
+                                shareRecord.participants.forEach { participant in
+                                    shareRecord.removeParticipant(participant)
+                                }
+                            }
+                        }
+                        
                     }
                 }
             }

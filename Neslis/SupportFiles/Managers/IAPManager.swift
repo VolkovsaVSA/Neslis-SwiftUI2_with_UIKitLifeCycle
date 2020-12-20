@@ -72,7 +72,7 @@ class IAPManager: NSObject {
         guard let receiptURL = Bundle.main.appStoreReceiptURL else {
             print("guard receiptURL")
             return }
-        print(receiptURL)
+        print("receiptURL: \(receiptURL.description)")
         guard let receiptString = try? Data(contentsOf: receiptURL).base64EncodedString() else {
             print("guard receiptString")
             return }
@@ -98,24 +98,6 @@ class IAPManager: NSObject {
             
             print("dataJSON: \(String(describing: data?.description))")
         }.resume()
-    }
-    
-    func valRec() {
-        //print(#function)
-        if let appStoreReceiptURL = Bundle.main.appStoreReceiptURL,
-           FileManager.default.fileExists(atPath: appStoreReceiptURL.path) {
-            
-            do {
-                let receiptData = try Data(contentsOf: appStoreReceiptURL, options: .alwaysMapped)
-                print(receiptData)
-                let receiptString = receiptData.base64EncodedString(options: [])
-                print(receiptString)
-            } catch {
-                print("Couldn't read receipt data with error: " + error.localizedDescription)
-            }
-        } else {
-            print("error valRec")
-        }
     }
     
 }
