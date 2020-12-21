@@ -46,8 +46,8 @@ struct CloudKitManager {
             let subscriptionDatabase = CKDatabaseSubscription(subscriptionID: subscriptionID)
             let sharedInfo = CKSubscription.NotificationInfo()
             sharedInfo.shouldSendContentAvailable = true
-            sharedInfo.alertBody = "Shared lists has been changed"
-            sharedInfo.soundName = "default"
+//            sharedInfo.alertBody = "Shared lists has been changed"
+//            sharedInfo.soundName = "default"
             subscriptionDatabase.notificationInfo = sharedInfo
 
             let subShared = CKModifySubscriptionsOperation(subscriptionsToSave: [subscriptionDatabase], subscriptionIDsToDelete: nil)
@@ -55,10 +55,14 @@ struct CloudKitManager {
             db.add(subShared)
             
             UserDefaults.standard.set(true, forKey: subscriptionSavedKey)
-            //CKRecordZoneSubscription(zoneID: <#T##CKRecordZone.ID#>, subscriptionID: <#T##CKSubscription.ID#>)
         }
         
-        
+        static func deleteRecordZoneSubscription(db:  CKDatabase, subscriptionID: [String]) {
+            let subShared = CKModifySubscriptionsOperation(subscriptionsToSave: nil, subscriptionIDsToDelete: subscriptionID)
+            subShared.qualityOfService = .userInitiated
+            db.add(subShared)
+        }
+
         
     }
     
@@ -218,7 +222,7 @@ struct CloudKitManager {
                 operation.savePolicy = .allKeys
                 operation.isAtomic = true
                 operation.configuration.timeoutIntervalForRequest = 20
-                operation.configuration.timeoutIntervalForResource = 120
+                operation.configuration.timeoutIntervalForResource = 20
                 operation.modifyRecordsCompletionBlock = { saveRecords, deleteRecordsID, error in
                     if let localError = error {
                         print(#function, db)
@@ -276,8 +280,8 @@ struct CloudKitManager {
             let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: deleteObjectsID)
             operation.savePolicy = .allKeys
             operation.isAtomic = true
-            operation.configuration.timeoutIntervalForRequest = 10
-            operation.configuration.timeoutIntervalForResource = 10
+            operation.configuration.timeoutIntervalForRequest = 20
+            operation.configuration.timeoutIntervalForResource = 20
             operation.modifyRecordsCompletionBlock = { saveRecords, deleteRecordsID, error in
                 if let localError = error {
                     completion(.failure(localError))
@@ -427,10 +431,8 @@ struct CloudKitManager {
             var recordID: CKRecord.ID!
             
             if db == cloudKitPrivateDB {
-//                print("privateDB")
                 recordID = CKRecord.ID(recordName: id, zoneID: recordZone.zoneID)
             } else {
-                print("sharedDB")
                 guard let record = rootRecord else {return}
                 recordID = CKRecord.ID(recordName: id, zoneID: record.recordID.zoneID)
             }

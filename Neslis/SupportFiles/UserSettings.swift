@@ -6,7 +6,8 @@
 //  Copyright © 2020 Sergei Volkov. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
+import CloudKit
 
 class UserSettings: ObservableObject {
     
@@ -24,7 +25,14 @@ class UserSettings: ObservableObject {
                 DispatchQueue.main.async {
                     NotifManager.requestAuthoriz()
                 }
-                
+            }
+            else {
+                CloudKitManager.cloudKitSharedDB.fetchAllSubscriptions { (subs, error) in
+                    if let subscriptions = subs {
+                        let subsID = subscriptions.map {$0.subscriptionID}
+                        CloudKitManager.Subscription.deleteRecordZoneSubscription(db: CloudKitManager.cloudKitSharedDB, subscriptionID: subsID)
+                    }
+                }
             }
         }
     }

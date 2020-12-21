@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 
-        
+
         if let notification = CKNotification(fromRemoteNotificationDictionary: userInfo), let subscriptionID = notification.subscriptionID {
             
             let sub = CKDatabaseSubscription(subscriptionID: subscriptionID)
@@ -29,12 +29,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             switch subscriptionID {
             case "sharedDbSubsID":
                 print("CloudKit shared database changed")
-                //fetchSharedCanges(db: CloudKitManager.cloudKitSharedDB)
                 
                 var fetchConfigurations = [CKRecordZone.ID : CKFetchRecordZoneChangesOperation.ZoneConfiguration]()
                 var changeToken: CKServerChangeToken? = nil
                 CloudKitManager.cloudKitSharedDB.fetchAllRecordZones { (recordZones, error) in
-                    
                     guard let zones =  recordZones else {return}
                     var zonesID = [CKRecordZone.ID]()
                     
@@ -43,7 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         zonesID.append(recordZone.zoneID)
                         
                         if let changeTokenData = UserDefaults.standard.data(forKey: recordZone.zoneID.description) {
-                            
                             do {
                                 changeToken = try NSKeyedUnarchiver.unarchivedObject(ofClass: CKServerChangeToken.self, from: changeTokenData)
                                 let configuration = CKFetchRecordZoneChangesOperation.ZoneConfiguration(previousServerChangeToken: changeToken, resultsLimit: nil, desiredKeys: nil)
@@ -52,7 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             } catch {
                                 print("fetchAllRecordZones error: \(error.localizedDescription)")
                             }
-                            
                         }
                         
                     }
@@ -62,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     operation.recordChangedBlock = { record in
                         //processing the received a modified record
                         CDStack.shared.saveChangeRecord(record: record, context: CDStack.shared.container.viewContext)
+                        
                     }
                     operation.recordWithIDWasDeletedBlock = { recordID, recordType in
                         //processing the received a delete record
@@ -178,7 +175,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         }
                     }
                     
-                    operation.qualityOfService = .default
+                    operation.qualityOfService = .userInitiated
                     CloudKitManager.cloudKitPrivateDB.add(operation)
                     completionHandler(.newData)
                 }
@@ -187,13 +184,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 break
             }
             
-            //completionHandler(.newData)
+            //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "CKchange"), object: nil)
             
-            
-            
-            //            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "CKchange"), object: nil)
-            //                    completionHandler(.newData)
-            //                    return
         }
     }
     

@@ -46,8 +46,8 @@ struct CloudSharingButton: UIViewRepresentable {
             
             CloudKitManager.Subscription.setSubscription(db: CloudKitManager.cloudKitPrivateDB, subscriptionID: CloudKitManager.Subscription.privateDbSubsID, subscriptionSavedKey: CloudKitManager.Subscription.privateDbSubsSavedKey)
             
-            if let shareID = csc.share?.recordID {
-                parent.toShare.shareRootRecrodID = shareID
+            if let shareRecord = csc.share {
+                parent.toShare.shareRootRecrodID = shareRecord.recordID
             }
             
             print("cloudSharingControllerDidSaveShare")
@@ -105,7 +105,7 @@ struct CloudSharingButton: UIViewRepresentable {
                         completion(share, CloudKitManager.container, nil)
                     }
                     
-                    operation.savePolicy = .changedKeys
+                    operation.savePolicy = .allKeys
                     operation.database = CloudKitManager.cloudKitPrivateDB
                     operationQueue.addOperation(operation)
                 }

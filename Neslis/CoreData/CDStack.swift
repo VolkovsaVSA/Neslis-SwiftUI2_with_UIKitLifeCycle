@@ -59,18 +59,25 @@ struct CDStack {
         deletedOblects.forEach { object in
             guard let cdEntity = object as? ListSharedProperties else {return}
             if cdEntity.isShare {
+                
                 guard let id = object.value(forKey: "id") as? UUID else {return}
                 guard let rootRecordZoneID = cdEntity.shareRecrodZoneID else {return}
                 let recordID = CKRecord.ID(recordName: id.uuidString, zoneID: rootRecordZoneID)
                 sortObject.sharedDeleteRecordsID.append(recordID)
+                
+//                if let list = object as? ListCD {
+//                    guard let subsID = list.shareRecrodZoneID?.zoneName else {return}
+//                    CloudKitManager.Subscription.deleteRecordZoneSubscription(db: CloudKitManager.cloudKitSharedDB, subscriptionID: [subsID])
+//                }
+                
             } else {
+                
                 guard let id = object.value(forKey: "id") as? UUID else {return}
                 let recordID = CKRecord.ID(recordName: id.uuidString, zoneID: CloudKitManager.recordZone.zoneID)
                 
                 sortObject.privateDeleteRecordsID.append(recordID)
                 
                 if let list = object as? ListCD {
-                    print("delete shareded list")
                     if let shareRecordID = list.shareRootRecrodID {
                         print("shareRecordID: \(shareRecordID.description)")
                         sortObject.privateDeleteRecordsID.append(shareRecordID)
@@ -272,6 +279,21 @@ struct CDStack {
         guard let id = record.object(forKey: CloudKitManager.RecordType.ListFileds.id.rawValue) as? String else {return}
         guard let convertedRecordType = convertRecordTypeToCDEntity(recordType: record.recordType) else {return}
         var object = CDStack.shared.fetchOneObject(entityName: convertedRecordType, id: id, context: context)
+        
+        var notif = NotifManager.NotifModel()
+        
+        func setNotifConfig (item: ListItemCD, notification: inout NotifManager.NotifModel) {
+            if let parent = item.parentList {
+                if let id = parent.id {
+                    notification.listTitle = parent.title
+                    notification.listId = id.uuidString
+                }
+            } else {
+                if let parentItem = item.parentListItem {
+                    setNotifConfig(item: parentItem, notification: &notification)
+                }
+            }
+        }
 
         func saveListItemData(listItem: inout ListItemCD, record: CKRecord) {
             listItem.title = record.object(forKey: CloudKitManager.RecordType.ListItemFields.title.rawValue) as! String
@@ -291,9 +313,7 @@ struct CDStack {
                 list.isShowSublistCount = record.object(forKey: CloudKitManager.RecordType.ListFileds.isShowSublistCount.rawValue) as! Bool
                 list.isShowCheckedItem = record.object(forKey: CloudKitManager.RecordType.ListFileds.isShowCheckedItem.rawValue) as! Bool
                 list.isAutoNumbering = record.object(forKey: CloudKitManager.RecordType.ListFileds.isAutoNumbering.rawValue) as! Bool
-//                list.isShare = true
-//                list.shareRecrodZoneID = record.recordID.zoneID
-                
+
                 if let tempChilds = record.object(forKey: CloudKitManager.RecordType.ListFileds.children.rawValue) as? [String] {
                     if !tempChilds.isEmpty {
                         var childs = [ListItemCD]()
@@ -306,6 +326,11 @@ struct CDStack {
                         let childsSet = NSOrderedSet(array: childs)
                         list.children = childsSet
                     }
+                }
+                
+                if let id = list.id {
+                    notif.listTitle = list.title
+                    notif.listId = id.uuidString
                 }
                 
             case is ListItemCD:
@@ -324,6 +349,8 @@ struct CDStack {
                     }
                 }
                 
+                setNotifConfig(item: listItem, notification: &notif)
+                
             default:
                 break
             }
@@ -338,6 +365,12 @@ struct CDStack {
                 let list = createListFromRecord(record: record, context: context)
                 list.isShare = true
                 list.shareRecrodZoneID = record.recordID.zoneID
+                
+                if let id = list.id {
+                    notif.listTitle = list.title
+                    notif.listId = id.uuidString
+                }
+                
             case ListItemCD.description():
                 let listItem = ListItemCD(context: context)
                 listItem.id = UUID(uuidString: record.object(forKey: CloudKitManager.RecordType.ListItemFields.id.rawValue) as! String)
@@ -350,12 +383,17 @@ struct CDStack {
                 listItem.isShare = true
                 listItem.shareRecrodZoneID = record.recordID.zoneID
                 
+                setNotifConfig(item: listItem, notification: &notif)
+                
             default:
                 break
             }
+            
         }
         
-        
         //CDStack.shared.saveContext(context: context)
+        guard notif.listTitle != nil else {return}
+        guard notif.listId != nil else {return}
+        NotifManager.sendNotification(listtitle: notif.listTitle!, listID: notif.listId!)
     }
 }
