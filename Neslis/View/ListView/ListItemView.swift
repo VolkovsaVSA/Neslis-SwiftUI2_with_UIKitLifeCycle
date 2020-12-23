@@ -41,6 +41,7 @@ struct ListItemView: View {
                     CDStack.shared.saveContext(context: viewContext)
                     //onCommit
                 }
+                
                 .font(Font.system(size: 17, weight: item.childrenArray?.isEmpty ?? true ? .regular : .bold, design: .default))
                 
                 if item.isEditing {

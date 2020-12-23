@@ -12,8 +12,8 @@ struct ListView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @ObservedObject var userSettings: UserSettings
-    @ObservedObject var colorVM: ColorSetViewModel
-    @ObservedObject var iconVM: IconSetViewModel
+    @StateObject var colorVM: ColorSetViewModel
+    @StateObject var iconVM: IconSetViewModel
     @ObservedObject var list: ListCD
     
     @State var selectedRows = Set<ListItemCD>()

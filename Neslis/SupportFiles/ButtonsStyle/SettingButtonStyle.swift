@@ -41,7 +41,7 @@ struct PurchaseButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
             .font(.headline)
-            .frame(maxWidth: 200, maxHeight: 80, alignment: .center)
+            .frame(maxWidth: 300, maxHeight: 100, alignment: .center)
             .foregroundColor(configuration.isPressed ? Color.white.opacity(0.5) : Color.white)
             .background(configuration.isPressed ? Color.red.opacity(0.5) : Color.green)
             .background(Color.green)

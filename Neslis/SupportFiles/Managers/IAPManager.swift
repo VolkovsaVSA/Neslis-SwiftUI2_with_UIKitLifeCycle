@@ -12,13 +12,19 @@ import StoreKit
 class IAPManager: NSObject {
     private override init() {}
     
+    enum ReceiptValidationError: Error {
+        case receiptNotFound
+        case jsonResponseIsNotValid(description: String)
+        case notBought
+        case expired
+    }
+    
     static let shared = IAPManager()
     var products: [SKProduct] = []
     
     enum Products: String {
         case MonthSubs  = "NeslisMonthSubs"
         case YearSubs = "NeslisYearSubs"
-        case Test = "NeslisTest"
     }
     
     enum ProductsState: String {
@@ -52,7 +58,6 @@ class IAPManager: NSObject {
         return numberFormatter.string(from: product.price) ?? ""
     }
     public func purshase(product: SKProduct) {
-        print(#function, product.localizedDescription)
         let payment = SKPayment(product: product)
         
         SKPaymentQueue.default().add(payment)
@@ -61,43 +66,103 @@ class IAPManager: NSObject {
         SKPaymentQueue.default().restoreCompletedTransactions()
     }
     
-    func validateReceipt(){
-        print(#function)
-        #if DEBUG
-        let urlString = "https://sandbox.itunes.apple.com/verifyReceipt"
-        #else
-        let urlString = "https://buy.itunes.apple.com/verifyReceipt"
-        #endif
+    
+    func validateReceipt() /*throws*/ {
         
-        guard let receiptURL = Bundle.main.appStoreReceiptURL else {
-            print("guard receiptURL")
-            return }
-        print("receiptURL: \(receiptURL.description)")
-        guard let receiptString = try? Data(contentsOf: receiptURL).base64EncodedString() else {
-            print("guard receiptString")
-            return }
-        guard let url = URL(string: urlString) else {
-            print("guard url")
-            return
+        func expirationDate(jsonResponse: [AnyHashable: Any], forProductId productId :String) -> Date? {
+            guard let receiptInfo = (jsonResponse["latest_receipt_info"] as? [[AnyHashable: Any]]) else {return nil}
+            let filteredReceipts = receiptInfo.filter { ($0["product_id"] as? String) == productId }
+            guard let lastReceipt = filteredReceipts.first else {return nil}
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss VV"
+            if let expiresString = lastReceipt["expires_date"] as? String {
+                return formatter.date(from: expiresString)
+            }
+            return nil
         }
         
-        let requestData : [String : Any] = ["receipt-data" : receiptString,
-                                            "password" : "d5df76523fd84d4693d01f50eb6e213f",
-                                            "exclude-old-transactions" : false]
-        let httpBody = try? JSONSerialization.data(withJSONObject: requestData, options: [])
-        
+        guard let appStoreReceiptURL = Bundle.main.appStoreReceiptURL, FileManager.default.fileExists(atPath: appStoreReceiptURL.path) else {
+//            throw ReceiptValidationError.receiptNotFound
+            print("guard appStoreReceiptURL")
+            return
+        }
+
+        let receiptData = try! Data(contentsOf: appStoreReceiptURL, options: .alwaysMapped)
+        let receiptString = receiptData.base64EncodedString()
+        let jsonObjectBody = ["receipt-data" : receiptString,
+                              "password" : "d5df76523fd84d4693d01f50eb6e213f"]
+
+        #if DEBUG
+        let url = URL(string: "https://sandbox.itunes.apple.com/verifyReceipt")!
+        #else
+        let url = URL(string: "https://buy.itunes.apple.com/verifyReceipt")!
+        #endif
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = httpBody
-        URLSession.shared.dataTask(with: request)  { (data, response, error) in
+        request.httpBody = try! JSONSerialization.data(withJSONObject: jsonObjectBody, options: .prettyPrinted)
+
+        let semaphore = DispatchSemaphore(value: 0)
+
+        var validationError : ReceiptValidationError?
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, let httpResponse = response as? HTTPURLResponse, error == nil, httpResponse.statusCode == 200 else {
+                validationError = ReceiptValidationError.jsonResponseIsNotValid(description: error?.localizedDescription ?? "")
+                semaphore.signal()
+                return
+            }
+            guard let jsonResponse = (try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)) as? [AnyHashable: Any] else {
+                validationError = ReceiptValidationError.jsonResponseIsNotValid(description: "Unable to parse json")
+                semaphore.signal()
+                return
+            }
+//            guard let expirationDateNeslisMonthSubs = expirationDate(jsonResponse: jsonResponse, forProductId: "NeslisMonthSubs") else {
+//                validationError = ReceiptValidationError.notBought
+//                semaphore.signal()
+//                return
+//            }
+            //print("jsonResponse: \(jsonResponse)")
+            let expirationDateNeslisMonthSubs = expirationDate(jsonResponse: jsonResponse, forProductId: "NeslisMonthSubs")
+            let expirationDateNeslisYearSubs = expirationDate(jsonResponse: jsonResponse, forProductId: "NeslisYearSubs")
+            var expirationDate: Date?
             
-            print("data: \(String(describing: data))")
-            print("response: \(String(describing: response))")
-            print("error: \(String(describing: error))")
+            if let monthDate = expirationDateNeslisMonthSubs {
+                if let yearDate = expirationDateNeslisYearSubs {
+                    if monthDate > yearDate {
+                        expirationDate = monthDate
+                    } else {
+                        expirationDate = yearDate
+                    }
+                }
+            } else {
+                if let yearDate = expirationDateNeslisYearSubs {
+                    expirationDate = yearDate
+                }
+            }
             
-            print("dataJSON: \(String(describing: data?.description))")
-        }.resume()
+            DispatchQueue.main.async {
+                if expirationDate != nil {
+                    if Date() > expirationDate! {
+                        UserSettings.shared.proVersion = false
+                    } else {
+                        UserSettings.shared.proVersion = true
+                    }
+                } else {
+                    UserSettings.shared.proVersion = false
+                }
+            }
+            
+            print("expirationDate: \(String(describing: expirationDate))")
+            semaphore.signal()
+        }
+        task.resume()
+
+        semaphore.wait()
+
+        if let validationError = validationError {
+            print("validationError: \(validationError.localizedDescription)")
+        }
     }
     
 }
@@ -111,8 +176,8 @@ extension IAPManager: SKPaymentTransactionObserver {
             case .deferred: break
             case .purchasing: break
             case .failed: failed(transaction: transaction)
-            case .purchased: completed(transaction: transaction)
-            case .restored: restored(transaction: transaction)
+            case .purchased, .restored: completed(transaction: transaction)
+            //case .restored: restored(transaction: transaction)
             @unknown default:
                 print("unknown")
                 break
@@ -124,21 +189,20 @@ extension IAPManager: SKPaymentTransactionObserver {
         if let transactionError = transaction.error as NSError? {
             if transactionError.code != SKError.paymentCancelled.rawValue {
                 print("transaction error \(transactionError.localizedDescription)")
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: ProductsState.errored.rawValue), object: nil, userInfo: ["error": transactionError])
             }
         }
         SKPaymentQueue.default().finishTransaction(transaction)
     }
     private func completed(transaction: SKPaymentTransaction) {
         print(#function)
-        NotificationCenter.default.post(name: NSNotification.Name(ProductsState.completed.rawValue), object: nil)
         SKPaymentQueue.default().finishTransaction(transaction)
+        validateReceipt()
     }
-    private func restored(transaction: SKPaymentTransaction) {
-        print(#function)
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: ProductsState.restored.rawValue), object: nil)
-        SKPaymentQueue.default().finishTransaction(transaction)
-    }
+//    private func restored(transaction: SKPaymentTransaction) {
+//        print(#function)
+//        SKPaymentQueue.default().finishTransaction(transaction)
+//        validateReceipt()
+//    }
 }
 
 extension IAPManager: SKProductsRequestDelegate {

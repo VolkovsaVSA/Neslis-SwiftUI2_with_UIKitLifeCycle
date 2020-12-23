@@ -21,8 +21,8 @@ struct NewListView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     
-    @ObservedObject var colorVM: ColorSetViewModel
-    @ObservedObject var iconVM: IconSetViewModel
+    @StateObject var colorVM: ColorSetViewModel
+    @StateObject var iconVM: IconSetViewModel
     
     @State var newListTitle = ""
     @State var isAutoNumbering = true
@@ -53,12 +53,14 @@ struct NewListView: View {
                     LazyVGrid(columns: flexibleLayout, spacing: size/2) {
                         ForEach(colorVM.colorSet, id: \.self) { color in
                             ColorView(colorSetVM: colorVM, localColor: .constant(color), size: size)
+                                
                         }
                     }
                     Spacer(minLength: size)
                     LazyVGrid(columns: flexibleLayout, spacing: size/2) {
                         ForEach(iconVM.iconSet, id: \.self) { icon in
                             IconView(iconSetVM: iconVM, localIcon: .constant(icon), size: size)
+                                
                         }
                     }
                     

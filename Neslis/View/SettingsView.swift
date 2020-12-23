@@ -135,10 +135,6 @@ struct SettingsView: View {
             }
         }
         
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//            finishButtonShow = true
-//        }
-        
     }
     fileprivate func byFullVersion() {
         print("\(IAPManager.shared.products)")
@@ -292,7 +288,8 @@ struct SettingsView: View {
                             .modifier(SettingButtonModifire(disable: false))
                             Button("Restore purchases") {
                                 //temp data
-                                userSettings.proVersion = true
+                                IAPManager.shared.restoreCompletedTransaction()
+                                //userSettings.proVersion = true
                             }
                             .modifier(SettingButtonModifire(disable: false))
                         }

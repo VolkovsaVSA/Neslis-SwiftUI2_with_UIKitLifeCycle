@@ -206,7 +206,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        IAPManager.shared.validateReceipt()
+        //IAPManager.shared.validateReceipt()
         NotifManager.requestAuthoriz()
         application.registerForRemoteNotifications()
         

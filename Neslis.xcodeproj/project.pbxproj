@@ -53,6 +53,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		687595E12593CB42006A2309 /* StoreConfiguration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreConfiguration.storekit; sourceTree = "<group>"; };
 		68AA914C257254B800044A25 /* Binding+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extention.swift"; sourceTree = "<group>"; };
 		68AA91582576280200044A25 /* ListSharedProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSharedProperties.swift; sourceTree = "<group>"; };
 		68BCD6B82565013000DDE889 /* Neslis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Neslis.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,6 +118,7 @@
 		68BCD6AF2565013000DDE889 = {
 			isa = PBXGroup;
 			children = (
+				687595E12593CB42006A2309 /* StoreConfiguration.storekit */,
 				68BCD6BA2565013000DDE889 /* Neslis */,
 				68BCD6B92565013000DDE889 /* Products */,
 				68BCD6D42565022D00DDE889 /* Frameworks */,
