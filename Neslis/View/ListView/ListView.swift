@@ -130,7 +130,7 @@ struct ListView: View {
             }
         }
         .sheet(isPresented: $showModal) {
-            NewListView(colorVM: colorVM, iconVM: iconVM, newListTitle: list.title, isAutoNumbering: list.isAutoNumbering, isShowCheckedItem: list.isShowCheckedItem, isShowSublistCount: list.isShowSublistCount, lvm: list)
+            NewListView(size: UIScreen.main.bounds.width/10, colorVM: colorVM, iconVM: iconVM, newListTitle: list.title, isAutoNumbering: list.isAutoNumbering, isShowCheckedItem: list.isShowCheckedItem, isShowSublistCount: list.isShowSublistCount, lvm: list)
                 //.edgesIgnoringSafeArea(.all)
         }
         .environment(\.editMode, $editMode)

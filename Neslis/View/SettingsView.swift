@@ -287,9 +287,8 @@ struct SettingsView: View {
                             }
                             .modifier(SettingButtonModifire(disable: false))
                             Button("Restore purchases") {
-                                //temp data
+                                
                                 IAPManager.shared.restoreCompletedTransaction()
-                                //userSettings.proVersion = true
                             }
                             .modifier(SettingButtonModifire(disable: false))
                         }
@@ -312,14 +311,14 @@ struct SettingsView: View {
                                             restoreButtonAction()
                                         }
                                         .modifier(SettingButtonModifire(disable: false))
-                                        Button("Clear iCloud DB") {
-                                            CloudKitManager.Zone.deleteZone { error in
-                                                if let clearError = error {
-                                                    print("error in clear DB: \(clearError.localizedDescription))")
-                                                }
-                                            }
-                                        }
-                                        .modifier(SettingDeleteButtonModifire())
+//                                        Button("Clear iCloud DB") {
+//                                            CloudKitManager.Zone.deleteZone { error in
+//                                                if let clearError = error {
+//                                                    print("error in clear DB: \(clearError.localizedDescription))")
+//                                                }
+//                                            }
+//                                        }
+//                                        .modifier(SettingDeleteButtonModifire())
                                         Toggle("Notifications of changes to shared lists", isOn: $userSettings.sharingNotification)
                                     }
                                     

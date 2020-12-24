@@ -89,8 +89,9 @@ class IAPManager: NSObject {
 
         let receiptData = try! Data(contentsOf: appStoreReceiptURL, options: .alwaysMapped)
         let receiptString = receiptData.base64EncodedString()
-        let jsonObjectBody = ["receipt-data" : receiptString,
-                              "password" : "d5df76523fd84d4693d01f50eb6e213f"]
+        let jsonObjectBody: [String : Any] = ["receipt-data" : receiptString,
+                                              "password" : "d5df76523fd84d4693d01f50eb6e213f",
+                                              "exclude-old-transactions" : true]
 
         #if DEBUG
         let url = URL(string: "https://sandbox.itunes.apple.com/verifyReceipt")!
@@ -151,6 +152,7 @@ class IAPManager: NSObject {
                 } else {
                     UserSettings.shared.proVersion = false
                 }
+                
             }
             
             print("expirationDate: \(String(describing: expirationDate))")
@@ -159,7 +161,8 @@ class IAPManager: NSObject {
         task.resume()
 
         semaphore.wait()
-
+        ProgressData.shared.activitySpinnerAnimate = false
+        
         if let validationError = validationError {
             print("validationError: \(validationError.localizedDescription)")
         }
@@ -173,9 +176,14 @@ extension IAPManager: SKPaymentTransactionObserver {
         print(#function)
         for transaction in transactions {
             switch transaction.transactionState {
-            case .deferred: break
-            case .purchasing: break
-            case .failed: failed(transaction: transaction)
+            case .deferred:
+                print("deferred")
+                break
+            case .purchasing:
+                print("purchasing")
+                break
+            case .failed:
+                print("failed")
             case .purchased, .restored: completed(transaction: transaction)
             //case .restored: restored(transaction: transaction)
             @unknown default:
@@ -217,3 +225,4 @@ extension IAPManager: SKProductsRequestDelegate {
         //print("\(#function)")
     }
 }
+

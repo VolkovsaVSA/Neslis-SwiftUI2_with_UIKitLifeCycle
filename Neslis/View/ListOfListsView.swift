@@ -84,7 +84,7 @@ struct ListOfListsView: View {
                 .sheet(item: $activeSheet) { item in
                     switch item {
                     case .newList:
-                        NewListView(colorVM: colorVM, iconVM: iconVM)
+                        NewListView(size: UIScreen.main.bounds.width/10, colorVM: colorVM, iconVM: iconVM)
                             .environment(\.managedObjectContext, viewContext)
                             .edgesIgnoringSafeArea(.all)
                     case .userSetting:

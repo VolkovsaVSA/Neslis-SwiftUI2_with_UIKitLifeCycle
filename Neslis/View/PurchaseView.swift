@@ -13,7 +13,6 @@ struct PurchaseView: View {
     
     //@EnvironmentObject var loading: Loadspinner
     @Environment(\.managedObjectContext) private var viewContext
-    
     var body: some View {
         
         VStack(alignment: .center, spacing: 14) {
@@ -41,8 +40,6 @@ struct PurchaseView: View {
                         .multilineTextAlignment(.leading)
                 }
             }
-            //.padding(20)
-            
             
             Button(action: {
                 IAPManager.shared.purshase(product: IAPManager.shared.products[0])
@@ -64,7 +61,7 @@ struct PurchaseView: View {
                         .multilineTextAlignment(.center)
                         .font(.title3)
                     Text("Your save \(Int(round(100 - Double(truncating: IAPManager.shared.products[1].price) / (Double(truncating: IAPManager.shared.products[0].price) * 12) * 100)))%")
-                    .font(Font.system(size: 22, weight: .bold, design: .default))
+                        .font(Font.system(size: 22, weight: .bold, design: .default))
                 }
             }
             .modifier(PurchaseButtonModifire())
@@ -84,12 +81,12 @@ struct PurchaseView: View {
                 .scaledToFill()
             Color.black.opacity(0.7)
         })
-            
         .onAppear() {
             DispatchQueue.main.async {
                 IAPManager.shared.getProducts()
             }
         }
+        
         
         
     }

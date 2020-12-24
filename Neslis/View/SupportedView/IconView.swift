@@ -10,7 +10,7 @@ import SwiftUI
 
 struct IconView: View {
     
-    @ObservedObject var iconSetVM: IconSetViewModel
+    @StateObject var iconSetVM: IconSetViewModel
     @Binding var localIcon: IconModel
     var size: CGFloat
     

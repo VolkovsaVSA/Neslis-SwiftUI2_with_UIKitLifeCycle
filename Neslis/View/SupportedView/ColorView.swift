@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ColorView: View {
     
-    @ObservedObject var colorSetVM: ColorSetViewModel
+    @StateObject var colorSetVM: ColorSetViewModel
     @Binding var localColor: ColorModel
     var size: CGFloat
     
@@ -18,7 +18,6 @@ struct ColorView: View {
         
         Button(action: {
             self.colorSetVM.colorSelected = self.localColor.color
-            //print(self.colorSetVM.colorSelected.description)
         }) {
 //            Circle()
 //            .frame(width: self.size, height: self.size)
@@ -28,11 +27,5 @@ struct ColorView: View {
                 .clipShape(Circle())
         }
         
-    }
-}
-
-struct ColorView_Previews: PreviewProvider {
-    static var previews: some View {
-        ColorView(colorSetVM: ColorSetViewModel(), localColor: .constant(ColorSetViewModel().colorSet.first!), size: UIScreen.main.bounds.width/10)
     }
 }

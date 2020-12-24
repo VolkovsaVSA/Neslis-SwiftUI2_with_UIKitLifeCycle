@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NewListView: View {
     
-    private let size = UIScreen.main.bounds.width/10
+    var size : CGFloat
     var flexibleLayout = [
         GridItem(.flexible()),
         GridItem(.flexible()),
@@ -39,8 +39,8 @@ struct NewListView: View {
                 Toggle("Show checked item", isOn: $isShowCheckedItem)
                 Toggle("Show sublist count", isOn: $isShowSublistCount)
                 
-                IconImageView(image: iconVM.iconSelected, color: Color(colorVM.colorSelected), imageScale: size/1.2)
-                    .padding(8)
+                IconImageView(image: iconVM.iconSelected, color: Color(colorVM.colorSelected), imageScale: size/1.5)
+                    .padding(6)
                 
                 TextField("New list title", text: $newListTitle)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -53,14 +53,12 @@ struct NewListView: View {
                     LazyVGrid(columns: flexibleLayout, spacing: size/2) {
                         ForEach(colorVM.colorSet, id: \.self) { color in
                             ColorView(colorSetVM: colorVM, localColor: .constant(color), size: size)
-                                
                         }
                     }
                     Spacer(minLength: size)
                     LazyVGrid(columns: flexibleLayout, spacing: size/2) {
                         ForEach(iconVM.iconSet, id: \.self) { icon in
                             IconView(iconSetVM: iconVM, localIcon: .constant(icon), size: size)
-                                
                         }
                     }
                     
@@ -78,6 +76,7 @@ struct NewListView: View {
                 }
             }
         }
+        
     }
     
     private func saveAction() {
