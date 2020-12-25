@@ -71,63 +71,71 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func windowScene(_ windowScene: UIWindowScene, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
         
         //cloudKitShareMetadata.
-        ProgressData.shared.setZero()
-        let acceptSharesOperation = CKAcceptSharesOperation(shareMetadatas: [cloudKitShareMetadata])
-        acceptSharesOperation.qualityOfService = .userInteractive
-        
-        acceptSharesOperation.acceptSharesCompletionBlock = { error in
-            if error != nil {
-                print("error acceptSharesCompletionBlock: \(error!.localizedDescription)")
-            } else {
-                DispatchQueue.main.async {
-                    self.progressData.activitySpinnerText = "Fetch sharing data"
-                    self.progressData.activitySpinnerAnimate = true
-                }
-                CloudKitManager.Sharing.fetchShare(cloudKitShareMetadata) { (rc, er) in
-                    if let error = er {
-                        print("fetchShare error:\(error.localizedDescription)")
-                        DispatchQueue.main.async {
-                            self.progressData.activitySpinnerAnimate = false
-                            self.progressData.finishMessage = error.localizedDescription
-                            self.progressData.finishButtonShow = true
-                        }
-                        
+        progressData.setZero()
+
+        if UserSettings.shared.proVersion {
+            let acceptSharesOperation = CKAcceptSharesOperation(shareMetadatas: [cloudKitShareMetadata])
+            acceptSharesOperation.qualityOfService = .userInteractive
+            acceptSharesOperation.acceptSharesCompletionBlock = { error in
+                if error != nil {
+                    print("error acceptSharesCompletionBlock: \(error!.localizedDescription)")
+                } else {
+                    DispatchQueue.main.async {
+                        self.progressData.activitySpinnerText = "Fetch sharing data"
+                        self.progressData.activitySpinnerAnimate = true
                     }
-                    guard let shareRecord = rc else {
-                        DispatchQueue.main.async {
-                            self.progressData.activitySpinnerAnimate = false
-                            self.progressData.finishMessage = "Error loading"
-                            self.progressData.finishButtonShow = true
-                        }
-                        return
-                    }
-                    
-                    CloudKitManager.Sharing.shareRecordToObject(rootRecord: shareRecord, db: CloudKitManager.cloudKitSharedDB) { (_, error) in
-                        if let localError = error {
-                            print("shareRecordToObject error:\(localError.localizedDescription)")
+                    CloudKitManager.Sharing.fetchShare(cloudKitShareMetadata) { (rc, er) in
+                        if let error = er {
+                            print("fetchShare error:\(error.localizedDescription)")
                             DispatchQueue.main.async {
-                                self.progressData.finishMessage = localError.localizedDescription
+                                self.progressData.activitySpinnerAnimate = false
+                                self.progressData.finishMessage = error.localizedDescription
                                 self.progressData.finishButtonShow = true
                             }
-                        } else {
+                            
+                        }
+                        guard let shareRecord = rc else {
                             DispatchQueue.main.async {
-                                self.coreData.saveContext(context: self.coreData.container.viewContext)
+                                self.progressData.activitySpinnerAnimate = false
+                                self.progressData.finishMessage = "Error loading"
+                                self.progressData.finishButtonShow = true
+                            }
+                            return
+                        }
+                        
+                        CloudKitManager.Sharing.shareRecordToObject(rootRecord: shareRecord, db: CloudKitManager.cloudKitSharedDB) { (_, error) in
+                            if let localError = error {
+                                print("shareRecordToObject error:\(localError.localizedDescription)")
+                                DispatchQueue.main.async {
+                                    self.progressData.finishMessage = localError.localizedDescription
+                                    self.progressData.finishButtonShow = true
+                                }
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.coreData.saveContext(context: self.coreData.container.viewContext)
+                                }
+                            }
+                            DispatchQueue.main.async {
+                                self.progressData.activitySpinnerAnimate = false
                             }
                         }
-                        DispatchQueue.main.async {
-                            self.progressData.activitySpinnerAnimate = false
-                        }
-                    }
 
-                    CloudKitManager.Subscription.setSubscription(db: CloudKitManager.cloudKitSharedDB, subscriptionID: CloudKitManager.Subscription.sharedDbSubsID, subscriptionSavedKey: CloudKitManager.Subscription.sharedDbSubsSavedKey)
-                    
+                        CloudKitManager.Subscription.setSubscription(db: CloudKitManager.cloudKitSharedDB, subscriptionID: CloudKitManager.Subscription.sharedDbSubsID, subscriptionSavedKey: CloudKitManager.Subscription.sharedDbSubsSavedKey)
+                        
+                    }
                 }
+            }
+            CKContainer(identifier: cloudKitShareMetadata.containerIdentifier)
+                .add(acceptSharesOperation)
+        } else {
+            DispatchQueue.main.async {
+                self.progressData.activitySpinnerAnimate = true
+                self.progressData.finishMessage = "To accept shared lists buy the Pro version."
+                self.progressData.finishButtonShow = true
             }
         }
         
         
-        CKContainer(identifier: cloudKitShareMetadata.containerIdentifier)
-            .add(acceptSharesOperation)
     }
     
     
