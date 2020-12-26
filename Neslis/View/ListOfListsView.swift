@@ -32,7 +32,7 @@ struct ListOfListsView: View {
     @StateObject var iconVM = IconSetViewModel()
  
     var body: some View {
-        LoadingView(isShowing: $progressData.activitySpinnerAnimate, text: progressData.activitySpinnerText, messageText: progressData.finishMessage, result: $progressData.finishButtonShow, progressBar: $progressData.value, content: {
+        LoadingView(isShowing: $progressData.activitySpinnerAnimate, text: progressData.activitySpinnerText, messageText: $progressData.finishMessage, result: $progressData.finishButtonShow, progressBar: $progressData.value, content: {
             NavigationView {
                 List {
                     ForEach(lists) { list in

@@ -26,8 +26,8 @@ struct LoadingView<Content>: View where Content: View {
 
     @Binding var isShowing: Bool
     
-    var text: LocalizedStringKey
-    var messageText: LocalizedStringKey
+    var text: String
+    @Binding var messageText: String
     
     @Binding var result: Bool
     @Binding var progressBar: Double

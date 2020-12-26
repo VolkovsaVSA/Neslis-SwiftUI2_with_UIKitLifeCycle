@@ -50,6 +50,7 @@
 		68BCD739256503BE00DDE889 /* Neslis.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD737256503BE00DDE889 /* Neslis.xcdatamodeld */; };
 		68BCD74025650CC300DDE889 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68BCD73F25650CC300DDE889 /* LaunchScreen.storyboard */; };
 		68BCD791256ACBC800DDE889 /* ProgressData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD790256ACBC800DDE889 /* ProgressData.swift */; };
+		68DFB367259710A200671A7F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68DFB365259710A200671A7F /* Localizable.strings */; };
 		68E3AE77257CBBB9001B4640 /* 111.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E3AE76257CBBB8001B4640 /* 111.swift */; };
 /* End PBXBuildFile section */
 
@@ -101,6 +102,7 @@
 		68BCD738256503BE00DDE889 /* Neslis.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Neslis.xcdatamodel; sourceTree = "<group>"; };
 		68BCD73F25650CC300DDE889 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		68BCD790256ACBC800DDE889 /* ProgressData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressData.swift; sourceTree = "<group>"; };
+		68DFB366259710A200671A7F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		68E3AE76257CBBB8001B4640 /* 111.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 111.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -147,6 +149,7 @@
 				68BCD6C42565013200DDE889 /* Assets.xcassets */,
 				68BCD73F25650CC300DDE889 /* LaunchScreen.storyboard */,
 				68BCD6CC2565013200DDE889 /* Info.plist */,
+				68DFB365259710A200671A7F /* Localizable.strings */,
 				68BCD737256503BE00DDE889 /* Neslis.xcdatamodeld */,
 				68BCD6C62565013200DDE889 /* Preview Content */,
 			);
@@ -323,7 +326,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
+				ru,
 			);
 			mainGroup = 68BCD6AF2565013000DDE889;
 			productRefGroup = 68BCD6B92565013000DDE889 /* Products */;
@@ -341,6 +344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				68BCD74025650CC300DDE889 /* LaunchScreen.storyboard in Resources */,
+				68DFB367259710A200671A7F /* Localizable.strings in Resources */,
 				68BCD6C82565013200DDE889 /* Preview Assets.xcassets in Resources */,
 				68BCD6C52565013200DDE889 /* Assets.xcassets in Resources */,
 			);
@@ -396,6 +400,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		68DFB365259710A200671A7F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				68DFB366259710A200671A7F /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		68BCD6CD2565013200DDE889 /* Debug */ = {

@@ -30,8 +30,8 @@ class ProgressData: ObservableObject {
         }
     }
     @Published var activitySpinnerAnimate = false
-    @Published var activitySpinnerText: LocalizedStringKey = ""
-    @Published var finishMessage: LocalizedStringKey = ""
+    @Published var activitySpinnerText = ""
+    @Published var finishMessage = ""
     @Published var finishButtonShow = false
     
     

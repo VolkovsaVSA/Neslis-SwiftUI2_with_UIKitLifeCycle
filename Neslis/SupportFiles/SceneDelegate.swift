@@ -89,7 +89,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             print("fetchShare error:\(error.localizedDescription)")
                             DispatchQueue.main.async {
                                 self.progressData.activitySpinnerAnimate = false
-                                self.progressData.finishMessage = LocalizedStringKey(error.localizedDescription)
+                                self.progressData.finishMessage = error.localizedDescription
                                 self.progressData.finishButtonShow = true
                             }
                             
@@ -107,7 +107,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             if let localError = error {
                                 print("shareRecordToObject error:\(localError.localizedDescription)")
                                 DispatchQueue.main.async {
-                                    self.progressData.finishMessage = LocalizedStringKey(localError.localizedDescription)
+                                    self.progressData.finishMessage = localError.localizedDescription
                                     self.progressData.finishButtonShow = true
                                 }
                             } else {

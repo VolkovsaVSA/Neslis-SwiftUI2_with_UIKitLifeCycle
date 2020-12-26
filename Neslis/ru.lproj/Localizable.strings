@@ -1,0 +1,162 @@
+/* (No Comment) */
+"/ month" = "/ месяц";
+
+/* (No Comment) */
+"/ year" = "/ год";
+
+/* (No Comment) */
+"Add new list" = "Добавить новый список";
+
+/* (No Comment) */
+"Attention!" = "Внимание!";
+
+/* (No Comment) */
+"Auto numbering" = "Автоматическая нумерация";
+
+/* (No Comment) */
+"Backup data is loaded successfully." = "Данные резервной копии загружены успешно.";
+
+/* (No Comment) */
+"Backup data is saved successfully." = "Данные резервного копирования успешно сохранены.";
+
+/* (No Comment) */
+"Cancel" = "Отмена";
+
+/* (No Comment) */
+"completed" = "завершено";
+
+/* (No Comment) */
+"Data backup" = "Резервное копирование данных";
+
+/* (No Comment) */
+"Enable iCloud backups and shared lists" = "Включить резервное копирование iCloud и общие списки";
+
+/* (No Comment) */
+"Enter new task" = "Введите новую задачу";
+
+/* (No Comment) */
+"Error" = "Ошибка";
+
+/* (No Comment) */
+"Error loading" = "Ошибка загрузки";
+
+/* (No Comment) */
+"Fetch data from iCloud" = "Получение данных из iCloud";
+
+/* (No Comment) */
+"Fetching share data" = "Получение общих данных";
+
+/* (No Comment) */
+"has been changed" = "был изменен";
+
+/* (No Comment) */
+"List settings" = "Настройки списка";
+
+/* (No Comment) */
+"Lists" = "Списки";
+
+/* (No Comment) */
+"Load" = "Загрузка";
+
+/* (No Comment) */
+"Merge" = "Объеденить";
+
+/* (No Comment) */
+"New list title" = "Новый заголовок списка";
+
+/* (No Comment) */
+"New task" = "Новое задача";
+
+/* (No Comment) */
+"No backup data in iCloud." = "Нет данных резервного копирования в iCloud.";
+
+/* (No Comment) */
+"Notifications of changes to shared lists" = "Уведомления об изменениях в общих списках";
+
+/* (No Comment) */
+"Please check the internet connection or re-authenticate in an iCloud account or try later." = "Пожалуйста, проверьте подключение к Интернету, повторите аутентификацию в учетной записи iCloud или попробуйте позже.";
+
+/* (No Comment) */
+"Pro Version" = "Pro версия";
+
+/* (No Comment) */
+"Purchase Pro version for backup and sharing lists." = "Купите версию Pro для резервного копирования и обмена списками.";
+
+/* (No Comment) */
+"Purchases" = "Покупки";
+
+/* (No Comment) */
+"Recurring billing. Cancel any time. If you choose to purchase a subscription, payment will be charged to your iTunes account and your account will be charged for renewal 24 hours prior to the end of the current period unless auto-renew is turned off. Auto-renewal is managed by the user and may be turned off at any time by going to your settings in the iTunes Store after purchase. Any unused portion of a free trial period will be forfeited when the user purchases a subscription." = "Периодическое выставление счетов. Отменить можно в любое время. Если вы решите приобрести подписку, оплата будет снята с вашей учетной записи iTunes, а с вашей учетной записи будет взиматься плата за продление за 24 часа до окончания текущего периода, если автоматическое продление не отключено. Автоматическое продление управляется пользователем и может быть отключено в любой момент, перейдя в настройки в iTunes Store после покупки. Любая неиспользованная часть бесплатного пробного периода будет аннулирована, когда пользователь приобретает подписку.";
+
+/* (No Comment) */
+"Restore data" = "Восстановить данные";
+
+/* (No Comment) */
+"Restore purchases" = "Восстановить покупки";
+
+/* (No Comment) */
+"Restoring..." = "Восстановление ...";
+
+/* (No Comment) */
+"Rewrite" = "Переписать";
+
+/* (No Comment) */
+"Save" = "Сохранить";
+
+/* (No Comment) */
+"Save data" = "Сохранить данные";
+
+/* (No Comment) */
+"Saving..." = "Сохранение...";
+
+/* (No Comment) */
+"Settings" = "Настройки";
+
+/* (No Comment) */
+"Shared list" = "Общий список";
+
+/* (No Comment) */
+"Sharing lists" = "Совместное использование списков";
+
+/* (No Comment) */
+"Show 'expand all' button" = "Показать кнопку \"развернуть все\"";
+
+/* (No Comment) */
+"Show checked item" = "Показать отмеченный элемент";
+
+/* (No Comment) */
+"Show sublist count" = "Показать количество подсписок";
+
+/* (No Comment) */
+"Success" = "Успех";
+
+/* (No Comment) */
+"To accept shared lists buy the Pro version." = "Чтобы принимать общие списки, купите версию Pro.";
+
+/* (No Comment) */
+"Upgrade to Pro" = "Перейти на Pro";
+
+/* (No Comment) */
+"Use the color of the list-icon to visual style the list" = "Использовать цвет иконки списка для визуального оформления списка";
+
+/* (No Comment) */
+"Visual settings" = "Визуальные настройки";
+
+/* (No Comment) */
+"You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup." = "Вы не вошли в iCloud или не все разрешения предоставлены! Пожалуйста, войдите в свою учетную запись iCloud и проверьте все разрешения в настройках системы для совместного использования списков и резервного копирования.";
+
+/* (No Comment) */
+"You have another iCloud data. Do you want to rewrite this data or merge all data?" = "У вас есть другие данные iCloud. Вы хотите переписать эти данные или объединить все данные?";
+
+/* (No Comment) */
+"You have backup data! Do you want to load this data?" = "У вас есть резервные данные! Вы хотите загрузить эти данные?";
+
+/* (No Comment) */
+"You have data on your phone. Do you want to rewrite this data or merge all data?" = "У вас есть данные на вашем телефоне. Вы хотите переписать эти данные или объединить все данные?";
+
+/* (No Comment) */
+"You turned off the notification in settings. Please turn on the notifications for this application in the system settings." = "Вы отключили уведомление в настройках. Пожалуйста, включите уведомления для этого приложения в настройках системы.";
+
+/* (No Comment) */
+"Your save" = "Ваша экономия";
+

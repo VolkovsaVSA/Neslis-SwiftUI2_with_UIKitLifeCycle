@@ -68,7 +68,6 @@ struct PurchaseView: View {
             Text(TxtLocal.Text.recurringBilling)
                 .font(.system(size: 12, weight: .thin, design: .default))
                 .foregroundColor(.white)
-                .lineLimit(nil)
                 .multilineTextAlignment(.leading)
         }
         .padding()

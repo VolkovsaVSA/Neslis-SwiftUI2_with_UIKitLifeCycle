@@ -26,8 +26,8 @@ struct SettingsView: View {
     @ObservedObject var progressBar = ProgressData.shared
     
     @State var activitySpinnerAnimate = false
-    @State var activitySpinnerText: LocalizedStringKey = ""
-    @State var finishMessage: LocalizedStringKey = ""
+    @State var activitySpinnerText = ""
+    @State var finishMessage = ""
     @State var finishButtonShow = false
     
     @State var showPurchase = false
@@ -83,8 +83,8 @@ struct SettingsView: View {
         activitySpinnerText = TxtLocal.Alert.Text.saving
         
         
-        func saveAllObjects(completion: @escaping (LocalizedStringKey)->Void) {
-            var message: LocalizedStringKey = ""
+        func saveAllObjects(completion: @escaping (String)->Void) {
+            var message = ""
             CloudKitManager.SaveToCloud.saveAllObjectsToCloud() { error in
                 print("end uploading. Progress: \(ProgressData.shared.value)")
 
@@ -215,7 +215,7 @@ struct SettingsView: View {
         case .saveRewrite:
             return Alert(title: Text(TxtLocal.Alert.Title.attention), message: Text(TxtLocal.Alert.Text.youAreHaveAnotherICloudData), primaryButton: .destructive(Text(TxtLocal.Button.rewrite), action: {
                 saveData(rewrite: true)
-            }), secondaryButton: .default(Text(TxtLocal.Button.joined), action: {
+            }), secondaryButton: .default(Text(TxtLocal.Button.merge), action: {
                 saveData(rewrite: false)
             }))
         case .loadRewrite:
@@ -225,7 +225,7 @@ struct SettingsView: View {
                 primaryButton: .destructive(Text(TxtLocal.Button.rewrite), action: {
                     loadData(rewrite: true)
                 }),
-                secondaryButton: .default(Text(TxtLocal.Button.joined), action: {
+                secondaryButton: .default(Text(TxtLocal.Button.merge), action: {
                     loadData(rewrite: false)
                 })
             )
@@ -260,7 +260,7 @@ struct SettingsView: View {
     }
     
     var body: some View {
-        LoadingView(isShowing: $activitySpinnerAnimate, text: activitySpinnerText, messageText: finishMessage, result: $finishButtonShow, progressBar: $progressBar.value) {
+        LoadingView(isShowing: $activitySpinnerAnimate, text: activitySpinnerText, messageText: $finishMessage, result: $finishButtonShow, progressBar: $progressBar.value) {
             NavigationView {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
