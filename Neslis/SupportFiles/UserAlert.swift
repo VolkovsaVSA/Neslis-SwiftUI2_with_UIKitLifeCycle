@@ -11,8 +11,8 @@ class UserAlert: ObservableObject {
 
     static let shared = UserAlert()
     
-    var title = ""
-    var text = ""
+    var title: LocalizedStringKey = ""
+    var text: LocalizedStringKey = ""
     @Published var show = false
     @Published var alertType: AlertType?
 }

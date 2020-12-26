@@ -25,9 +25,10 @@ struct ActivityIndicator: UIViewRepresentable {
 struct LoadingView<Content>: View where Content: View {
 
     @Binding var isShowing: Bool
-    var text: String
     
-    @Binding var messageText: String
+    var text: LocalizedStringKey
+    var messageText: LocalizedStringKey
+    
     @Binding var result: Bool
     @Binding var progressBar: Double
     
@@ -47,7 +48,7 @@ struct LoadingView<Content>: View where Content: View {
                         Text(messageText)
                             .multilineTextAlignment(.center)
                             .padding()
-                        Button("OK") {
+                        Button(TxtLocal.Button.ok) {
                             isShowing = false
                             result = false
                             progressBar = 0

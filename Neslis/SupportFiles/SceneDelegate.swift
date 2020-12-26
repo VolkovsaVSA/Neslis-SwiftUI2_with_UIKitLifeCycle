@@ -81,7 +81,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     print("error acceptSharesCompletionBlock: \(error!.localizedDescription)")
                 } else {
                     DispatchQueue.main.async {
-                        self.progressData.activitySpinnerText = "Fetch sharing data"
+                        self.progressData.activitySpinnerText = TxtLocal.Alert.Text.fetchSharingData
                         self.progressData.activitySpinnerAnimate = true
                     }
                     CloudKitManager.Sharing.fetchShare(cloudKitShareMetadata) { (rc, er) in
@@ -89,7 +89,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             print("fetchShare error:\(error.localizedDescription)")
                             DispatchQueue.main.async {
                                 self.progressData.activitySpinnerAnimate = false
-                                self.progressData.finishMessage = error.localizedDescription
+                                self.progressData.finishMessage = LocalizedStringKey(error.localizedDescription)
                                 self.progressData.finishButtonShow = true
                             }
                             
@@ -97,7 +97,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         guard let shareRecord = rc else {
                             DispatchQueue.main.async {
                                 self.progressData.activitySpinnerAnimate = false
-                                self.progressData.finishMessage = "Error loading"
+                                self.progressData.finishMessage = TxtLocal.Alert.Text.errorLoading
                                 self.progressData.finishButtonShow = true
                             }
                             return
@@ -107,7 +107,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             if let localError = error {
                                 print("shareRecordToObject error:\(localError.localizedDescription)")
                                 DispatchQueue.main.async {
-                                    self.progressData.finishMessage = localError.localizedDescription
+                                    self.progressData.finishMessage = LocalizedStringKey(localError.localizedDescription)
                                     self.progressData.finishButtonShow = true
                                 }
                             } else {
@@ -130,7 +130,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         } else {
             DispatchQueue.main.async {
                 self.progressData.activitySpinnerAnimate = true
-                self.progressData.finishMessage = "To accept shared lists buy the Pro version."
+                self.progressData.finishMessage = TxtLocal.Alert.Text.toAcceptSharedLists
                 self.progressData.finishButtonShow = true
             }
         }

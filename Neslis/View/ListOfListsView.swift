@@ -32,7 +32,7 @@ struct ListOfListsView: View {
     @StateObject var iconVM = IconSetViewModel()
  
     var body: some View {
-        LoadingView(isShowing: $progressData.activitySpinnerAnimate, text: progressData.activitySpinnerText, messageText: $progressData.finishMessage, result: $progressData.finishButtonShow, progressBar: $progressData.value, content: {
+        LoadingView(isShowing: $progressData.activitySpinnerAnimate, text: progressData.activitySpinnerText, messageText: progressData.finishMessage, result: $progressData.finishButtonShow, progressBar: $progressData.value, content: {
             NavigationView {
                 List {
                     ForEach(lists) { list in
@@ -63,7 +63,7 @@ struct ListOfListsView: View {
                             Image(systemName: "plus.circle.fill")
                                 .font(Font.system(size: 20))
                                 .foregroundColor(Color(.systemRed))
-                            Text("Add new list")
+                            Text(TxtLocal.Text.addNewList)
                                 .foregroundColor(Color(.systemRed))
                             Spacer()
                         }
@@ -71,7 +71,7 @@ struct ListOfListsView: View {
                 }
                 .listStyle(InsetGroupedListStyle())
                 .edgesIgnoringSafeArea(.bottom)
-                .navigationTitle("Lists")
+                .navigationTitle(TxtLocal.Navigation.Title.lists)
                 .navigationBarItems(
                     leading: Button(action: {
                         activeSheet = .userSetting

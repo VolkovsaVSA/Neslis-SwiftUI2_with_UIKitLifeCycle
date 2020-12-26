@@ -10,23 +10,7 @@ import CloudKit
 
 struct SettingsView: View {
     
-//    enum AlertType: Identifiable {
-//        case saveRewrite, loadRewrite, networkError, oldIcloudData, noIcloudData
-//        var id: Int {
-//            hashValue
-//        }
-//    }
-    //@State var myAlert: AlertType?
     @ObservedObject var myAlert = UserAlert.shared
-    
-    struct NetworkAlert {
-        var title = ""
-        var text = ""
-    }
-    
-    private let errorNetworkAlert = NetworkAlert(title: "Network error", text: "Please check the internet connection or re-authenticate in an iCloud account or try later.")
-    private let saveNetworkAlert = NetworkAlert(title: "Success", text: "Backup data is saved successfully.")
-    private let loadNetworkAlert = NetworkAlert(title: "Success", text: "Backup data is loaded successfully.")
 
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(
@@ -38,13 +22,12 @@ struct SettingsView: View {
     @ObservedObject var userSettings: UserSettings
     
     @State var acountStatus: CKAccountStatus?
-    //@State var firstCreateZone = UserDefaults.standard.bool(forKey: UDKeys.firstCreateZone)
 
     @ObservedObject var progressBar = ProgressData.shared
     
     @State var activitySpinnerAnimate = false
-    @State var activitySpinnerText = ""
-    @State var finishMessage = ""
+    @State var activitySpinnerText: LocalizedStringKey = ""
+    @State var finishMessage: LocalizedStringKey = ""
     @State var finishButtonShow = false
     
     @State var showPurchase = false
@@ -61,7 +44,7 @@ struct SettingsView: View {
     fileprivate func loadData(rewrite: Bool) {
         progressBar.setZero()
         
-        activitySpinnerText = "Restoring..."
+        activitySpinnerText = TxtLocal.Alert.Text.restoring
         finishButtonShow = false
         activitySpinnerAnimate = true
         userSettings.icloudBackup = false
@@ -79,9 +62,9 @@ struct SettingsView: View {
 
             if error != nil {
                 print("error load from icloud: \(String(describing: error?.localizedDescription))")
-                finishMessage = errorNetworkAlert.text
+                finishMessage = TxtLocal.Alert.Text.pleaseCheckTheInternetConnection
             } else {
-                finishMessage = loadNetworkAlert.text
+                finishMessage = TxtLocal.Alert.Text.backupDataIsLoadedSuccessfully
             }
             
             CDStack.shared.saveContext(context: viewContext)
@@ -97,19 +80,19 @@ struct SettingsView: View {
         finishButtonShow = false
         activitySpinnerAnimate = true
         progressBar.setZero()
-        activitySpinnerText = "Saving..."
+        activitySpinnerText = TxtLocal.Alert.Text.saving
         
         
-        func saveAllObjects(completion: @escaping (String)->Void) {
-            var message = ""
+        func saveAllObjects(completion: @escaping (LocalizedStringKey)->Void) {
+            var message: LocalizedStringKey = ""
             CloudKitManager.SaveToCloud.saveAllObjectsToCloud() { error in
                 print("end uploading. Progress: \(ProgressData.shared.value)")
 
                 if error != nil {
                     print("error save to icloud: \(String(describing: error?.localizedDescription))")
-                    message = errorNetworkAlert.text
+                    message = TxtLocal.Alert.Text.pleaseCheckTheInternetConnection
                 } else {
-                    message = saveNetworkAlert.text
+                    message = TxtLocal.Alert.Text.backupDataIsSavedSuccessfully
                 }
                 completion(message)
 
@@ -124,7 +107,7 @@ struct SettingsView: View {
                     }
                 } else {
                     print("clearError: \(clearError!.localizedDescription)")
-                    finishMessage =  errorNetworkAlert.text
+                    finishMessage =  TxtLocal.Alert.Text.pleaseCheckTheInternetConnection
                 }
                 finishButtonShow = true
             }
@@ -149,7 +132,7 @@ struct SettingsView: View {
     fileprivate func didsetIcloudBackupValue(_ newValue: Bool) {
         if newValue {
             activitySpinnerAnimate = true
-            activitySpinnerText = "Fetch data from iCloud"
+            activitySpinnerText = TxtLocal.Alert.Text.fetchDataFromICloud
             CloudKitManager.FetchFromCloud.fetchListCountFromPrivateDB { result in
                 
                 activitySpinnerAnimate = false
@@ -174,7 +157,7 @@ struct SettingsView: View {
     }
     fileprivate func saveButtonAction() {
         activitySpinnerAnimate = true
-        activitySpinnerText = "Fetch data from iCloud"
+        activitySpinnerText = TxtLocal.Alert.Text.fetchDataFromICloud
         
         CloudKitManager.FetchFromCloud.fetchListCountFromPrivateDB { result in
             activitySpinnerAnimate = false
@@ -199,7 +182,7 @@ struct SettingsView: View {
     fileprivate func restoreButtonAction() {
         let coreDataCount = CDStack.shared.fetchList(context: viewContext).count
         activitySpinnerAnimate = true
-        activitySpinnerText = "Fetch data from iCloud"
+        activitySpinnerText = TxtLocal.Alert.Text.fetchDataFromICloud
         
         CloudKitManager.FetchFromCloud.fetchListCountFromPrivateDB { result in
             activitySpinnerAnimate = false
@@ -230,84 +213,84 @@ struct SettingsView: View {
     fileprivate func creatAlert(_ alert: AlertType) -> Alert {
         switch alert {
         case .saveRewrite:
-            return Alert(title: Text("Attention!"), message: Text("You are have another iCloud data. Do you want rewreite this data or joined all data?"), primaryButton: .destructive(Text("Rewrite"), action: {
+            return Alert(title: Text(TxtLocal.Alert.Title.attention), message: Text(TxtLocal.Alert.Text.youAreHaveAnotherICloudData), primaryButton: .destructive(Text(TxtLocal.Button.rewrite), action: {
                 saveData(rewrite: true)
-            }), secondaryButton: .default(Text("Joined"), action: {
+            }), secondaryButton: .default(Text(TxtLocal.Button.joined), action: {
                 saveData(rewrite: false)
             }))
         case .loadRewrite:
             return Alert(
-                title: Text("Attention!"),
-                message: Text("You are have data on your phone. Do you want rewreite this data or joined all data?"),
-                primaryButton: .destructive(Text("Rewrite"), action: {
+                title: Text(TxtLocal.Alert.Title.attention),
+                message: Text(TxtLocal.Alert.Text.youAreHaveDataOnYourPhone),
+                primaryButton: .destructive(Text(TxtLocal.Button.rewrite), action: {
                     loadData(rewrite: true)
                 }),
-                secondaryButton: .default(Text("Joined"), action: {
+                secondaryButton: .default(Text(TxtLocal.Button.joined), action: {
                     loadData(rewrite: false)
                 })
             )
         case .networkError:
             return Alert(
-                title: Text(errorNetworkAlert.title),
-                message: Text(errorNetworkAlert.text),
-                dismissButton: .cancel(Text("OK"))
+                title: Text(TxtLocal.Alert.Title.error),
+                message: Text(TxtLocal.Alert.Text.pleaseCheckTheInternetConnection),
+                dismissButton: .cancel(Text(TxtLocal.Button.ok))
             )
         case .oldIcloudData:
             return Alert(
-                title: Text("Attention!"),
-                message: Text("You are have backup data! Do you want to load this data?"),
-                primaryButton: .default(Text("Load"), action: {
+                title: Text(TxtLocal.Alert.Title.attention),
+                message: Text(TxtLocal.Alert.Text.youAreHaveBackupData),
+                primaryButton: .default(Text(TxtLocal.Button.load), action: {
                     loadData(rewrite: false)
                 }),
-                secondaryButton: .cancel(Text("Cancel"))
+                secondaryButton: .cancel(Text(TxtLocal.Button.cancel))
             )
         case .noIcloudData:
             return Alert(
-                title: Text("Attention!"),
-                message: Text("No backup data in iCloud."),
-                dismissButton: .cancel(Text("OK"))
+                title: Text(TxtLocal.Alert.Title.attention),
+                message: Text(TxtLocal.Alert.Text.noBackupDataInICloud),
+                dismissButton: .cancel(Text(TxtLocal.Button.ok))
             )
         case .noAccessToNotification:
             return Alert(
                 title: Text(""),
                 message: Text(""),
-                dismissButton: .cancel(Text("OK"))
+                dismissButton: .cancel(Text(TxtLocal.Button.ok))
             )
         }
     }
     
     var body: some View {
-        LoadingView(isShowing: $activitySpinnerAnimate, text: activitySpinnerText, messageText: $finishMessage, result: $finishButtonShow, progressBar: $progressBar.value) {
+        LoadingView(isShowing: $activitySpinnerAnimate, text: activitySpinnerText, messageText: finishMessage, result: $finishButtonShow, progressBar: $progressBar.value) {
             NavigationView {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
-                        Section(header: Text("Purchases").font(.title).foregroundColor(.gray)) {
-                            Button("Pro Version") {
+                        Section(header: Text(TxtLocal.Text.purchases).font(.title).foregroundColor(.gray)) {
+                            Button(TxtLocal.Button.proVersion) {
                                 byFullVersion()
                             }
                             .modifier(SettingButtonModifire(disable: false))
-                            Button("Restore purchases") {
+                            Button(TxtLocal.Button.restorePurchases) {
                                 
                                 IAPManager.shared.restoreCompletedTransaction()
                             }
                             .modifier(SettingButtonModifire(disable: false))
                         }
                         
-                        Section(header: Text("iCloud").font(.title).foregroundColor(.gray)) {
+                        Section(header: Text(TxtLocal.Text.iCloud).font(.title).foregroundColor(.gray)) {
                             
                             if userSettings.proVersion {
                                 if acountStatus == .available {
-                                    Toggle("Enable backup to iCloud and sharing lists", isOn: $userSettings.icloudBackup.didSet(execute: { newValue in
+                                    Toggle(TxtLocal.Toggle.enableBackup, isOn: $userSettings.icloudBackup.didSet(execute: { newValue in
                                         didsetIcloudBackupValue(newValue)
                                     })
                                     .animation())
                                     
                                     if userSettings.icloudBackup {
-                                        Button("Save data") {
+                                        Button(TxtLocal.Button.saveData) {
                                             saveButtonAction()
                                         }
                                         .modifier(SettingButtonModifire(disable: false))
-                                        Button("Restore data") {
+                                        Button(TxtLocal.Button.restoreData) {
                                             restoreButtonAction()
                                         }
                                         .modifier(SettingButtonModifire(disable: false))
@@ -319,19 +302,19 @@ struct SettingsView: View {
 //                                            }
 //                                        }
 //                                        .modifier(SettingDeleteButtonModifire())
-                                        Toggle("Notifications of changes to shared lists", isOn: $userSettings.sharingNotification)
+                                        Toggle(TxtLocal.Toggle.notificationsOfChanges, isOn: $userSettings.sharingNotification)
                                     }
                                     
                                 } else {
                                     HStack {
-                                        Text("You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup.")
+                                        Text(TxtLocal.Text.yourAreNotLogged)
                                             .multilineTextAlignment(.center)
                                             .font(.system(size: 17, weight: .thin, design: .default))
                                     }
                                 }
                             } else {
                                 HStack {
-                                    Text("Purchase Pro version for backup and sharing lists.")
+                                    Text(TxtLocal.Text.purchaseProVersionForBackup)
                                         .multilineTextAlignment(.center)
                                         .font(.system(size: 17, weight: .thin, design: .default))
                                 }
@@ -339,9 +322,9 @@ struct SettingsView: View {
                             
                         }
                         
-                        Section(header: Text("Visual settings").font(.title).foregroundColor(.gray)) {
-                            Toggle("Use the color of the list-icon to visual style the list", isOn: $userSettings.useListColor)
-                            Toggle("Show 'expand all' button", isOn: $userSettings.showAllExpandButton)
+                        Section(header: Text(TxtLocal.Text.visualSettings).font(.title).foregroundColor(.gray)) {
+                            Toggle(TxtLocal.Toggle.useTheColorOfTheList, isOn: $userSettings.useListColor)
+                            Toggle(TxtLocal.Toggle.showExpandAllButton, isOn: $userSettings.showAllExpandButton)
                         }
                     }
                     .padding(.horizontal, 20)
@@ -368,7 +351,7 @@ struct SettingsView: View {
                     PurchaseView()
                         .environment(\.managedObjectContext, viewContext)
                 }
-                .navigationBarTitle("Settings")
+                .navigationBarTitle(TxtLocal.Navigation.Title.settings)
             }
         }
         

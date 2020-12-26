@@ -33,7 +33,7 @@ struct ListItemView: View {
                     Text(parentIndex == nil ? item.index.description : parentIndex! + "." + item.index.description)
                         .fontWeight(.thin)
                 }
-                TextField("New task", text: $item.title, onEditingChanged: { isChange in
+                TextField(TxtLocal.TextField.newTask, text: $item.title, onEditingChanged: { isChange in
                     //isChange
                     item.isEditing = isChange
                     CDStack.shared.saveContext(context: viewContext)

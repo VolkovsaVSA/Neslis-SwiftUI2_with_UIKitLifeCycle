@@ -27,8 +27,8 @@ class NotifManager {
                     
                     userSettings.sharingNotification = false
                     let userAlert = UserAlert.shared
-                    userAlert.title = "Error"
-                    userAlert.text = "You turned off notification in settings. Please turn on the notifications for this application in the system settings."
+                    userAlert.title = TxtLocal.Alert.Title.error
+                    userAlert.text = TxtLocal.Alert.Text.touTurnedOffNotification
                     userAlert.alertType = .noAccessToNotification
                     return
                 }
@@ -42,7 +42,7 @@ class NotifManager {
         let userSettings = UserSettings.shared
         let content = UNMutableNotificationContent()
         //content.title = "Neslis"
-        content.body = "Shared list \"\(listtitle)\" has been changed"
+        content.body = "\(TxtLocal.contentBody.sharedList) \"\(listtitle)\" \(TxtLocal.contentBody.hasBeenChanged)"
         content.sound = .default
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: listID, content: content, trigger: trigger)

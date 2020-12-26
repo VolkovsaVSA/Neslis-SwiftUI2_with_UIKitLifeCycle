@@ -35,14 +35,14 @@ struct NewListView: View {
         
         NavigationView() {
             VStack {
-                Toggle("Auto numbering", isOn: $isAutoNumbering)
-                Toggle("Show checked item", isOn: $isShowCheckedItem)
-                Toggle("Show sublist count", isOn: $isShowSublistCount)
+                Toggle(TxtLocal.Toggle.autoNumbering, isOn: $isAutoNumbering)
+                Toggle(TxtLocal.Toggle.showCheckedItem, isOn: $isShowCheckedItem)
+                Toggle(TxtLocal.Toggle.showSublistCount, isOn: $isShowSublistCount)
                 
                 IconImageView(image: iconVM.iconSelected, color: Color(colorVM.colorSelected), imageScale: size/1.5)
                     .padding(6)
                 
-                TextField("New list title", text: $newListTitle)
+                TextField(TxtLocal.TextField.newListTitle, text: $newListTitle)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, size/4)
@@ -66,11 +66,11 @@ struct NewListView: View {
                 
             }
             .padding([.horizontal, .top], size/1.5)
-            .navigationTitle("List settings")
+            .navigationTitle(TxtLocal.Navigation.Title.listSettings)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
+                    Button(TxtLocal.Button.save) {
                         saveAction()
                     }
                 }

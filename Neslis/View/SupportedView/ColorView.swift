@@ -19,9 +19,6 @@ struct ColorView: View {
         Button(action: {
             self.colorSetVM.colorSelected = self.localColor.color
         }) {
-//            Circle()
-//            .frame(width: self.size, height: self.size)
-//            .foregroundColor(Color(localColor.color))
             LinearGradient(gradient: Gradient(colors: [Color(localColor.color).opacity(0.5), Color(localColor.color)]), startPoint: .top, endPoint: .bottom)
                 .frame(width: self.size, height: self.size)
                 .clipShape(Circle())

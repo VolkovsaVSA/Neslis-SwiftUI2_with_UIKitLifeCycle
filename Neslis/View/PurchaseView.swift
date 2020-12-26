@@ -16,7 +16,7 @@ struct PurchaseView: View {
     var body: some View {
         
         VStack(alignment: .center, spacing: 14) {
-            Text("Upgrade to Pro")
+            Text(TxtLocal.Text.upgradeToPro)
                 .font(Font.system(size: 24, weight: .bold, design: .default))
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
@@ -26,7 +26,7 @@ struct PurchaseView: View {
                 HStack {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(.green)
-                    Text("Data backup")
+                    Text(TxtLocal.Text.dataBackup)
                         .foregroundColor(.white)
                         .lineLimit(nil)
                         .multilineTextAlignment(.leading)
@@ -34,7 +34,7 @@ struct PurchaseView: View {
                 HStack {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(.green)
-                    Text("Sharing lists")
+                    Text(TxtLocal.Text.sharingLists)
                         .foregroundColor(.white)
                         .lineLimit(nil)
                         .multilineTextAlignment(.leading)
@@ -44,7 +44,7 @@ struct PurchaseView: View {
             Button(action: {
                 IAPManager.shared.purshase(product: IAPManager.shared.products[0])
             }) {
-                Text("\(IAPManager.shared.priceOfProduct(product: IAPManager.shared.products[0])) / month")
+                Text("\(IAPManager.shared.priceOfProduct(product: IAPManager.shared.products[0])) \(TxtLocal.Text.inMonth)")
                     .multilineTextAlignment(.center)
                     .font(.title3)
                     .padding()
@@ -57,18 +57,15 @@ struct PurchaseView: View {
                 IAPManager.shared.purshase(product: IAPManager.shared.products[1])
             }) {
                 VStack{
-                    Text("\(IAPManager.shared.priceOfProduct(product: IAPManager.shared.products[1])) / year")
+                    Text("\(IAPManager.shared.priceOfProduct(product: IAPManager.shared.products[1])) \(TxtLocal.Text.inYear)")
                         .multilineTextAlignment(.center)
                         .font(.title3)
-                    Text("Your save \(Int(round(100 - Double(truncating: IAPManager.shared.products[1].price) / (Double(truncating: IAPManager.shared.products[0].price) * 12) * 100)))%")
+                    Text("\(TxtLocal.Text.yourSave) \(Int(round(100 - Double(truncating: IAPManager.shared.products[1].price) / (Double(truncating: IAPManager.shared.products[0].price) * 12) * 100)))%")
                         .font(Font.system(size: 22, weight: .bold, design: .default))
                 }
             }
             .modifier(PurchaseButtonModifire())
-            Text("""
-                Recurring billing. Cancel any time.
-                If you choose to purchase a subscription, payment will be charged to your iTunes account and your account will be charged fo renewal 24 yours prior to the end of the current period unless auto-renew is turned off. Auto-renewal is managed by user and may be turned off at any time by going to your settings in the iTunes Store after purchase. Any unused portion of a free trial period will be forfeited when the user purchases a subscription.
-                """)
+            Text(TxtLocal.Text.recurringBilling)
                 .font(.system(size: 12, weight: .thin, design: .default))
                 .foregroundColor(.white)
                 .lineLimit(nil)

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		68AA914D257254B800044A25 /* Binding+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AA914C257254B800044A25 /* Binding+Extention.swift */; };
 		68AA91592576280200044A25 /* ListSharedProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AA91582576280200044A25 /* ListSharedProperties.swift */; };
+		68ADFF6F2596F18000E84789 /* TxtLocal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68ADFF6E2596F18000E84789 /* TxtLocal.swift */; };
 		68BCD6C52565013200DDE889 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68BCD6C42565013200DDE889 /* Assets.xcassets */; };
 		68BCD6C82565013200DDE889 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68BCD6C72565013200DDE889 /* Preview Assets.xcassets */; };
 		68BCD6D62565022D00DDE889 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68BCD6D52565022D00DDE889 /* StoreKit.framework */; };
@@ -56,6 +57,7 @@
 		687595E12593CB42006A2309 /* StoreConfiguration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreConfiguration.storekit; sourceTree = "<group>"; };
 		68AA914C257254B800044A25 /* Binding+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extention.swift"; sourceTree = "<group>"; };
 		68AA91582576280200044A25 /* ListSharedProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSharedProperties.swift; sourceTree = "<group>"; };
+		68ADFF6E2596F18000E84789 /* TxtLocal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TxtLocal.swift; sourceTree = "<group>"; };
 		68BCD6B82565013000DDE889 /* Neslis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Neslis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68BCD6C42565013200DDE889 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68BCD6C72565013200DDE889 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				68BCD719256503A200DDE889 /* UserSettings.swift */,
 				68BCD71A256503A200DDE889 /* UserAlert.swift */,
 				68BCD790256ACBC800DDE889 /* ProgressData.swift */,
+				68ADFF6E2596F18000E84789 /* TxtLocal.swift */,
 			);
 			path = SupportFiles;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 				68BCD722256503A200DDE889 /* CloudKitManager.swift in Sources */,
 				68E3AE77257CBBB9001B4640 /* 111.swift in Sources */,
 				68BCD720256503A200DDE889 /* IAPManager.swift in Sources */,
+				68ADFF6F2596F18000E84789 /* TxtLocal.swift in Sources */,
 				68BCD723256503A200DDE889 /* SettingButtonStyle.swift in Sources */,
 				68BCD7052565036900DDE889 /* ListOfListsView.swift in Sources */,
 				68BCD71F256503A200DDE889 /* UDKeys.swift in Sources */,
