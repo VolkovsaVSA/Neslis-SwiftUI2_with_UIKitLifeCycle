@@ -30,6 +30,8 @@ struct ListOfListsView: View {
     
     @StateObject var colorVM = ColorSetViewModel()
     @StateObject var iconVM = IconSetViewModel()
+    
+    @State var size: CGFloat = 35
  
     var body: some View {
         LoadingView(isShowing: $progressData.activitySpinnerAnimate, text: progressData.activitySpinnerText, messageText: $progressData.finishMessage, result: $progressData.finishButtonShow, progressBar: $progressData.value, content: {
@@ -63,7 +65,7 @@ struct ListOfListsView: View {
                             Image(systemName: "plus.circle.fill")
                                 .font(Font.system(size: 20))
                                 .foregroundColor(Color(.systemRed))
-                            Text(TxtLocal.Text.addNewList)
+                            Text(TxtLocal.Text.newList)
                                 .foregroundColor(Color(.systemRed))
                             Spacer()
                         }
@@ -84,7 +86,7 @@ struct ListOfListsView: View {
                 .sheet(item: $activeSheet) { item in
                     switch item {
                     case .newList:
-                        NewListView(size: UIScreen.main.bounds.width/10, colorVM: colorVM, iconVM: iconVM)
+                        NewListView(size: size, colorVM: colorVM, iconVM: iconVM)
                             .environment(\.managedObjectContext, viewContext)
                             .edgesIgnoringSafeArea(.all)
                     case .userSetting:
@@ -94,6 +96,24 @@ struct ListOfListsView: View {
                 }
             }
         })
+        .onAppear() {
+            switch UIDevice.current.userInterfaceIdiom {
+            case .unspecified:
+                size = 35
+            case .phone:
+                size = 35
+            case .pad:
+                size = 60
+//            case .tv:
+//                <#code#>
+//            case .carPlay:
+//                <#code#>
+//            case .mac:
+//                <#code#>
+            @unknown default:
+                size = 35
+            }
+        }
         
         
     }

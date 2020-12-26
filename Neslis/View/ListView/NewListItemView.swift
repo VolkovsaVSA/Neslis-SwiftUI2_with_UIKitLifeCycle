@@ -25,7 +25,7 @@ struct NewListItemView: View {
             Image(systemName: "plus.circle.fill")
                 .font(Font.system(size: 20))
                 .foregroundColor(userSettings.useListColor ? Color(UIColor.color(data: list.systemImageColor) ?? UIColor.red) : .red)
-            TextField(TxtLocal.TextField.enterNewTask, text: $newTitle, onEditingChanged: { tfChange in
+            TextField(TxtLocal.TextField.newTask, text: $newTitle, onEditingChanged: { tfChange in
                 addNewsublist = tfChange
             })
             {

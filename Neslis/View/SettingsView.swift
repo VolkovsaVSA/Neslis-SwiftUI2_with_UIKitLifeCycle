@@ -306,18 +306,14 @@ struct SettingsView: View {
                                     }
                                     
                                 } else {
-                                    HStack {
-                                        Text(TxtLocal.Text.yourAreNotLogged)
-                                            .multilineTextAlignment(.center)
-                                            .font(.system(size: 17, weight: .thin, design: .default))
-                                    }
-                                }
-                            } else {
-                                HStack {
-                                    Text(TxtLocal.Text.purchaseProVersionForBackup)
+                                    Text(TxtLocal.Text.yourAreNotLogged)
                                         .multilineTextAlignment(.center)
                                         .font(.system(size: 17, weight: .thin, design: .default))
                                 }
+                            } else {
+                                Text(TxtLocal.Text.purchaseProVersionForBackup)
+                                    //.multilineTextAlignment(.center)
+                                    .font(.system(size: 17, weight: .thin, design: .default))
                             }
                             
                         }

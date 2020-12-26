@@ -5,9 +5,6 @@
 "/ year" = "/ год";
 
 /* (No Comment) */
-"Add new list" = "Добавить новый список";
-
-/* (No Comment) */
 "Attention!" = "Внимание!";
 
 /* (No Comment) */
@@ -32,9 +29,6 @@
 "Enable iCloud backups and shared lists" = "Включить резервное копирование iCloud и общие списки";
 
 /* (No Comment) */
-"Enter new task" = "Введите новую задачу";
-
-/* (No Comment) */
 "Error" = "Ошибка";
 
 /* (No Comment) */
@@ -53,6 +47,9 @@
 "List settings" = "Настройки списка";
 
 /* (No Comment) */
+"List title" = "Заголовок списка";
+
+/* (No Comment) */
 "Lists" = "Списки";
 
 /* (No Comment) */
@@ -62,10 +59,10 @@
 "Merge" = "Объеденить";
 
 /* (No Comment) */
-"New list title" = "Новый заголовок списка";
+"New list" = "Новый список";
 
 /* (No Comment) */
-"New task" = "Новое задача";
+"New task" = "Новая задача";
 
 /* (No Comment) */
 "No backup data in iCloud." = "Нет данных резервного копирования в iCloud.";
@@ -125,7 +122,7 @@
 "Show checked item" = "Показать отмеченный элемент";
 
 /* (No Comment) */
-"Show sublist count" = "Показать количество подсписок";
+"Show sublist count" = "Показать количество подзадач";
 
 /* (No Comment) */
 "Success" = "Успех";

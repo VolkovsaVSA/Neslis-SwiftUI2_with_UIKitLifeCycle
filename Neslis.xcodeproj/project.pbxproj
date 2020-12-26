@@ -104,6 +104,11 @@
 		68BCD790256ACBC800DDE889 /* ProgressData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressData.swift; sourceTree = "<group>"; };
 		68DFB366259710A200671A7F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		68E3AE76257CBBB8001B4640 /* 111.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 111.swift; sourceTree = "<group>"; };
+		68EF1C6525974EBE005A9973 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		68EF1C6C25975397005A9973 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		68EF1C6E25975610005A9973 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		68EF1C6F2597562A005A9973 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		68EF1C712597585C005A9973 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -313,7 +318,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1220;
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1230;
 				TargetAttributes = {
 					68BCD6B72565013000DDE889 = {
 						CreatedOnToolsVersion = 12.2;
@@ -327,6 +332,10 @@
 			knownRegions = (
 				en,
 				ru,
+				es,
+				"es-419",
+				"pt-BR",
+				"pt-PT",
 			);
 			mainGroup = 68BCD6AF2565013000DDE889;
 			productRefGroup = 68BCD6B92565013000DDE889 /* Products */;
@@ -406,6 +415,11 @@
 			isa = PBXVariantGroup;
 			children = (
 				68DFB366259710A200671A7F /* ru */,
+				68EF1C6525974EBE005A9973 /* es */,
+				68EF1C6C25975397005A9973 /* en */,
+				68EF1C6E25975610005A9973 /* es-419 */,
+				68EF1C6F2597562A005A9973 /* pt-BR */,
+				68EF1C712597585C005A9973 /* pt-PT */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -417,6 +431,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -479,6 +494,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -538,6 +554,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Neslis/Neslis.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Neslis/Preview Content\"";
 				DEVELOPMENT_TEAM = 7C46924T49;
 				ENABLE_PREVIEWS = YES;
@@ -561,6 +578,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Neslis/Neslis.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Neslis/Preview Content\"";
 				DEVELOPMENT_TEAM = 7C46924T49;
 				ENABLE_PREVIEWS = YES;

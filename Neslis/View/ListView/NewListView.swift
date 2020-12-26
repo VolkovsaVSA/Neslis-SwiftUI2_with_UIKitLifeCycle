@@ -42,7 +42,7 @@ struct NewListView: View {
                 IconImageView(image: iconVM.iconSelected, color: Color(colorVM.colorSelected), imageScale: size/1.5)
                     .padding(6)
                 
-                TextField(TxtLocal.TextField.newListTitle, text: $newListTitle)
+                TextField(TxtLocal.TextField.listTitle, text: $newListTitle)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, size/4)

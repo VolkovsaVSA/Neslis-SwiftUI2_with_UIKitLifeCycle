@@ -26,6 +26,8 @@ struct ListView: View {
     
     @State var recordToShare: CKRecord?
     
+    
+    
     var body: some View {
         ZStack {
             List(selection: $selectedRows) {
@@ -114,7 +116,7 @@ struct ListView: View {
                 })
         })
         .onAppear() {
-            if userSettings.icloudBackup {
+            if userSettings.icloudBackup, userSettings.proVersion {
                 if !list.isShare {
                     CloudKitManager.Sharing.fetchListRecordForSharing(id: list.id!.uuidString) { (record, error) in
                         if let localError = error {
@@ -127,7 +129,10 @@ struct ListView: View {
                         }
                     }
                 }
+            } else {
+                sharingButton = nil
             }
+            
         }
         .sheet(isPresented: $showModal) {
             NewListView(size: UIScreen.main.bounds.width/10, colorVM: colorVM, iconVM: iconVM, newListTitle: list.title, isAutoNumbering: list.isAutoNumbering, isShowCheckedItem: list.isShowCheckedItem, isShowSublistCount: list.isShowSublistCount, lvm: list)

@@ -184,8 +184,8 @@ extension IAPManager: SKPaymentTransactionObserver {
                 break
             case .failed:
                 print("failed")
-            case .purchased, .restored: completed(transaction: transaction)
-            //case .restored: restored(transaction: transaction)
+            case .purchased: completed(transaction: transaction)
+            case .restored: restored(transaction: transaction)
             @unknown default:
                 print("unknown")
                 break
@@ -204,13 +204,13 @@ extension IAPManager: SKPaymentTransactionObserver {
     private func completed(transaction: SKPaymentTransaction) {
         print(#function)
         SKPaymentQueue.default().finishTransaction(transaction)
+        UserSettings.shared.proVersion = true
+    }
+    private func restored(transaction: SKPaymentTransaction) {
+        print(#function)
+        SKPaymentQueue.default().finishTransaction(transaction)
         validateReceipt()
     }
-//    private func restored(transaction: SKPaymentTransaction) {
-//        print(#function)
-//        SKPaymentQueue.default().finishTransaction(transaction)
-//        validateReceipt()
-//    }
 }
 
 extension IAPManager: SKProductsRequestDelegate {

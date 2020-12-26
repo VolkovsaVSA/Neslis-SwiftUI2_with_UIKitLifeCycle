@@ -60,12 +60,12 @@ struct TxtLocal {
         static let showSublistCount = NSLocalizedString("Show sublist count", comment: " ")
     }
     struct TextField {
+        //static let newTask = NSLocalizedString("New task", comment: " ")
+        static let listTitle = NSLocalizedString("List title", comment: " ")
         static let newTask = NSLocalizedString("New task", comment: " ")
-        static let newListTitle = NSLocalizedString("New list title", comment: " ")
-        static let enterNewTask = NSLocalizedString("Enter new task", comment: " ")
     }
     struct Text {
-        static let addNewList = NSLocalizedString("Add new list", comment: " ")
+        static let newList = NSLocalizedString("New list", comment: " ")
         static let purchases = NSLocalizedString("Purchases", comment: " ")
         static let iCloud = NSLocalizedString("iCloud", comment: " ")
         static let yourAreNotLogged = NSLocalizedString("You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup.", comment: " ")
@@ -85,3 +85,4 @@ struct TxtLocal {
         static let completed = NSLocalizedString("completed", comment: " ")
     }
 }
+
