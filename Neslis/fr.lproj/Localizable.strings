@@ -20,6 +20,9 @@
 "Cancel" = "Annuler";
 
 /* (No Comment) */
+"Checking..." = "Vérification...";
+
+/* (No Comment) */
 "completed" = "terminé";
 
 /* (No Comment) */
@@ -176,6 +179,9 @@
 "You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup." = "Vous n'êtes pas connecté à iCloud, ou tous les permis ne sont pas accordés! Veuillez vous connecter à votre compte iCloud et vérifier tous les permis dans les paramètres système pour le partage de listes et la sauvegarde.";
 
 /* (No Comment) */
+"You don't have the Pro version! Please upgrade to Pro." = "Vous n'avez pas la version Pro! Veuillez passer à Pro.";
+
+/* (No Comment) */
 "You have another iCloud data. Do you want to rewrite this data or merge all data?" = "Vous avez d'autres données iCloud. Voulez-vous réécrire ces données ou fusionner toutes les données?";
 
 /* (No Comment) */
@@ -185,8 +191,14 @@
 "You have data on your phone. Do you want to rewrite this data or merge all data?" = "Vous avez des données sur votre téléphone. Voulez-vous réécrire ces données ou fusionner toutes les données?";
 
 /* (No Comment) */
+"You have the Pro version. All right!" = "Vous avez la version Pro. D'accord!";
+
+/* (No Comment) */
 "You turned off the notification in settings. Please turn on the notifications for this application in the system settings." = "Vous avez désactivé la notification dans les paramètres. Veuillez activer les notifications pour cette application dans les paramètres système.";
 
 /* (No Comment) */
 "Your save" = "Votre économie";
+
+/* (No Comment) */
+"Your subscription is expired! Please upgrade to Pro." = "Votre abonnement est expiré! Veuillez passer à Pro.";
 

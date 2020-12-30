@@ -150,30 +150,34 @@ class IAPManager: NSObject {
                 if expirationDate != nil {
                     if Date() > expirationDate! {
                         UserSettings.shared.proVersion = false
+                        ProgressData.shared.finishMessage = TxtLocal.Alert.Text.yourSubscriptionIsExpired
                     } else {
+                        ProgressData.shared.finishMessage = TxtLocal.Alert.Text.youHaveTheProVersion
                         UserSettings.shared.proVersion = true
                     }
                 }
                 else {
+                    ProgressData.shared.finishMessage = TxtLocal.Alert.Text.youDontHaveTheProversion
                     UserSettings.shared.proVersion = false
                 }
                 
             }
             
-            print("expirationDate: \(String(describing: expirationDate))")
+            //print("expirationDate: \(String(describing: expirationDate))")
             semaphore.signal()
         }
         task.resume()
 
         semaphore.wait()
-        DispatchQueue.main.async {
-            ProgressData.shared.activitySpinnerAnimate = false
+
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            ProgressData.shared.finishButtonShow = true
         }
         
         
-        if let validationError = validationError {
-            print("validationError: \(validationError.localizedDescription)")
-        }
+//        if let validationError = validationError {
+//            print("validationError: \(validationError.localizedDescription)")
+//        }
     }
     
 }

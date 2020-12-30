@@ -31,9 +31,9 @@ struct TxtLocal {
             static let noBackupDataInICloud = NSLocalizedString("No backup data in iCloud.", comment: " ")
             
             static let youHaveTheProVersion = NSLocalizedString("You have the Pro version. All right!", comment: " ")
-            static let yourSubscriptionIsExpired = NSLocalizedString("Your subscription is expired! Please upgrade to Pro. ", comment: " ")
-            static let youDontHaveTheProversion = NSLocalizedString("You don't have the Pro version!", comment: " ")
-            static let You have the Pro version. All right! = NSLocalizedString("You have the Pro version. All right!", comment: " ")
+            static let yourSubscriptionIsExpired = NSLocalizedString("Your subscription is expired! Please upgrade to Pro.", comment: " ")
+            static let youDontHaveTheProversion = NSLocalizedString("You don't have the Pro version! Please upgrade to Pro.", comment: " ")
+            static let checking = NSLocalizedString("Checking...", comment: " ")
         }
     }
     struct Button {

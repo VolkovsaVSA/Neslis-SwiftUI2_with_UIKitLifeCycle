@@ -1,159 +1,204 @@
 /* (No Comment) */
-"/ month" = "/ month";
+"/ month" = "/ mese";
 
 /* (No Comment) */
-"/ year" = "/ year";
+"/ year" = "/ anno";
 
 /* (No Comment) */
-"Attention!" = "Attention!";
+"Attention!" = "Attenzione!";
 
 /* (No Comment) */
-"Auto numbering" = "Auto numbering";
+"Auto numbering" = "Numerazione automatica";
 
 /* (No Comment) */
-"Backup data is loaded successfully." = "Backup data is loaded successfully.";
+"Backup data is loaded successfully." = "I dati di backup vengono caricati correttamente.";
 
 /* (No Comment) */
-"Backup data is saved successfully." = "Backup data is saved successfully.";
+"Backup data is saved successfully." = "I dati di backup vengono salvati correttamente.";
 
 /* (No Comment) */
-"Cancel" = "Cancel";
+"Cancel" = "Annulla";
 
 /* (No Comment) */
-"completed" = "completed";
+"Checking..." = "Controllo ...";
 
 /* (No Comment) */
-"Data backup" = "Data backup";
+"completed" = "completato";
 
 /* (No Comment) */
-"Enable iCloud backups and shared lists" = "Enable iCloud backups and shared lists";
+"Data backup" = "Backup dei dati";
 
 /* (No Comment) */
-"Error" = "Error";
+"Enable iCloud backups and shared lists" = "Abilita i backup di iCloud e gli elenchi condivisi";
 
 /* (No Comment) */
-"Error loading" = "Error loading";
+"Error" = "Errore";
 
 /* (No Comment) */
-"Fetch data from iCloud" = "Fetch data from iCloud";
+"Error loading" = "Errore nel caricamento";
 
 /* (No Comment) */
-"Fetching share data" = "Fetching share data";
+"Feedback" = "Risposta";
 
 /* (No Comment) */
-"has been changed" = "has been changed";
+"Feedback on application 'Neslis'" = "Feedback sull'applicazione \"Neslis\"";
 
 /* (No Comment) */
-"List settings" = "List settings";
+"Fetch data from iCloud" = "Recupera i dati da iCloud";
 
 /* (No Comment) */
-"List title" = "List title";
+"Fetching share data" = "Recupero dei dati di condivisione";
 
 /* (No Comment) */
-"Lists" = "Lists";
+"has been changed" = "è stato cambiato";
 
 /* (No Comment) */
-"Load" = "Load";
+"iCloud" = "iCloud";
 
 /* (No Comment) */
-"Merge" = "Merge";
+"List settings" = "Impostazioni elenco";
 
 /* (No Comment) */
-"New list" = "New list";
+"List title" = "Titolo elenco";
 
 /* (No Comment) */
-"New task" = "New task";
+"Lists" = "Liste";
 
 /* (No Comment) */
-"No backup data in iCloud." = "No backup data in iCloud.";
+"Load" = "Caricare";
 
 /* (No Comment) */
-"Notifications of changes to shared lists" = "Notifications of changes to shared lists";
+"Merge" = "Unisci";
 
 /* (No Comment) */
-"Please check the internet connection or re-authenticate in an iCloud account or try later." = "Please check the internet connection or re-authenticate in an iCloud account or try later.";
+"New list" = "Nuovo elenco";
 
 /* (No Comment) */
-"Pro Version" = "Pro Version";
+"New task" = "Nuovo compito";
 
 /* (No Comment) */
-"Purchase Pro version for backup and sharing lists." = "Purchase Pro version for backup and sharing lists.";
+"No backup data in iCloud." = "Nessun dato di backup in iCloud.";
 
 /* (No Comment) */
-"Purchases" = "Purchases";
+"Notifications of changes to shared lists" = "Notifiche di modifiche agli elenchi condivisi";
 
 /* (No Comment) */
-"Recurring billing. Cancel any time. If you choose to purchase a subscription, payment will be charged to your iTunes account and your account will be charged for renewal 24 hours prior to the end of the current period unless auto-renew is turned off. Auto-renewal is managed by the user and may be turned off at any time by going to your settings in the iTunes Store after purchase. Any unused portion of a free trial period will be forfeited when the user purchases a subscription." = "Recurring billing. Cancel any time. If you choose to purchase a subscription, payment will be charged to your iTunes account and your account will be charged for renewal 24 hours prior to the end of the current period unless auto-renew is turned off. Auto-renewal is managed by the user and may be turned off at any time by going to your settings in the iTunes Store after purchase. Any unused portion of a free trial period will be forfeited when the user purchases a subscription.";
+"OK" = "OK";
 
 /* (No Comment) */
-"Restore data" = "Restore data";
+"Other applications" = "Altre applicazioni";
 
 /* (No Comment) */
-"Restore purchases" = "Restore purchases";
+"Please check the internet connection or re-authenticate in an iCloud account or try later." = "Controlla la connessione Internet o autenticati di nuovo in un account iCloud o riprova più tardi.";
 
 /* (No Comment) */
-"Restoring..." = "Restoring...";
+"Pro Version" = "Versione Pro";
 
 /* (No Comment) */
-"Rewrite" = "Rewrite";
+"Purchase Pro version for backup and sharing lists." = "Acquista la versione Pro per il backup e la condivisione degli elenchi.";
 
 /* (No Comment) */
-"Save" = "Save";
+"Purchases" = "Acquisti";
 
 /* (No Comment) */
-"Save data" = "Save data";
+"Rate the app" = "Valuta l'app";
 
 /* (No Comment) */
-"Saving..." = "Saving...";
+"Recurring billing. Cancel any time. If you choose to purchase a subscription, payment will be charged to your iTunes account and your account will be charged for renewal 24 hours prior to the end of the current period unless auto-renew is turned off. Auto-renewal is managed by the user and may be turned off at any time by going to your settings in the iTunes Store after purchase. Any unused portion of a free trial period will be forfeited when the user purchases a subscription." = "Fatturazione ricorrente. Annulla in qualsiasi momento. Se scegli di acquistare un abbonamento, il pagamento verrà addebitato sul tuo account iTunes e il tuo account verrà addebitato per il rinnovo 24 ore prima della fine del periodo corrente a meno che il rinnovo automatico non sia disattivato. Il rinnovo automatico è gestito dall'utente e può essere disattivato in qualsiasi momento accedendo alle tue impostazioni in iTunes Store dopo l'acquisto. Qualsiasi parte inutilizzata di un periodo di prova gratuito verrà annullata quando l'utente acquista un abbonamento.";
 
 /* (No Comment) */
-"Settings" = "Settings";
+"Restore data" = "Ripristinare i dati";
 
 /* (No Comment) */
-"Shared list" = "Shared list";
+"Restore purchases" = "Ripristinare gli acquisti";
 
 /* (No Comment) */
-"Sharing lists" = "Sharing lists";
+"Restoring..." = "Ripristino ...";
 
 /* (No Comment) */
-"Show 'expand all' button" = "Show 'expand all' button";
+"Rewrite" = "Riscrivere";
 
 /* (No Comment) */
-"Show checked item" = "Show checked item";
+"Save" = "Salva";
 
 /* (No Comment) */
-"Show sublist count" = "Show sublist count";
+"Save data" = "Salvare i dati";
 
 /* (No Comment) */
-"Success" = "Success";
+"Saving..." = "Salvataggio...";
 
 /* (No Comment) */
-"To accept shared lists buy the Pro version." = "To accept shared lists buy the Pro version.";
+"Send email to the developer" = "Invia un'email allo sviluppatore";
 
 /* (No Comment) */
-"Upgrade to Pro" = "Upgrade to Pro";
+"Settings" = "impostazioni";
 
 /* (No Comment) */
-"Use the color of the list-icon to visual style the list" = "Use the color of the list-icon to visual style the list";
+"Shared list" = "Elenco condiviso";
 
 /* (No Comment) */
-"Visual settings" = "Visual settings";
+"Sharing lists" = "Condivisione di elenchi";
 
 /* (No Comment) */
-"You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup." = "You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup.";
+"Show 'expand all' button" = "Mostra il pulsante \"espandi tutto\"";
 
 /* (No Comment) */
-"You have another iCloud data. Do you want to rewrite this data or merge all data?" = "You have another iCloud data. Do you want to rewrite this data or merge all data?";
+"Show checked item" = "Mostra l'elemento selezionato";
 
 /* (No Comment) */
-"You have backup data! Do you want to load this data?" = "You have backup data! Do you want to load this data?";
+"Show list counter" = "Mostra contatore elenco";
 
 /* (No Comment) */
-"You have data on your phone. Do you want to rewrite this data or merge all data?" = "You have data on your phone. Do you want to rewrite this data or merge all data?";
+"Show progress bar" = "Mostra barra di avanzamento";
 
 /* (No Comment) */
-"You turned off the notification in settings. Please turn on the notifications for this application in the system settings." = "You turned off the notification in settings. Please turn on the notifications for this application in the system settings.";
+"Show sublist count" = "Mostra il conteggio delle sottoliste";
 
 /* (No Comment) */
-"Your save" = "Your save";
+"Success" = "Successo";
+
+/* (No Comment) */
+"To accept shared lists buy the Pro version." = "Per accettare elenchi condivisi acquista la versione Pro.";
+
+/* (No Comment) */
+"To send an email please configure email into settings iOS" = "Per inviare un'e-mail, configurare l'email nelle impostazioni iOS";
+
+/* (No Comment) */
+"Upgrade to Pro" = "Aggiornamento a Pro";
+
+/* (No Comment) */
+"Use icon color in the list" = "Usa il colore dell'icona nell'elenco";
+
+/* (No Comment) */
+"Use the color of the list-icon to visual style the list" = "Usa il colore dell'icona dell'elenco per visualizzare lo stile dell'elenco";
+
+/* (No Comment) */
+"Visual settings" = "Impostazioni visive";
+
+/* (No Comment) */
+"You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup." = "Non hai effettuato l'accesso a iCloud o non tutti i permessi sono stati concessi! Accedi al tuo account iCloud e controlla tutti i permessi nelle impostazioni di sistema per la condivisione di elenchi e il backup.";
+
+/* (No Comment) */
+"You don't have the Pro version! Please upgrade to Pro." = "Non hai la versione Pro! Esegui l'upgrade a Pro.";
+
+/* (No Comment) */
+"You have another iCloud data. Do you want to rewrite this data or merge all data?" = "Hai altri dati iCloud. Vuoi riscrivere questi dati o unire tutti i dati?";
+
+/* (No Comment) */
+"You have backup data! Do you want to load this data?" = "Hai i dati di backup! Vuoi caricare questi dati?";
+
+/* (No Comment) */
+"You have data on your phone. Do you want to rewrite this data or merge all data?" = "Hai dati sul tuo telefono. Vuoi riscrivere questi dati o unire tutti i dati?";
+
+/* (No Comment) */
+"You have the Pro version. All right!" = "Hai la versione Pro. Tutto ok!";
+
+/* (No Comment) */
+"You turned off the notification in settings. Please turn on the notifications for this application in the system settings." = "Hai disattivato la notifica nelle impostazioni. Attiva le notifiche per questa applicazione nelle impostazioni di sistema.";
+
+/* (No Comment) */
+"Your save" = "Risparmia il";
+
+/* (No Comment) */
+"Your subscription is expired! Please upgrade to Pro." = "Il tuo abbonamento è scaduto! Esegui l'upgrade a Pro.";
 

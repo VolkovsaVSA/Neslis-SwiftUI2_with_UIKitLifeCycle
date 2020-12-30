@@ -1,159 +1,204 @@
 /* (No Comment) */
-"/ month" = "/ month";
+"/ month" = "/ 月";
 
 /* (No Comment) */
-"/ year" = "/ year";
+"/ year" = "/年";
 
 /* (No Comment) */
-"Attention!" = "Attention!";
+"Attention!" = "注意！";
 
 /* (No Comment) */
-"Auto numbering" = "Auto numbering";
+"Auto numbering" = "自動ナンバリング";
 
 /* (No Comment) */
-"Backup data is loaded successfully." = "Backup data is loaded successfully.";
+"Backup data is loaded successfully." = "バックアップデータが正常に読み込まれます。";
 
 /* (No Comment) */
-"Backup data is saved successfully." = "Backup data is saved successfully.";
+"Backup data is saved successfully." = "バックアップデータは正常に保存されます。";
 
 /* (No Comment) */
-"Cancel" = "Cancel";
+"Cancel" = "キャンセル";
 
 /* (No Comment) */
-"completed" = "completed";
+"Checking..." = "チェック中...";
 
 /* (No Comment) */
-"Data backup" = "Data backup";
+"completed" = "完了";
 
 /* (No Comment) */
-"Enable iCloud backups and shared lists" = "Enable iCloud backups and shared lists";
+"Data backup" = "データバックアップ";
 
 /* (No Comment) */
-"Error" = "Error";
+"Enable iCloud backups and shared lists" = "iCloudバックアップと共有リストを有効にする";
 
 /* (No Comment) */
-"Error loading" = "Error loading";
+"Error" = "エラー";
 
 /* (No Comment) */
-"Fetch data from iCloud" = "Fetch data from iCloud";
+"Error loading" = "読み込みエラー";
 
 /* (No Comment) */
-"Fetching share data" = "Fetching share data";
+"Feedback" = "フィードバック";
 
 /* (No Comment) */
-"has been changed" = "has been changed";
+"Feedback on application 'Neslis'" = "アプリケーション「Neslis」に関するフィードバック";
 
 /* (No Comment) */
-"List settings" = "List settings";
+"Fetch data from iCloud" = "iCloudからデータを取得する";
 
 /* (No Comment) */
-"List title" = "List title";
+"Fetching share data" = "共有データの取得";
 
 /* (No Comment) */
-"Lists" = "Lists";
+"has been changed" = "変更されました";
 
 /* (No Comment) */
-"Load" = "Load";
+"iCloud" = "iCloud";
 
 /* (No Comment) */
-"Merge" = "Merge";
+"List settings" = "リスト設定";
 
 /* (No Comment) */
-"New list" = "New list";
+"List title" = "リストタイトル";
 
 /* (No Comment) */
-"New task" = "New task";
+"Lists" = "リスト";
 
 /* (No Comment) */
-"No backup data in iCloud." = "No backup data in iCloud.";
+"Load" = "負荷";
 
 /* (No Comment) */
-"Notifications of changes to shared lists" = "Notifications of changes to shared lists";
+"Merge" = "マージ";
 
 /* (No Comment) */
-"Please check the internet connection or re-authenticate in an iCloud account or try later." = "Please check the internet connection or re-authenticate in an iCloud account or try later.";
+"New list" = "新しいリスト";
 
 /* (No Comment) */
-"Pro Version" = "Pro Version";
+"New task" = "新しい仕事";
 
 /* (No Comment) */
-"Purchase Pro version for backup and sharing lists." = "Purchase Pro version for backup and sharing lists.";
+"No backup data in iCloud." = "iCloudにバックアップデータがありません。";
 
 /* (No Comment) */
-"Purchases" = "Purchases";
+"Notifications of changes to shared lists" = "共有リストへの変更の通知";
 
 /* (No Comment) */
-"Recurring billing. Cancel any time. If you choose to purchase a subscription, payment will be charged to your iTunes account and your account will be charged for renewal 24 hours prior to the end of the current period unless auto-renew is turned off. Auto-renewal is managed by the user and may be turned off at any time by going to your settings in the iTunes Store after purchase. Any unused portion of a free trial period will be forfeited when the user purchases a subscription." = "Recurring billing. Cancel any time. If you choose to purchase a subscription, payment will be charged to your iTunes account and your account will be charged for renewal 24 hours prior to the end of the current period unless auto-renew is turned off. Auto-renewal is managed by the user and may be turned off at any time by going to your settings in the iTunes Store after purchase. Any unused portion of a free trial period will be forfeited when the user purchases a subscription.";
+"OK" = "OK";
 
 /* (No Comment) */
-"Restore data" = "Restore data";
+"Other applications" = "その他のアプリケーション";
 
 /* (No Comment) */
-"Restore purchases" = "Restore purchases";
+"Please check the internet connection or re-authenticate in an iCloud account or try later." = "インターネット接続を確認するか、iCloudアカウントで再認証するか、後で試してください。";
 
 /* (No Comment) */
-"Restoring..." = "Restoring...";
+"Pro Version" = "プロバージョン";
 
 /* (No Comment) */
-"Rewrite" = "Rewrite";
+"Purchase Pro version for backup and sharing lists." = "バックアップと共有リスト用にProバージョンを購入します。";
 
 /* (No Comment) */
-"Save" = "Save";
+"Purchases" = "購入";
 
 /* (No Comment) */
-"Save data" = "Save data";
+"Rate the app" = "アプリを評価する";
 
 /* (No Comment) */
-"Saving..." = "Saving...";
+"Recurring billing. Cancel any time. If you choose to purchase a subscription, payment will be charged to your iTunes account and your account will be charged for renewal 24 hours prior to the end of the current period unless auto-renew is turned off. Auto-renewal is managed by the user and may be turned off at any time by going to your settings in the iTunes Store after purchase. Any unused portion of a free trial period will be forfeited when the user purchases a subscription." = "定期的な請求。 いつでもキャンセルしてください。 サブスクリプションの購入を選択した場合、自動更新がオフになっていない限り、支払いはiTunesアカウントに請求され、アカウントの更新は現在の期間が終了する24時間前に請求されます。 自動更新はユーザーが管理し、購入後にiTunesStoreの設定に移動することでいつでもオフにすることができます。 無料試用期間の未使用部分は、ユーザーがサブスクリプションを購入すると失効します。";
 
 /* (No Comment) */
-"Settings" = "Settings";
+"Restore data" = "データを復元する";
 
 /* (No Comment) */
-"Shared list" = "Shared list";
+"Restore purchases" = "購入を復元";
 
 /* (No Comment) */
-"Sharing lists" = "Sharing lists";
+"Restoring..." = "復元中...";
 
 /* (No Comment) */
-"Show 'expand all' button" = "Show 'expand all' button";
+"Rewrite" = "リライト";
 
 /* (No Comment) */
-"Show checked item" = "Show checked item";
+"Save" = "保存する";
 
 /* (No Comment) */
-"Show sublist count" = "Show sublist count";
+"Save data" = "データを保存する";
 
 /* (No Comment) */
-"Success" = "Success";
+"Saving..." = "保存中...";
 
 /* (No Comment) */
-"To accept shared lists buy the Pro version." = "To accept shared lists buy the Pro version.";
+"Send email to the developer" = "開発者にメールを送信する";
 
 /* (No Comment) */
-"Upgrade to Pro" = "Upgrade to Pro";
+"Settings" = "設定";
 
 /* (No Comment) */
-"Use the color of the list-icon to visual style the list" = "Use the color of the list-icon to visual style the list";
+"Shared list" = "共有リスト";
 
 /* (No Comment) */
-"Visual settings" = "Visual settings";
+"Sharing lists" = "リストの共有";
 
 /* (No Comment) */
-"You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup." = "You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup.";
+"Show 'expand all' button" = "「すべて展開」ボタンを表示";
 
 /* (No Comment) */
-"You have another iCloud data. Do you want to rewrite this data or merge all data?" = "You have another iCloud data. Do you want to rewrite this data or merge all data?";
+"Show checked item" = "チェック項目を表示";
 
 /* (No Comment) */
-"You have backup data! Do you want to load this data?" = "You have backup data! Do you want to load this data?";
+"Show list counter" = "リストカウンターを表示";
 
 /* (No Comment) */
-"You have data on your phone. Do you want to rewrite this data or merge all data?" = "You have data on your phone. Do you want to rewrite this data or merge all data?";
+"Show progress bar" = "プログレスバーを表示";
 
 /* (No Comment) */
-"You turned off the notification in settings. Please turn on the notifications for this application in the system settings." = "You turned off the notification in settings. Please turn on the notifications for this application in the system settings.";
+"Show sublist count" = "サブリスト数を表示";
 
 /* (No Comment) */
-"Your save" = "Your save";
+"Success" = "成功";
+
+/* (No Comment) */
+"To accept shared lists buy the Pro version." = "共有リストを受け入れるには、Proバージョンを購入してください。";
+
+/* (No Comment) */
+"To send an email please configure email into settings iOS" = "メールを送信するには、iOSの設定にメールを設定してください";
+
+/* (No Comment) */
+"Upgrade to Pro" = "プロ仕様にアップグレードする";
+
+/* (No Comment) */
+"Use icon color in the list" = "リストでアイコンの色を使用する";
+
+/* (No Comment) */
+"Use the color of the list-icon to visual style the list" = "リストアイコンの色を使用して、リストの視覚的なスタイルを設定します";
+
+/* (No Comment) */
+"Visual settings" = "視覚的な設定";
+
+/* (No Comment) */
+"You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup." = "iCloudにログインしていないか、すべての許可が付与されているわけではありません。 iCloudアカウントにログインし、共有リストとバックアップのシステム設定ですべての許可を確認してください。";
+
+/* (No Comment) */
+"You don't have the Pro version! Please upgrade to Pro." = "あなたはプロバージョンを持っていません！ Proにアップグレードしてください。";
+
+/* (No Comment) */
+"You have another iCloud data. Do you want to rewrite this data or merge all data?" = "別のiCloudデータがあります。 このデータを書き換えますか、それともすべてのデータをマージしますか？";
+
+/* (No Comment) */
+"You have backup data! Do you want to load this data?" = "バックアップデータがあります！ このデータをロードしますか？";
+
+/* (No Comment) */
+"You have data on your phone. Do you want to rewrite this data or merge all data?" = "あなたはあなたの電話にデータを持っています。 このデータを書き換えますか、それともすべてのデータをマージしますか？";
+
+/* (No Comment) */
+"You have the Pro version. All right!" = "あなたはプロバージョンを持っています。 大丈夫！";
+
+/* (No Comment) */
+"You turned off the notification in settings. Please turn on the notifications for this application in the system settings." = "設定で通知をオフにしました。 システム設定でこのアプリケーションの通知をオンにしてください。";
+
+/* (No Comment) */
+"Your save" = "あなたの保存";
+
+/* (No Comment) */
+"Your subscription is expired! Please upgrade to Pro." = "サブスクリプションの有効期限が切れています！ Proにアップグレードしてください。";
 

@@ -108,9 +108,11 @@ struct ListOfListsView: View {
                             .frame(width: 24, height: 14)
                     }),
                     trailing: Button(action: {
+                        progressData.activitySpinnerText = TxtLocal.Alert.Text.checking
+                        progressData.activitySpinnerAnimate = true
                         IAPManager.shared.validateReceipt()
                     }, label: {
-                        Text("iCloud")
+                        Text(TxtLocal.Text.iCloud)
                             .font(.system(size: 12, weight: .thin, design: .default))
                             .padding(4)
                             .accentColor(Color(UIColor.label))

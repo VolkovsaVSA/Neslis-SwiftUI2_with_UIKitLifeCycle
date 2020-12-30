@@ -1,159 +1,204 @@
 /* (No Comment) */
-"/ month" = "/ month";
+"/ month" = "/月";
 
 /* (No Comment) */
-"/ year" = "/ year";
+"/ year" = "/ 年";
 
 /* (No Comment) */
-"Attention!" = "Attention!";
+"Attention!" = "注意！";
 
 /* (No Comment) */
-"Auto numbering" = "Auto numbering";
+"Auto numbering" = "自动编号";
 
 /* (No Comment) */
-"Backup data is loaded successfully." = "Backup data is loaded successfully.";
+"Backup data is loaded successfully." = "备份数据已成功加载。";
 
 /* (No Comment) */
-"Backup data is saved successfully." = "Backup data is saved successfully.";
+"Backup data is saved successfully." = "备份数据保存成功。";
 
 /* (No Comment) */
-"Cancel" = "Cancel";
+"Cancel" = "取消";
 
 /* (No Comment) */
-"completed" = "completed";
+"Checking..." = "检查...";
 
 /* (No Comment) */
-"Data backup" = "Data backup";
+"completed" = "已完成";
 
 /* (No Comment) */
-"Enable iCloud backups and shared lists" = "Enable iCloud backups and shared lists";
+"Data backup" = "数据备份";
 
 /* (No Comment) */
-"Error" = "Error";
+"Enable iCloud backups and shared lists" = "启用iCloud备份和共享列表";
 
 /* (No Comment) */
-"Error loading" = "Error loading";
+"Error" = "错误";
 
 /* (No Comment) */
-"Fetch data from iCloud" = "Fetch data from iCloud";
+"Error loading" = "错误加载";
 
 /* (No Comment) */
-"Fetching share data" = "Fetching share data";
+"Feedback" = "反馈";
 
 /* (No Comment) */
-"has been changed" = "has been changed";
+"Feedback on application 'Neslis'" = "对应用程序“ Neslis”的反馈";
 
 /* (No Comment) */
-"List settings" = "List settings";
+"Fetch data from iCloud" = "从iCloud获取数据";
 
 /* (No Comment) */
-"List title" = "List title";
+"Fetching share data" = "获取共享数据";
 
 /* (No Comment) */
-"Lists" = "Lists";
+"has been changed" = "已经变了";
 
 /* (No Comment) */
-"Load" = "Load";
+"iCloud" = "iCloud";
 
 /* (No Comment) */
-"Merge" = "Merge";
+"List settings" = "清单设定";
 
 /* (No Comment) */
-"New list" = "New list";
+"List title" = "清单标题";
 
 /* (No Comment) */
-"New task" = "New task";
+"Lists" = "清单";
 
 /* (No Comment) */
-"No backup data in iCloud." = "No backup data in iCloud.";
+"Load" = "加载";
 
 /* (No Comment) */
-"Notifications of changes to shared lists" = "Notifications of changes to shared lists";
+"Merge" = "合并";
 
 /* (No Comment) */
-"Please check the internet connection or re-authenticate in an iCloud account or try later." = "Please check the internet connection or re-authenticate in an iCloud account or try later.";
+"New list" = "新清单";
 
 /* (No Comment) */
-"Pro Version" = "Pro Version";
+"New task" = "新任务";
 
 /* (No Comment) */
-"Purchase Pro version for backup and sharing lists." = "Purchase Pro version for backup and sharing lists.";
+"No backup data in iCloud." = "iCloud中没有备份数据。";
 
 /* (No Comment) */
-"Purchases" = "Purchases";
+"Notifications of changes to shared lists" = "共享列表更改通知";
 
 /* (No Comment) */
-"Recurring billing. Cancel any time. If you choose to purchase a subscription, payment will be charged to your iTunes account and your account will be charged for renewal 24 hours prior to the end of the current period unless auto-renew is turned off. Auto-renewal is managed by the user and may be turned off at any time by going to your settings in the iTunes Store after purchase. Any unused portion of a free trial period will be forfeited when the user purchases a subscription." = "Recurring billing. Cancel any time. If you choose to purchase a subscription, payment will be charged to your iTunes account and your account will be charged for renewal 24 hours prior to the end of the current period unless auto-renew is turned off. Auto-renewal is managed by the user and may be turned off at any time by going to your settings in the iTunes Store after purchase. Any unused portion of a free trial period will be forfeited when the user purchases a subscription.";
+"OK" = "好";
 
 /* (No Comment) */
-"Restore data" = "Restore data";
+"Other applications" = "其他应用";
 
 /* (No Comment) */
-"Restore purchases" = "Restore purchases";
+"Please check the internet connection or re-authenticate in an iCloud account or try later." = "请检查互联网连接或在iCloud帐户中重新认证，或稍后再试。";
 
 /* (No Comment) */
-"Restoring..." = "Restoring...";
+"Pro Version" = "专业版";
 
 /* (No Comment) */
-"Rewrite" = "Rewrite";
+"Purchase Pro version for backup and sharing lists." = "购买Pro版本以获取备份和共享列表。";
 
 /* (No Comment) */
-"Save" = "Save";
+"Purchases" = "采购";
 
 /* (No Comment) */
-"Save data" = "Save data";
+"Rate the app" = "评价应用";
 
 /* (No Comment) */
-"Saving..." = "Saving...";
+"Recurring billing. Cancel any time. If you choose to purchase a subscription, payment will be charged to your iTunes account and your account will be charged for renewal 24 hours prior to the end of the current period unless auto-renew is turned off. Auto-renewal is managed by the user and may be turned off at any time by going to your settings in the iTunes Store after purchase. Any unused portion of a free trial period will be forfeited when the user purchases a subscription." = "定期结算。 随时取消。 如果您选择购买订阅，则将在当前期间结束前24小时向您的iTunes帐户收取费用，并向您的帐户收取续订费用，除非关闭了自动续订功能。 自动更新由用户管理，购买后可随时通过在iTunes Store中转到您的设置来将其关闭。 当用户购买订阅时，免费试用期中任何未使用的部分将被没收。";
 
 /* (No Comment) */
-"Settings" = "Settings";
+"Restore data" = "恢复数据";
 
 /* (No Comment) */
-"Shared list" = "Shared list";
+"Restore purchases" = "恢复购买";
 
 /* (No Comment) */
-"Sharing lists" = "Sharing lists";
+"Restoring..." = "正在还原...";
 
 /* (No Comment) */
-"Show 'expand all' button" = "Show 'expand all' button";
+"Rewrite" = "改写";
 
 /* (No Comment) */
-"Show checked item" = "Show checked item";
+"Save" = "保存";
 
 /* (No Comment) */
-"Show sublist count" = "Show sublist count";
+"Save data" = "保存数据";
 
 /* (No Comment) */
-"Success" = "Success";
+"Saving..." = "保存...";
 
 /* (No Comment) */
-"To accept shared lists buy the Pro version." = "To accept shared lists buy the Pro version.";
+"Send email to the developer" = "发送电子邮件给开发人员";
 
 /* (No Comment) */
-"Upgrade to Pro" = "Upgrade to Pro";
+"Settings" = "设定值";
 
 /* (No Comment) */
-"Use the color of the list-icon to visual style the list" = "Use the color of the list-icon to visual style the list";
+"Shared list" = "共用清单";
 
 /* (No Comment) */
-"Visual settings" = "Visual settings";
+"Sharing lists" = "分享清单";
 
 /* (No Comment) */
-"You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup." = "You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup.";
+"Show 'expand all' button" = "显示“全部展开”按钮";
 
 /* (No Comment) */
-"You have another iCloud data. Do you want to rewrite this data or merge all data?" = "You have another iCloud data. Do you want to rewrite this data or merge all data?";
+"Show checked item" = "显示选中的项目";
 
 /* (No Comment) */
-"You have backup data! Do you want to load this data?" = "You have backup data! Do you want to load this data?";
+"Show list counter" = "显示清单柜台";
 
 /* (No Comment) */
-"You have data on your phone. Do you want to rewrite this data or merge all data?" = "You have data on your phone. Do you want to rewrite this data or merge all data?";
+"Show progress bar" = "显示进度条";
 
 /* (No Comment) */
-"You turned off the notification in settings. Please turn on the notifications for this application in the system settings." = "You turned off the notification in settings. Please turn on the notifications for this application in the system settings.";
+"Show sublist count" = "显示子列表数";
 
 /* (No Comment) */
-"Your save" = "Your save";
+"Success" = "成功";
+
+/* (No Comment) */
+"To accept shared lists buy the Pro version." = "要接受共享列表，请购买Pro版本。";
+
+/* (No Comment) */
+"To send an email please configure email into settings iOS" = "要发送电子邮件，请在设置iOS中配置电子邮件";
+
+/* (No Comment) */
+"Upgrade to Pro" = "升级到专业版";
+
+/* (No Comment) */
+"Use icon color in the list" = "在列表中使用图标颜色";
+
+/* (No Comment) */
+"Use the color of the list-icon to visual style the list" = "使用列表图标的颜色对列表进行视觉样式";
+
+/* (No Comment) */
+"Visual settings" = "视觉设定";
+
+/* (No Comment) */
+"You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup." = "您尚未登录iCloud，或未授予所有许可！ 请登录您的iCloud帐户，并检查系统设置中的所有许可以共享列表和备份。";
+
+/* (No Comment) */
+"You don't have the Pro version! Please upgrade to Pro." = "您没有专业版！ 请升级到专业版。";
+
+/* (No Comment) */
+"You have another iCloud data. Do you want to rewrite this data or merge all data?" = "您还有另一个iCloud数据。 您要重写此数据还是合并所有数据？";
+
+/* (No Comment) */
+"You have backup data! Do you want to load this data?" = "您有备份数据！ 是否要加载此数据？";
+
+/* (No Comment) */
+"You have data on your phone. Do you want to rewrite this data or merge all data?" = "您的手机上有数据。 您要重写此数据还是合并所有数据？";
+
+/* (No Comment) */
+"You have the Pro version. All right!" = "您有专业版。 行！";
+
+/* (No Comment) */
+"You turned off the notification in settings. Please turn on the notifications for this application in the system settings." = "您已在设置中关闭了通知。 请在系统设置中打开此应用程序的通知。";
+
+/* (No Comment) */
+"Your save" = "您的保存";
+
+/* (No Comment) */
+"Your subscription is expired! Please upgrade to Pro." = "您的订阅已过期！ 请升级到专业版。";
 
