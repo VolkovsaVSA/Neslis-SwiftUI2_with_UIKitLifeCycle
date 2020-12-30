@@ -29,6 +29,11 @@ struct TxtLocal {
             static let youAreHaveDataOnYourPhone = NSLocalizedString("You have data on your phone. Do you want to rewrite this data or merge all data?", comment: " ")
             static let youAreHaveBackupData = NSLocalizedString("You have backup data! Do you want to load this data?", comment: " ")
             static let noBackupDataInICloud = NSLocalizedString("No backup data in iCloud.", comment: " ")
+            
+            static let youHaveTheProVersion = NSLocalizedString("You have the Pro version. All right!", comment: " ")
+            static let yourSubscriptionIsExpired = NSLocalizedString("Your subscription is expired! Please upgrade to Pro. ", comment: " ")
+            static let youDontHaveTheProversion = NSLocalizedString("You don't have the Pro version!", comment: " ")
+            static let You have the Pro version. All right! = NSLocalizedString("You have the Pro version. All right!", comment: " ")
         }
     }
     struct Button {
@@ -53,11 +58,13 @@ struct TxtLocal {
     struct Toggle {
         static let enableBackup = NSLocalizedString("Enable iCloud backups and shared lists", comment: " ")
         static let notificationsOfChanges = NSLocalizedString("Notifications of changes to shared lists", comment: " ")
-        static let useTheColorOfTheList = NSLocalizedString("Use the color of the list-icon to visual style the list", comment: " ")
+        static let useIconColorinList = NSLocalizedString("Use icon color in the list", comment: " ")
         static let showExpandAllButton = NSLocalizedString("Show 'expand all' button", comment: " ")
         static let autoNumbering = NSLocalizedString("Auto numbering", comment: " ")
         static let showCheckedItem = NSLocalizedString("Show checked item", comment: " ")
         static let showSublistCount = NSLocalizedString("Show sublist count", comment: " ")
+        static let showProgressBar = NSLocalizedString("Show progress bar", comment: " ")
+        static let showListCounter = NSLocalizedString("Show list counter", comment: " ")
     }
     struct TextField {
         //static let newTask = NSLocalizedString("New task", comment: " ")
@@ -78,11 +85,19 @@ struct TxtLocal {
         static let inYear = NSLocalizedString("/ year", comment: " ")
         static let yourSave = NSLocalizedString("Your save", comment: " ")
         static let recurringBilling = NSLocalizedString("Recurring billing. Cancel any time. If you choose to purchase a subscription, payment will be charged to your iTunes account and your account will be charged for renewal 24 hours prior to the end of the current period unless auto-renew is turned off. Auto-renewal is managed by the user and may be turned off at any time by going to your settings in the iTunes Store after purchase. Any unused portion of a free trial period will be forfeited when the user purchases a subscription.", comment: " ")
+        
+        static let feedback = NSLocalizedString("Feedback", comment: " ")
+        static let sendEmailToTheDeveloper = NSLocalizedString("Send email to the developer", comment: " ")
+        static let toSendEmail = NSLocalizedString("To send an email please configure email into settings iOS", comment: " ")
+        static let rateTheApp = NSLocalizedString("Rate the app", comment: " ")
+        static let otherApplications = NSLocalizedString("Other applications", comment: " ")
+        
     }
     struct contentBody {
         static let sharedList = NSLocalizedString("Shared list", comment: " ")
         static let hasBeenChanged = NSLocalizedString("has been changed", comment: " ")
         static let completed = NSLocalizedString("completed", comment: " ")
+        static let feedbackOnApplication = NSLocalizedString("Feedback on application 'Neslis'", comment: " ")
     }
 }
 

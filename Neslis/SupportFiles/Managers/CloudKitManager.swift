@@ -368,13 +368,22 @@ struct CloudKitManager {
         static func fetchListCountFromPrivateDB(completion: @escaping (Result<Int, Error>) -> Void) {
             let predicate = NSPredicate(value: true)
             let query = CKQuery(recordType: RecordType.List.rawValue, predicate: predicate)
-            cloudKitPrivateDB.perform(query, inZoneWith: recordZone.zoneID) { (records, error) in
-                if let performError = error {
-                    completion(.failure(performError))
+            
+            CloudKitManager.Zone.createZone { error in
+                if let zoneErreor = error {
+                    completion(.failure(zoneErreor))
                 } else {
-                    completion(.success(records?.count ?? 0))
+                    cloudKitPrivateDB.perform(query, inZoneWith: recordZone.zoneID) { (records, error) in
+                        if let performError = error {
+                            completion(.failure(performError))
+                        } else {
+                            completion(.success(records?.count ?? 0))
+                        }
+                    }
                 }
             }
+            
+            
         }
         static func fetchListDataFromPrivateDB(db: CKDatabase, completion: @escaping ([ListCD], Error?) -> Void) {
             var results = [ListCD]()

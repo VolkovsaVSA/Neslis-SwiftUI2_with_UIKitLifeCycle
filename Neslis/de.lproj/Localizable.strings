@@ -1,0 +1,192 @@
+/* (No Comment) */
+"/ month" = "/ Monat";
+
+/* (No Comment) */
+"/ year" = "/ Jahr";
+
+/* (No Comment) */
+"Attention!" = "Beachtung!";
+
+/* (No Comment) */
+"Auto numbering" = "Automatische Nummerierung";
+
+/* (No Comment) */
+"Backup data is loaded successfully." = "Sicherungsdaten wurden erfolgreich geladen.";
+
+/* (No Comment) */
+"Backup data is saved successfully." = "Sicherungsdaten werden erfolgreich gespeichert.";
+
+/* (No Comment) */
+"Cancel" = "Stornieren";
+
+/* (No Comment) */
+"completed" = "abgeschlossen";
+
+/* (No Comment) */
+"Data backup" = "Datensicherung";
+
+/* (No Comment) */
+"Enable iCloud backups and shared lists" = "Aktivieren Sie iCloud-Sicherungen und freigegebene Listen";
+
+/* (No Comment) */
+"Error" = "Error";
+
+/* (No Comment) */
+"Error loading" = "Ladefehler";
+
+/* (No Comment) */
+"Feedback" = "Feedback";
+
+/* (No Comment) */
+"Feedback on application 'Neslis'" = "Feedback zur Bewerbung 'Neslis'";
+
+/* (No Comment) */
+"Fetch data from iCloud" = "Daten aus iCloud abrufen";
+
+/* (No Comment) */
+"Fetching share data" = "Freigabedaten abrufen";
+
+/* (No Comment) */
+"has been changed" = "wurde geändert";
+
+/* (No Comment) */
+"iCloud" = "iCloud";
+
+/* (No Comment) */
+"List settings" = "Listeneinstellungen";
+
+/* (No Comment) */
+"List title" = "Listentitel";
+
+/* (No Comment) */
+"Lists" = "Listen";
+
+/* (No Comment) */
+"Load" = "Laden";
+
+/* (No Comment) */
+"Merge" = "Merge";
+
+/* (No Comment) */
+"New list" = "Neue Liste";
+
+/* (No Comment) */
+"New task" = "Neue Aufgabe";
+
+/* (No Comment) */
+"No backup data in iCloud." = "Keine Sicherungsdaten in iCloud.";
+
+/* (No Comment) */
+"Notifications of changes to shared lists" = "Benachrichtigungen über Änderungen an freigegebenen Listen";
+
+/* (No Comment) */
+"OK" = "OK";
+
+/* (No Comment) */
+"Other applications" = "Andere Anwendungen";
+
+/* (No Comment) */
+"Please check the internet connection or re-authenticate in an iCloud account or try later." = "Bitte überprüfen Sie die Internetverbindung oder authentifizieren Sie sich erneut in einem iCloud-Konto oder versuchen Sie es später.";
+
+/* (No Comment) */
+"Pro Version" = "Pro-Version";
+
+/* (No Comment) */
+"Purchase Pro version for backup and sharing lists." = "Kaufen Sie die Pro-Version für Sicherungs- und Freigabelisten.";
+
+/* (No Comment) */
+"Purchases" = "Einkäufe";
+
+/* (No Comment) */
+"Rate the app" = "Bewerten Sie die App";
+
+/* (No Comment) */
+"Recurring billing. Cancel any time. If you choose to purchase a subscription, payment will be charged to your iTunes account and your account will be charged for renewal 24 hours prior to the end of the current period unless auto-renew is turned off. Auto-renewal is managed by the user and may be turned off at any time by going to your settings in the iTunes Store after purchase. Any unused portion of a free trial period will be forfeited when the user purchases a subscription." = "Wiederkehrende Abrechnung. Jederzeit abbrechen. Wenn Sie ein Abonnement erwerben, wird die Zahlung Ihrem iTunes-Konto belastet, und Ihr Konto wird 24 Stunden vor dem Ende des aktuellen Zeitraums für die Verlängerung belastet, sofern die automatische Verlängerung nicht deaktiviert ist. Die automatische Verlängerung wird vom Benutzer verwaltet und kann jederzeit deaktiviert werden, indem Sie nach dem Kauf Ihre Einstellungen im iTunes Store aufrufen. Jeder nicht genutzte Teil eines kostenlosen Testzeitraums verfällt, wenn der Benutzer ein Abonnement kauft.";
+
+/* (No Comment) */
+"Restore data" = "Daten wiederherstellen";
+
+/* (No Comment) */
+"Restore purchases" = "Einkäufe wiederherstellen";
+
+/* (No Comment) */
+"Restoring..." = "Wiederherstellen ...";
+
+/* (No Comment) */
+"Rewrite" = "Umschreiben";
+
+/* (No Comment) */
+"Save" = "speichern";
+
+/* (No Comment) */
+"Save data" = "Daten speichern";
+
+/* (No Comment) */
+"Saving..." = "Sparen ...";
+
+/* (No Comment) */
+"Send email to the developer" = "E-Mail an den Entwickler senden";
+
+/* (No Comment) */
+"Settings" = "die Einstellungen";
+
+/* (No Comment) */
+"Shared list" = "Gemeinsame Liste";
+
+/* (No Comment) */
+"Sharing lists" = "Listen teilen";
+
+/* (No Comment) */
+"Show 'expand all' button" = "Schaltfläche \"Alle erweitern\" anzeigen";
+
+/* (No Comment) */
+"Show checked item" = "Aktiviertes Element anzeigen";
+
+/* (No Comment) */
+"Show list counter" = "Listenzähler anzeigen";
+
+/* (No Comment) */
+"Show progress bar" = "Fortschrittsbalken anzeigen";
+
+/* (No Comment) */
+"Show sublist count" = "Anzahl der Unterlisten anzeigen";
+
+/* (No Comment) */
+"Success" = "Erfolg";
+
+/* (No Comment) */
+"To accept shared lists buy the Pro version." = "Um gemeinsam genutzte Listen zu akzeptieren, kaufen Sie die Pro-Version.";
+
+/* (No Comment) */
+"To send an email please configure email into settings iOS" = "Um eine E-Mail zu senden, konfigurieren Sie bitte die E-Mail in den Einstellungen iOS";
+
+/* (No Comment) */
+"Upgrade to Pro" = "Upgrade auf Pro";
+
+/* (No Comment) */
+"Use icon color in the list" = "Verwenden Sie die Symbolfarbe in der Liste";
+
+/* (No Comment) */
+"Use the color of the list-icon to visual style the list" = "Verwenden Sie die Farbe des Listensymbols, um die Liste visuell zu gestalten";
+
+/* (No Comment) */
+"Visual settings" = "Visuelle Einstellungen";
+
+/* (No Comment) */
+"You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup." = "Sie sind nicht in iCloud angemeldet oder es werden nicht alle Genehmigungen erteilt! Melden Sie sich bei Ihrem iCloud-Konto an und überprüfen Sie alle Genehmigungen in den Systemeinstellungen für Freigabelisten und Backups.";
+
+/* (No Comment) */
+"You have another iCloud data. Do you want to rewrite this data or merge all data?" = "Sie haben andere iCloud-Daten. Möchten Sie diese Daten neu schreiben oder alle Daten zusammenführen?";
+
+/* (No Comment) */
+"You have backup data! Do you want to load this data?" = "Sie haben Sicherungsdaten! Möchten Sie diese Daten laden?";
+
+/* (No Comment) */
+"You have data on your phone. Do you want to rewrite this data or merge all data?" = "Sie haben Daten auf Ihrem Telefon. Möchten Sie diese Daten neu schreiben oder alle Daten zusammenführen?";
+
+/* (No Comment) */
+"You turned off the notification in settings. Please turn on the notifications for this application in the system settings." = "Sie haben die Benachrichtigung in den Einstellungen deaktiviert. Bitte aktivieren Sie die Benachrichtigungen für diese Anwendung in den Systemeinstellungen.";
+
+/* (No Comment) */
+"Your save" = "Ihre speichern";
+

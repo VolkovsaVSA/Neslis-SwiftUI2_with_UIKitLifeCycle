@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CloudKit
+import MessageUI
 
 struct SettingsView: View {
     
@@ -29,10 +30,12 @@ struct SettingsView: View {
     @State var activitySpinnerText = ""
     @State var finishMessage = ""
     @State var finishButtonShow = false
-    
     @State var showPurchase = false
     
     @ObservedObject var userAlert = UserAlert.shared
+    
+    @State var mailResult: Result<MFMailComposeResult, Error>? = nil
+    @State var isShowingMailView = false
     
 //    fileprivate func attentionAlert() -> Binding<Bool> {
 //        Binding<Bool>(
@@ -124,6 +127,7 @@ struct SettingsView: View {
         if IAPManager.shared.products.isEmpty {
             DispatchQueue.main.async {
                 myAlert.alertType = .networkError
+                myAlert.text = TxtLocal.Alert.Text.pleaseCheckTheInternetConnection
             }
         } else {
             showPurchase = true
@@ -148,6 +152,7 @@ struct SettingsView: View {
                 case .failure(let error):
                     print(error.localizedDescription)
                     DispatchQueue.main.async {
+                        myAlert.text = error.localizedDescription
                         myAlert.alertType = .networkError
                         userSettings.icloudBackup = false
                     }
@@ -232,7 +237,8 @@ struct SettingsView: View {
         case .networkError:
             return Alert(
                 title: Text(TxtLocal.Alert.Title.error),
-                message: Text(TxtLocal.Alert.Text.pleaseCheckTheInternetConnection),
+                //message: Text(TxtLocal.Alert.Text.pleaseCheckTheInternetConnection),
+                message: Text(myAlert.text),
                 dismissButton: .cancel(Text(TxtLocal.Button.ok))
             )
         case .oldIcloudData:
@@ -252,8 +258,8 @@ struct SettingsView: View {
             )
         case .noAccessToNotification:
             return Alert(
-                title: Text(""),
-                message: Text(""),
+                title: Text(myAlert.title),
+                message: Text(myAlert.text),
                 dismissButton: .cancel(Text(TxtLocal.Button.ok))
             )
         }
@@ -304,24 +310,76 @@ struct SettingsView: View {
 //                                        .modifier(SettingDeleteButtonModifire())
                                         Toggle(TxtLocal.Toggle.notificationsOfChanges, isOn: $userSettings.sharingNotification)
                                     }
-                                    
                                 } else {
                                     Text(TxtLocal.Text.yourAreNotLogged)
-                                        .multilineTextAlignment(.center)
+                                        .fixedSize(horizontal: false, vertical: true)
                                         .font(.system(size: 17, weight: .thin, design: .default))
+                                        .multilineTextAlignment(.leading)
+                                        .lineLimit(nil)
                                 }
                             } else {
                                 Text(TxtLocal.Text.purchaseProVersionForBackup)
-                                    //.multilineTextAlignment(.center)
+                                    .fixedSize(horizontal: false, vertical: true)
                                     .font(.system(size: 17, weight: .thin, design: .default))
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(nil)
                             }
                             
                         }
                         
                         Section(header: Text(TxtLocal.Text.visualSettings).font(.title).foregroundColor(.gray)) {
-                            Toggle(TxtLocal.Toggle.useTheColorOfTheList, isOn: $userSettings.useListColor)
+                            Toggle(TxtLocal.Toggle.useIconColorinList, isOn: $userSettings.useListColor)
                             Toggle(TxtLocal.Toggle.showExpandAllButton, isOn: $userSettings.showAllExpandButton)
-                        }
+                            Toggle(TxtLocal.Toggle.showProgressBar, isOn: $userSettings.showProgressBar)
+                            Toggle(TxtLocal.Toggle.showListCounter, isOn: $userSettings.showListCounter)
+                        }.fixedSize(horizontal: false, vertical: true)
+                        Section(header: Text(TxtLocal.Text.feedback).font(.title).foregroundColor(.gray)) {
+
+                            Button {
+                                self.isShowingMailView.toggle()
+                            } label: {
+                                HStack {
+                                    VStack(alignment: .leading ,spacing: 0) {
+                                        Text(TxtLocal.Text.sendEmailToTheDeveloper)
+                                        if !MFMailComposeViewController.canSendMail() {
+                                            Text(TxtLocal.Text.toSendEmail)
+                                                .font(.system(size: 10, weight: .thin, design: .default))
+                                        }
+                                    }
+                                    Spacer()
+                                    ChevronView()
+                                }
+                            }
+                            .buttonStyle(FeedbackButtonStyle(disable: !MFMailComposeViewController.canSendMail()))
+                            
+                            Button {
+                                if let url = AppId.appUrl {
+                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                }
+                            } label: {
+                                HStack{
+                                    Text(TxtLocal.Text.rateTheApp)
+                                    Spacer()
+                                    ChevronView()
+                                }
+                            }
+                            .buttonStyle(FeedbackButtonStyle(disable: false))
+                            
+                            Button {
+                                if let url = AppId.developerUrl {
+                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                }
+                            } label: {
+                                HStack{
+                                    Text(TxtLocal.Text.otherApplications)
+                                    Spacer()
+                                    ChevronView()
+                                }
+                            }
+                            .buttonStyle(FeedbackButtonStyle(disable: false))
+
+
+                        }.fixedSize(horizontal: false, vertical: true)
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 16)
@@ -347,6 +405,9 @@ struct SettingsView: View {
                     PurchaseView()
                         .environment(\.managedObjectContext, viewContext)
                 }
+//                .sheet(isPresented: $isShowingMailView) {
+//                    MailView(result: $mailResult, recipients: [AppId.feedbackEmail], messageBody: TxtLocal.contentBody.feedbackOnApplication)
+//                }
                 .navigationBarTitle(TxtLocal.Navigation.Title.settings)
             }
         }

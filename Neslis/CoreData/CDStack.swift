@@ -6,6 +6,8 @@
 //
 
 import CoreData
+import SwiftUI
+
 
 struct CDStack {
     static let shared = CDStack()
@@ -31,6 +33,19 @@ struct CDStack {
         })
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         container.viewContext.automaticallyMergesChangesFromParent = true
+    }
+    
+    func nonCompleteCount(list: [ListItemCD]) -> Int {
+        return list.count - list.filter { $0.isComplete == false }.count
+    }
+    func completeCounter(list: ListCD) -> String {
+        return "\(nonCompleteCount(list: list.childrenArray ?? []))/\(list.childrenArray?.count ?? 0)"
+    }
+    func progressCount(list: ListCD) -> Double {
+        Double(CDStack.shared.nonCompleteCount(list: list.childrenArray ?? []))/Double(list.childrenArray?.count ?? 0)
+    }
+    func progressColor(list: ListCD, firstColor: Color, secondColor: Color) -> Color {
+        return CDStack.shared.nonCompleteCount(list: list.childrenArray ?? []) == (list.childrenArray?.count ?? 0) ? firstColor : secondColor
     }
     
     func deleteAllLists(context: NSManagedObjectContext) {
@@ -106,8 +121,7 @@ struct CDStack {
                 
                 do {
                     
-                    if UserDefaults.standard.bool(forKey: UDKeys.Settings.icloudBackup) {
-                        
+                    if UserSettings.shared.icloudBackup {
                         CloudKitManager.SaveToCloud.saveObjectsToCloud2(objects: sortedObj) { result in
                             switch result {
                             case .success(let count):
@@ -116,7 +130,6 @@ struct CDStack {
                                 print("Error iCloudBackup \(error.localizedDescription)")
                             }
                         }
-                        
                     }
                     
                     try context.save()
@@ -203,9 +216,7 @@ struct CDStack {
         return list
     }
     
-    func nonCompleteCount(list: [ListItemCD]) -> Int {
-        return list.count - list.filter { $0.isComplete == false }.count
-    }
+    
     func prepareArrayListItem(array: [ListItemCD], list: ListCD) -> [ListItemCD] {
         let filteredArray = array.filter {
             list.isShowCheckedItem ? true : $0.isComplete == list.isShowCheckedItem

@@ -70,10 +70,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func windowScene(_ windowScene: UIWindowScene, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
         
+        IAPManager.shared.validateReceipt()
         //cloudKitShareMetadata.
         progressData.setZero()
+        
 
-        if UserSettings.shared.proVersion {
+        if UserSettings.shared.proVersion, UserSettings.shared.icloudBackup {
+            
             let acceptSharesOperation = CKAcceptSharesOperation(shareMetadatas: [cloudKitShareMetadata])
             acceptSharesOperation.qualityOfService = .userInteractive
             acceptSharesOperation.acceptSharesCompletionBlock = { error in

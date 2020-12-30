@@ -18,6 +18,8 @@ struct UDKeys {
         static let useListColor = "useListColor"
         static let zonIsCreated = "zonIsCreated"
         static let showAllExpandButton = "showAllExpandButton"
+        static let showProgressBar = "showProgressBar"
+        static let showListCounter = "showListCounter"
     }
 
 }

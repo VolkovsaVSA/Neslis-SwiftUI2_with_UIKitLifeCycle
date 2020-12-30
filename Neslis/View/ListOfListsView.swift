@@ -27,33 +27,58 @@ struct ListOfListsView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \ListCD.dateAdded, ascending: true)]
     )
     var lists: FetchedResults<ListCD>
+    @State private var refreshingID = UUID()
     
     @StateObject var colorVM = ColorSetViewModel()
     @StateObject var iconVM = IconSetViewModel()
     
     @State var size: CGFloat = 35
- 
+    
     var body: some View {
         LoadingView(isShowing: $progressData.activitySpinnerAnimate, text: progressData.activitySpinnerText, messageText: $progressData.finishMessage, result: $progressData.finishButtonShow, progressBar: $progressData.value, content: {
             NavigationView {
                 List {
                     ForEach(lists) { list in
                         NavigationLink(destination: ListView(userSettings: userSettings, colorVM: colorVM, iconVM: iconVM, list: list)) {
-                            HStack {
-                                IconImageView(image: list.systemImage, color: Color(UIColor.color(data: list.systemImageColor) ??
-                                                                                        .red) , imageScale: 16)
-                                Text("\(list.title)")
-                                Spacer()
-                                if list.isShare {
-                                    Image(systemName: "person.2.circle.fill")
+                            VStack(spacing: 3) {
+                                HStack {
+                                    IconImageView(image: list.systemImage, color: Color(UIColor.color(data: list.systemImageColor) ??
+                                                                                            .red) , imageScale: 16)
+                                    Text("\(list.title)")
+                                    Spacer()
+                                    if list.isShare {
+                                        Image(systemName: "person.2.circle.fill")
+                                    }
+                                    if userSettings.showListCounter {
+                                        Text(CDStack.shared.completeCounter(list: list))
+                                            .font(.system(size: 17, weight: .thin, design: .default))
+                                    }
+   
                                 }
-                                Text("\(list.childrenArray?.count ?? 0)")
+//                                .foregroundColor(CDStack.shared.progressColor(list: list, firstColor: Color.green, secondColor: Color(UIColor.label)))
+                                if userSettings.showProgressBar {
+                                    ProgressView(value: CDStack.shared.progressCount(list: list))
+                                        //.scaleEffect(x: 1, y: 4, anchor: .center)
+                                        .progressViewStyle(LinearProgressViewStyle(tint: CDStack.shared.progressColor(list: list, firstColor: Color.green, secondColor: Color.blue)))
+                                }
+                                
+                                    
+                            }
+                            
+                            .onReceive(list.objectWillChange) { _ in
+                                refreshingID = UUID()
                             }
                             
                         }
-                        
                     }
                     .onDelete(perform: deleteList)
+
+                    
+//                    .listRowBackground(ProgressView(value: CDStack.shared.progressCount(list: lists[0]))
+//                                        .scaleEffect(x: 1, y: 10, anchor: .center)
+//                                        .progressViewStyle(LinearProgressViewStyle(tint: CDStack.shared.progressColor(list: lists[0], firstColor: Color.green, secondColor: Color.blue).opacity(0.6))))
+                    
+
                     
                     Button(action: {
                         activeSheet = .newList
@@ -70,7 +95,7 @@ struct ListOfListsView: View {
                             Spacer()
                         }
                     }
-                }
+                }.id(refreshingID)
                 .listStyle(InsetGroupedListStyle())
                 .edgesIgnoringSafeArea(.bottom)
                 .navigationTitle(TxtLocal.Navigation.Title.lists)
@@ -81,6 +106,16 @@ struct ListOfListsView: View {
                         Image(systemName: "line.horizontal.3")
                             .resizable()
                             .frame(width: 24, height: 14)
+                    }),
+                    trailing: Button(action: {
+                        IAPManager.shared.validateReceipt()
+                    }, label: {
+                        Text("iCloud")
+                            .font(.system(size: 12, weight: .thin, design: .default))
+                            .padding(4)
+                            .accentColor(Color(UIColor.label))
+                            .background(userSettings.icloudBackup ? Color.green.opacity(0.9) : Color.red.opacity(0.9))
+                            .cornerRadius(4)
                     })
                 )
                 .sheet(item: $activeSheet) { item in

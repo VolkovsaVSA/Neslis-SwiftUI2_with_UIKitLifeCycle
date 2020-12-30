@@ -35,6 +35,12 @@
 "Error loading" = "Error al cargar";
 
 /* (No Comment) */
+"Feedback" = "Retroalimentación";
+
+/* (No Comment) */
+"Feedback on application 'Neslis'" = "Comentarios sobre la aplicación 'Neslis'";
+
+/* (No Comment) */
 "Fetch data from iCloud" = "Obtener datos de iCloud";
 
 /* (No Comment) */
@@ -42,6 +48,9 @@
 
 /* (No Comment) */
 "has been changed" = "ha sido cambiado";
+
+/* (No Comment) */
+"iCloud" = "iCloud";
 
 /* (No Comment) */
 "List settings" = "Configuración de lista";
@@ -71,6 +80,12 @@
 "Notifications of changes to shared lists" = "Notificaciones de cambios en listas compartidas";
 
 /* (No Comment) */
+"OK" = "OK";
+
+/* (No Comment) */
+"Other applications" = "Otras aplicaciones";
+
+/* (No Comment) */
 "Please check the internet connection or re-authenticate in an iCloud account or try later." = "Verifique la conexión a Internet o vuelva a autenticarse en una cuenta de iCloud o intente más tarde.";
 
 /* (No Comment) */
@@ -81,6 +96,9 @@
 
 /* (No Comment) */
 "Purchases" = "Compras";
+
+/* (No Comment) */
+"Rate the app" = "Califica la aplicación";
 
 /* (No Comment) */
 "Recurring billing. Cancel any time. If you choose to purchase a subscription, payment will be charged to your iTunes account and your account will be charged for renewal 24 hours prior to the end of the current period unless auto-renew is turned off. Auto-renewal is managed by the user and may be turned off at any time by going to your settings in the iTunes Store after purchase. Any unused portion of a free trial period will be forfeited when the user purchases a subscription." = "Facturación recurrente. Cancela en cualquier momento. Si elige comprar una suscripción, el pago se cargará a su cuenta de iTunes y se le cobrará a su cuenta la renovación 24 horas antes del final del período actual, a menos que la renovación automática esté desactivada. La renovación automática es administrada por el usuario y puede desactivarse en cualquier momento yendo a su configuración en iTunes Store después de la compra. Cualquier parte no utilizada de un período de prueba gratuito se perderá cuando el usuario compre una suscripción.";
@@ -107,6 +125,9 @@
 "Saving..." = "Ahorro...";
 
 /* (No Comment) */
+"Send email to the developer" = "Enviar correo electrónico al desarrollador";
+
+/* (No Comment) */
 "Settings" = "Configuraciones";
 
 /* (No Comment) */
@@ -122,6 +143,12 @@
 "Show checked item" = "Mostrar artículo marcado";
 
 /* (No Comment) */
+"Show list counter" = "Mostrar contador de lista";
+
+/* (No Comment) */
+"Show progress bar" = "Mostrar barra de progreso";
+
+/* (No Comment) */
 "Show sublist count" = "Mostrar recuento de sublistas";
 
 /* (No Comment) */
@@ -131,7 +158,13 @@
 "To accept shared lists buy the Pro version." = "Para aceptar listas compartidas, compre la versión Pro.";
 
 /* (No Comment) */
+"To send an email please configure email into settings iOS" = "Para enviar un correo electrónico, configure el correo electrónico en la configuración de iOS";
+
+/* (No Comment) */
 "Upgrade to Pro" = "Actualizar a Prov";
+
+/* (No Comment) */
+"Use icon color in the list" = "Use el color del icono en la lista";
 
 /* (No Comment) */
 "Use the color of the list-icon to visual style the list" = "Use el color del icono de lista para darle estilo visual a la lista";

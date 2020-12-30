@@ -53,7 +53,7 @@ struct ListView: View {
             if !addNewSublist && list.childrenArray?.count ?? 0 != 0 {
                 VStack {
                     Spacer()
-                    Text(" \(CDStack.shared.nonCompleteCount(list: list.childrenArray ?? [])) / \(list.childrenArray?.count ?? 0) \(TxtLocal.contentBody.completed) ")
+                    Text(" \(CDStack.shared.completeCounter(list: list)) \(TxtLocal.contentBody.completed) ")
                         .font(.subheadline)
                         .background(CDStack.shared.nonCompleteCount(list: list.childrenArray ?? []) == (list.childrenArray?.count ?? 0) ? Color.green : Color(UIColor.systemBackground), alignment: .center)
                         .cornerRadius(6)

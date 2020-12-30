@@ -58,6 +58,18 @@ class UserSettings: ObservableObject {
             UserDefaults.standard.setValue(showAllExpandButton, forKey: UDKeys.Settings.showAllExpandButton)
         }
     }
+    @Published var showProgressBar: Bool {
+        didSet {
+            UserDefaults.standard.setValue(showProgressBar, forKey: UDKeys.Settings.showProgressBar)
+        }
+    }
+    @Published var showListCounter: Bool {
+        didSet {
+            UserDefaults.standard.setValue(showListCounter, forKey: UDKeys.Settings.showListCounter)
+        }
+    }
+    
+    
     
     init() {
         self.icloudBackup = UserDefaults.standard.object(forKey: UDKeys.Settings.icloudBackup) as? Bool ?? false
@@ -66,5 +78,7 @@ class UserSettings: ObservableObject {
         self.useListColor = UserDefaults.standard.object(forKey: UDKeys.Settings.useListColor) as? Bool ?? false
         self.zonIsCreated = UserDefaults.standard.object(forKey: UDKeys.Settings.zonIsCreated) as? Bool ?? false
         self.showAllExpandButton = UserDefaults.standard.object(forKey: UDKeys.Settings.showAllExpandButton) as? Bool ?? true
+        self.showProgressBar = UserDefaults.standard.object(forKey: UDKeys.Settings.showProgressBar) as? Bool ?? false
+        self.showListCounter = UserDefaults.standard.object(forKey: UDKeys.Settings.showListCounter) as? Bool ?? true
     }
 }

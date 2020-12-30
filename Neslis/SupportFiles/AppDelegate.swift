@@ -17,176 +17,184 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 
 
-        if let notification = CKNotification(fromRemoteNotificationDictionary: userInfo), let subscriptionID = notification.subscriptionID {
+        IAPManager.shared.validateReceipt()
+        
+        if UserSettings.shared.proVersion, UserSettings.shared.icloudBackup {
             
-            let sub = CKDatabaseSubscription(subscriptionID: subscriptionID)
-            
-            let notificationInfo = CKSubscription.NotificationInfo()
-            notificationInfo.shouldSendContentAvailable = true
-            sub.notificationInfo = notificationInfo
-            
-            
-            switch subscriptionID {
-            case "sharedDbSubsID":
-                print("CloudKit shared database changed")
+            if let notification = CKNotification(fromRemoteNotificationDictionary: userInfo), let subscriptionID = notification.subscriptionID {
                 
-                var fetchConfigurations = [CKRecordZone.ID : CKFetchRecordZoneChangesOperation.ZoneConfiguration]()
-                var changeToken: CKServerChangeToken? = nil
-                CloudKitManager.cloudKitSharedDB.fetchAllRecordZones { (recordZones, error) in
-                    guard let zones =  recordZones else {return}
-                    var zonesID = [CKRecordZone.ID]()
-                    
-                    zones.forEach { recordZone in
-                        
-                        zonesID.append(recordZone.zoneID)
-                        
-                        if let changeTokenData = UserDefaults.standard.data(forKey: recordZone.zoneID.description) {
-                            do {
-                                changeToken = try NSKeyedUnarchiver.unarchivedObject(ofClass: CKServerChangeToken.self, from: changeTokenData)
-                                let configuration = CKFetchRecordZoneChangesOperation.ZoneConfiguration(previousServerChangeToken: changeToken, resultsLimit: nil, desiredKeys: nil)
-                                configuration.previousServerChangeToken = changeToken
-                                fetchConfigurations[recordZone.zoneID] = configuration
-                            } catch {
-                                print("fetchAllRecordZones error: \(error.localizedDescription)")
-                            }
-                        }
-                        
-                    }
-                    
-                    let operation = CKFetchRecordZoneChangesOperation(recordZoneIDs: zonesID, configurationsByRecordZoneID: fetchConfigurations)
-                    operation.fetchAllChanges = true
-                    operation.recordChangedBlock = { record in
-                        //processing the received a modified record
-                        CDStack.shared.saveChangeRecord(record: record, context: CDStack.shared.container.viewContext)
-                        
-                    }
-                    operation.recordWithIDWasDeletedBlock = { recordID, recordType in
-                        //processing the received a delete record
-                        guard let entity = CDStack.shared.convertRecordTypeToCDEntity(recordType: recordType) else {return}
-                        guard let deleteObject = CDStack.shared.fetchOneObject(entityName: entity, id: recordID.recordName, context: CDStack.shared.container.viewContext) else {return}
-                        CDStack.shared.container.viewContext.delete(deleteObject)
-                        CDStack.shared.saveContext(context: CDStack.shared.container.viewContext)
-                    }
-                    
-                    operation.recordZoneChangeTokensUpdatedBlock = { zoneID, changeToken, data in
-                        guard let changeToken = changeToken else { return }
-                        do {
-                            let changeTokenData = try NSKeyedArchiver.archivedData(withRootObject: changeToken, requiringSecureCoding: false)
-                            UserDefaults.standard.set(changeTokenData, forKey: zoneID.description)
-                        } catch {
-                            print("recordZoneChangeTokensUpdatedBlock error: \(error.localizedDescription)")
-                        }
-                        
-                    }
-                    operation.recordZoneFetchCompletionBlock = { zoneID, changeToken, data, more, error in
-                        guard error == nil else { return }
-                        guard let changeToken = changeToken else { return }
-                        do {
-                            let changeTokenData = try NSKeyedArchiver.archivedData(withRootObject: changeToken, requiringSecureCoding: false)
-                            UserDefaults.standard.set(changeTokenData, forKey: zoneID.description)
-                        } catch {
-                            print("recordZoneFetchCompletionBlock error: \(error.localizedDescription)")
-                        }
-                    }
-                    operation.fetchRecordZoneChangesCompletionBlock = { error in
-                        guard error == nil else {
-                            print("fetchRecordZoneChangesCompletionBlock error: \(error!.localizedDescription)")
-                            return
-                        }
-                        
-                        
-                    }
-                    
-                    operation.qualityOfService = .userInitiated
-                    CloudKitManager.cloudKitSharedDB.add(operation)
-                    completionHandler(.newData)
-                }
+                let sub = CKDatabaseSubscription(subscriptionID: subscriptionID)
                 
-            case "privateDbSubsID":
-                print("CloudKit private database changed")
-                //fetchSharedCanges(db: CloudKitManager.cloudKitPrivateDB)
+                let notificationInfo = CKSubscription.NotificationInfo()
+                notificationInfo.shouldSendContentAvailable = true
+                sub.notificationInfo = notificationInfo
                 
-                var fetchConfigurations = [CKRecordZone.ID : CKFetchRecordZoneChangesOperation.ZoneConfiguration]()
-                var changeToken: CKServerChangeToken? = nil
                 
-                CloudKitManager.cloudKitPrivateDB.fetchAllRecordZones { (recordZones, error) in
+                switch subscriptionID {
+                case "sharedDbSubsID":
+                    print("CloudKit shared database changed")
                     
-                    guard let zones =  recordZones else {return}
-                    var zonesID = [CKRecordZone.ID]()
-                    
-                    zones.forEach { recordZone in
+                    var fetchConfigurations = [CKRecordZone.ID : CKFetchRecordZoneChangesOperation.ZoneConfiguration]()
+                    var changeToken: CKServerChangeToken? = nil
+                    CloudKitManager.cloudKitSharedDB.fetchAllRecordZones { (recordZones, error) in
+                        guard let zones =  recordZones else {return}
+                        var zonesID = [CKRecordZone.ID]()
                         
-                        zonesID.append(recordZone.zoneID)
-                        
-                        if let changeTokenData = UserDefaults.standard.data(forKey: recordZone.zoneID.description) {
+                        zones.forEach { recordZone in
                             
-                            do {
-                                changeToken = try NSKeyedUnarchiver.unarchivedObject(ofClass: CKServerChangeToken.self, from: changeTokenData)
-                                let configuration = CKFetchRecordZoneChangesOperation.ZoneConfiguration(previousServerChangeToken: changeToken, resultsLimit: nil, desiredKeys: nil)
-                                configuration.previousServerChangeToken = changeToken
-                                fetchConfigurations[recordZone.zoneID] = configuration
-                            } catch {
-                                print("fetchAllRecordZones error: \(error.localizedDescription)")
+                            zonesID.append(recordZone.zoneID)
+                            
+                            if let changeTokenData = UserDefaults.standard.data(forKey: recordZone.zoneID.description) {
+                                do {
+                                    changeToken = try NSKeyedUnarchiver.unarchivedObject(ofClass: CKServerChangeToken.self, from: changeTokenData)
+                                    let configuration = CKFetchRecordZoneChangesOperation.ZoneConfiguration(previousServerChangeToken: changeToken, resultsLimit: nil, desiredKeys: nil)
+                                    configuration.previousServerChangeToken = changeToken
+                                    fetchConfigurations[recordZone.zoneID] = configuration
+                                } catch {
+                                    print("fetchAllRecordZones error: \(error.localizedDescription)")
+                                }
                             }
                             
                         }
                         
-                    }
-                    
-                    let operation = CKFetchRecordZoneChangesOperation(recordZoneIDs: zonesID, configurationsByRecordZoneID: fetchConfigurations)
-                    operation.fetchAllChanges = true
-                    operation.recordChangedBlock = { record in
-                        //processing the received a modified record
-                        CDStack.shared.saveChangeRecord(record: record, context: CDStack.shared.container.viewContext)
-                    }
-                    operation.recordWithIDWasDeletedBlock = { recordID, recordType in
-                        //processing the received a delete record
-                        print("recordWithIDWasDeletedBlock")
-                        guard let entity = CDStack.shared.convertRecordTypeToCDEntity(recordType: recordType) else {return}
-                        guard let deleteObject = CDStack.shared.fetchOneObject(entityName: entity, id: recordID.recordName, context: CDStack.shared.container.viewContext) else {return}
-                        CDStack.shared.container.viewContext.delete(deleteObject)
-                        CDStack.shared.saveContext(context: CDStack.shared.container.viewContext)
-                    }
-                    
-                    operation.recordZoneChangeTokensUpdatedBlock = { zoneID, changeToken, data in
-                        guard let changeToken = changeToken else { return }
-                        do {
-                            let changeTokenData = try NSKeyedArchiver.archivedData(withRootObject: changeToken, requiringSecureCoding: false)
-                            UserDefaults.standard.set(changeTokenData, forKey: zoneID.description)
-                        } catch {
-                            print("recordZoneChangeTokensUpdatedBlock error: \(error.localizedDescription)")
+                        let operation = CKFetchRecordZoneChangesOperation(recordZoneIDs: zonesID, configurationsByRecordZoneID: fetchConfigurations)
+                        operation.fetchAllChanges = true
+                        operation.recordChangedBlock = { record in
+                            //processing the received a modified record
+                            CDStack.shared.saveChangeRecord(record: record, context: CDStack.shared.container.viewContext)
+                            
+                        }
+                        operation.recordWithIDWasDeletedBlock = { recordID, recordType in
+                            //processing the received a delete record
+                            guard let entity = CDStack.shared.convertRecordTypeToCDEntity(recordType: recordType) else {return}
+                            guard let deleteObject = CDStack.shared.fetchOneObject(entityName: entity, id: recordID.recordName, context: CDStack.shared.container.viewContext) else {return}
+                            CDStack.shared.container.viewContext.delete(deleteObject)
+                            CDStack.shared.saveContext(context: CDStack.shared.container.viewContext)
                         }
                         
-                    }
-                    operation.recordZoneFetchCompletionBlock = { zoneID, changeToken, data, more, error in
-                        guard error == nil else { return }
-                        guard let changeToken = changeToken else { return }
-                        do {
-                            let changeTokenData = try NSKeyedArchiver.archivedData(withRootObject: changeToken, requiringSecureCoding: false)
-                            UserDefaults.standard.set(changeTokenData, forKey: zoneID.description)
-                        } catch {
-                            print("recordZoneFetchCompletionBlock error: \(error.localizedDescription)")
+                        operation.recordZoneChangeTokensUpdatedBlock = { zoneID, changeToken, data in
+                            guard let changeToken = changeToken else { return }
+                            do {
+                                let changeTokenData = try NSKeyedArchiver.archivedData(withRootObject: changeToken, requiringSecureCoding: false)
+                                UserDefaults.standard.set(changeTokenData, forKey: zoneID.description)
+                            } catch {
+                                print("recordZoneChangeTokensUpdatedBlock error: \(error.localizedDescription)")
+                            }
+                            
                         }
-                    }
-                    operation.fetchRecordZoneChangesCompletionBlock = { error in
-                        guard error == nil else {
-                            print("fetchRecordZoneChangesCompletionBlock error: \(error!.localizedDescription)")
-                            return
+                        operation.recordZoneFetchCompletionBlock = { zoneID, changeToken, data, more, error in
+                            guard error == nil else { return }
+                            guard let changeToken = changeToken else { return }
+                            do {
+                                let changeTokenData = try NSKeyedArchiver.archivedData(withRootObject: changeToken, requiringSecureCoding: false)
+                                UserDefaults.standard.set(changeTokenData, forKey: zoneID.description)
+                            } catch {
+                                print("recordZoneFetchCompletionBlock error: \(error.localizedDescription)")
+                            }
                         }
+                        operation.fetchRecordZoneChangesCompletionBlock = { error in
+                            guard error == nil else {
+                                print("fetchRecordZoneChangesCompletionBlock error: \(error!.localizedDescription)")
+                                return
+                            }
+                            
+                            
+                        }
+                        
+                        operation.qualityOfService = .userInitiated
+                        CloudKitManager.cloudKitSharedDB.add(operation)
+                        completionHandler(.newData)
                     }
                     
-                    operation.qualityOfService = .userInitiated
-                    CloudKitManager.cloudKitPrivateDB.add(operation)
-                    completionHandler(.newData)
+                case "privateDbSubsID":
+                    print("CloudKit private database changed")
+                    //fetchSharedCanges(db: CloudKitManager.cloudKitPrivateDB)
+                    
+                    var fetchConfigurations = [CKRecordZone.ID : CKFetchRecordZoneChangesOperation.ZoneConfiguration]()
+                    var changeToken: CKServerChangeToken? = nil
+                    
+                    CloudKitManager.cloudKitPrivateDB.fetchAllRecordZones { (recordZones, error) in
+                        
+                        guard let zones =  recordZones else {return}
+                        var zonesID = [CKRecordZone.ID]()
+                        
+                        zones.forEach { recordZone in
+                            
+                            zonesID.append(recordZone.zoneID)
+                            
+                            if let changeTokenData = UserDefaults.standard.data(forKey: recordZone.zoneID.description) {
+                                
+                                do {
+                                    changeToken = try NSKeyedUnarchiver.unarchivedObject(ofClass: CKServerChangeToken.self, from: changeTokenData)
+                                    let configuration = CKFetchRecordZoneChangesOperation.ZoneConfiguration(previousServerChangeToken: changeToken, resultsLimit: nil, desiredKeys: nil)
+                                    configuration.previousServerChangeToken = changeToken
+                                    fetchConfigurations[recordZone.zoneID] = configuration
+                                } catch {
+                                    print("fetchAllRecordZones error: \(error.localizedDescription)")
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                        let operation = CKFetchRecordZoneChangesOperation(recordZoneIDs: zonesID, configurationsByRecordZoneID: fetchConfigurations)
+                        operation.fetchAllChanges = true
+                        operation.recordChangedBlock = { record in
+                            //processing the received a modified record
+                            CDStack.shared.saveChangeRecord(record: record, context: CDStack.shared.container.viewContext)
+                        }
+                        operation.recordWithIDWasDeletedBlock = { recordID, recordType in
+                            //processing the received a delete record
+                            print("recordWithIDWasDeletedBlock")
+                            guard let entity = CDStack.shared.convertRecordTypeToCDEntity(recordType: recordType) else {return}
+                            guard let deleteObject = CDStack.shared.fetchOneObject(entityName: entity, id: recordID.recordName, context: CDStack.shared.container.viewContext) else {return}
+                            CDStack.shared.container.viewContext.delete(deleteObject)
+                            CDStack.shared.saveContext(context: CDStack.shared.container.viewContext)
+                        }
+                        
+                        operation.recordZoneChangeTokensUpdatedBlock = { zoneID, changeToken, data in
+                            guard let changeToken = changeToken else { return }
+                            do {
+                                let changeTokenData = try NSKeyedArchiver.archivedData(withRootObject: changeToken, requiringSecureCoding: false)
+                                UserDefaults.standard.set(changeTokenData, forKey: zoneID.description)
+                            } catch {
+                                print("recordZoneChangeTokensUpdatedBlock error: \(error.localizedDescription)")
+                            }
+                            
+                        }
+                        operation.recordZoneFetchCompletionBlock = { zoneID, changeToken, data, more, error in
+                            guard error == nil else { return }
+                            guard let changeToken = changeToken else { return }
+                            do {
+                                let changeTokenData = try NSKeyedArchiver.archivedData(withRootObject: changeToken, requiringSecureCoding: false)
+                                UserDefaults.standard.set(changeTokenData, forKey: zoneID.description)
+                            } catch {
+                                print("recordZoneFetchCompletionBlock error: \(error.localizedDescription)")
+                            }
+                        }
+                        operation.fetchRecordZoneChangesCompletionBlock = { error in
+                            guard error == nil else {
+                                print("fetchRecordZoneChangesCompletionBlock error: \(error!.localizedDescription)")
+                                return
+                            }
+                        }
+                        
+                        operation.qualityOfService = .userInitiated
+                        CloudKitManager.cloudKitPrivateDB.add(operation)
+                        completionHandler(.newData)
+                    }
+                    
+                default:
+                    break
                 }
                 
-            default:
-                break
+                //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "CKchange"), object: nil)
+                
             }
             
-            //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "CKchange"), object: nil)
-            
         }
+        
+        
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

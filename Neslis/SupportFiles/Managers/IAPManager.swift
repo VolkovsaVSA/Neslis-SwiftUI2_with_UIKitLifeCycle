@@ -70,9 +70,13 @@ class IAPManager: NSObject {
     func validateReceipt() /*throws*/ {
         
         func expirationDate(jsonResponse: [AnyHashable: Any], forProductId productId :String) -> Date? {
-            guard let receiptInfo = (jsonResponse["latest_receipt_info"] as? [[AnyHashable: Any]]) else {return nil}
+            guard let receiptInfo = (jsonResponse["latest_receipt_info"] as? [[AnyHashable: Any]]) else {
+                return nil
+            }
             let filteredReceipts = receiptInfo.filter { ($0["product_id"] as? String) == productId }
-            guard let lastReceipt = filteredReceipts.first else {return nil}
+            guard let lastReceipt = filteredReceipts.first else {
+                return nil
+            }
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss VV"
             if let expiresString = lastReceipt["expires_date"] as? String {
@@ -149,7 +153,8 @@ class IAPManager: NSObject {
                     } else {
                         UserSettings.shared.proVersion = true
                     }
-                } else {
+                }
+                else {
                     UserSettings.shared.proVersion = false
                 }
                 
@@ -161,7 +166,10 @@ class IAPManager: NSObject {
         task.resume()
 
         semaphore.wait()
-        ProgressData.shared.activitySpinnerAnimate = false
+        DispatchQueue.main.async {
+            ProgressData.shared.activitySpinnerAnimate = false
+        }
+        
         
         if let validationError = validationError {
             print("validationError: \(validationError.localizedDescription)")

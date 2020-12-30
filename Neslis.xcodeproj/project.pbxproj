@@ -52,6 +52,10 @@
 		68BCD791256ACBC800DDE889 /* ProgressData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68BCD790256ACBC800DDE889 /* ProgressData.swift */; };
 		68DFB367259710A200671A7F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68DFB365259710A200671A7F /* Localizable.strings */; };
 		68E3AE77257CBBB9001B4640 /* 111.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E3AE76257CBBB8001B4640 /* 111.swift */; };
+		68EF1C7625983FBE005A9973 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EF1C7525983FBE005A9973 /* MailView.swift */; };
+		68EF1C79259844DD005A9973 /* AppID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EF1C78259844DD005A9973 /* AppID.swift */; };
+		68EF1C7C25985640005A9973 /* ChevronView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EF1C7B25985640005A9973 /* ChevronView.swift */; };
+		68EF1C882598665C005A9973 /* ListOfListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EF1C872598665C005A9973 /* ListOfListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -104,11 +108,19 @@
 		68BCD790256ACBC800DDE889 /* ProgressData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressData.swift; sourceTree = "<group>"; };
 		68DFB366259710A200671A7F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		68E3AE76257CBBB8001B4640 /* 111.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 111.swift; sourceTree = "<group>"; };
-		68EF1C6525974EBE005A9973 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		68EF1C6C25975397005A9973 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		68EF1C6E25975610005A9973 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		68EF1C6F2597562A005A9973 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		68EF1C712597585C005A9973 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		68EF1C7525983FBE005A9973 /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
+		68EF1C78259844DD005A9973 /* AppID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppID.swift; sourceTree = "<group>"; };
+		68EF1C7B25985640005A9973 /* ChevronView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChevronView.swift; sourceTree = "<group>"; };
+		68EF1C7E25985EFD005A9973 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		68EF1C7F25985F02005A9973 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		68EF1C8025985F0D005A9973 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		68EF1C8125985F11005A9973 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		68EF1C8225985F15005A9973 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		68EF1C872598665C005A9973 /* ListOfListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOfListViewModel.swift; sourceTree = "<group>"; };
+		68EF1C8D259CFC03005A9973 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +204,7 @@
 			children = (
 				68BCD6E82565032900DDE889 /* IconSetViewModel.swift */,
 				68BCD6E92565032900DDE889 /* ColorSetViewModel.swift */,
+				68EF1C872598665C005A9973 /* ListOfListViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -227,6 +240,8 @@
 				68BCD6FA2565036900DDE889 /* IconImageView.swift */,
 				68BCD6FB2565036900DDE889 /* ActivityIndicatorView.swift */,
 				68BCD6FC2565036900DDE889 /* CloudSharingButton.swift */,
+				68EF1C7525983FBE005A9973 /* MailView.swift */,
+				68EF1C7B25985640005A9973 /* ChevronView.swift */,
 			);
 			path = SupportedView;
 			sourceTree = "<group>";
@@ -239,6 +254,7 @@
 				68BCD71C256503A200DDE889 /* Extentions */,
 				68BCD6FD2565036900DDE889 /* AppDelegate.swift */,
 				68BCD6FE2565036900DDE889 /* SceneDelegate.swift */,
+				68EF1C78259844DD005A9973 /* AppID.swift */,
 				68BCD711256503A200DDE889 /* UDKeys.swift */,
 				68BCD719256503A200DDE889 /* UserSettings.swift */,
 				68BCD71A256503A200DDE889 /* UserAlert.swift */,
@@ -332,10 +348,14 @@
 			knownRegions = (
 				en,
 				ru,
-				es,
 				"es-419",
-				"pt-BR",
 				"pt-PT",
+				"zh-Hans",
+				fr,
+				ja,
+				de,
+				it,
+				es,
 			);
 			mainGroup = 68BCD6AF2565013000DDE889;
 			productRefGroup = 68BCD6B92565013000DDE889 /* Products */;
@@ -382,6 +402,7 @@
 				68BCD728256503A200DDE889 /* UIColor+Extention.swift in Sources */,
 				68BCD7082565036900DDE889 /* ColorView.swift in Sources */,
 				68BCD725256503A200DDE889 /* UserSettings.swift in Sources */,
+				68EF1C7C25985640005A9973 /* ChevronView.swift in Sources */,
 				68BCD6FF2565036900DDE889 /* PurchaseView.swift in Sources */,
 				68BCD6EB2565032900DDE889 /* ColorSetViewModel.swift in Sources */,
 				68BCD7042565036900DDE889 /* NewListItemView.swift in Sources */,
@@ -391,6 +412,7 @@
 				68BCD7032565036900DDE889 /* ListView.swift in Sources */,
 				68BCD70B2565036900DDE889 /* CloudSharingButton.swift in Sources */,
 				68AA914D257254B800044A25 /* Binding+Extention.swift in Sources */,
+				68EF1C79259844DD005A9973 /* AppID.swift in Sources */,
 				68BCD729256503A200DDE889 /* EditMode+Extention.swift in Sources */,
 				68BCD6EA2565032900DDE889 /* IconSetViewModel.swift in Sources */,
 				68BCD7072565036900DDE889 /* IconView.swift in Sources */,
@@ -403,8 +425,10 @@
 				68BCD731256503B100DDE889 /* ListCD+CoreDataClass.swift in Sources */,
 				68BCD733256503B100DDE889 /* ListCD+CoreDataProperties.swift in Sources */,
 				68BCD724256503A200DDE889 /* SettingButtonModifire.swift in Sources */,
+				68EF1C882598665C005A9973 /* ListOfListViewModel.swift in Sources */,
 				68BCD7022565036900DDE889 /* NewListView.swift in Sources */,
 				68BCD7092565036900DDE889 /* IconImageView.swift in Sources */,
+				68EF1C7625983FBE005A9973 /* MailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,11 +439,15 @@
 			isa = PBXVariantGroup;
 			children = (
 				68DFB366259710A200671A7F /* ru */,
-				68EF1C6525974EBE005A9973 /* es */,
 				68EF1C6C25975397005A9973 /* en */,
 				68EF1C6E25975610005A9973 /* es-419 */,
-				68EF1C6F2597562A005A9973 /* pt-BR */,
 				68EF1C712597585C005A9973 /* pt-PT */,
+				68EF1C7E25985EFD005A9973 /* zh-Hans */,
+				68EF1C7F25985F02005A9973 /* fr */,
+				68EF1C8025985F0D005A9973 /* ja */,
+				68EF1C8125985F11005A9973 /* de */,
+				68EF1C8225985F15005A9973 /* it */,
+				68EF1C8D259CFC03005A9973 /* es */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -554,7 +582,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Neslis/Neslis.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Neslis/Preview Content\"";
 				DEVELOPMENT_TEAM = 7C46924T49;
 				ENABLE_PREVIEWS = YES;
@@ -578,7 +606,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Neslis/Neslis.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Neslis/Preview Content\"";
 				DEVELOPMENT_TEAM = 7C46924T49;
 				ENABLE_PREVIEWS = YES;
