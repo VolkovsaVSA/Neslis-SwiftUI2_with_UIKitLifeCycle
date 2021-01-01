@@ -31,8 +31,9 @@ class ProgressData: ObservableObject {
     }
     @Published var activitySpinnerAnimate = false
     @Published var activitySpinnerText = ""
-    @Published var finishMessage = ""
-    @Published var finishButtonShow = false
+    @Published var showProgressBar = false
+//    @Published var finishMessage = ""
+//    @Published var finishButtonShow = false
     
     
 }

@@ -38,9 +38,9 @@ class UserSettings: ObservableObject {
     }
     @Published var proVersion: Bool {
         didSet {
+            icloudBackup = proVersion
+            sharingNotification = proVersion
             UserDefaults.standard.set(proVersion, forKey: UDKeys.Settings.proVersion)
-            UserDefaults.standard.set(proVersion, forKey: UDKeys.Settings.icloudBackup)
-            UserDefaults.standard.set(proVersion, forKey: UDKeys.Settings.sharingNotification)
         }
     }
     @Published var useListColor: Bool {

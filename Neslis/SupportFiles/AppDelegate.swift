@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 
 
-        IAPManager.shared.validateReceipt()
+        IAPManager.shared.validateReceipt(showAlert: false)
         
         if UserSettings.shared.proVersion, UserSettings.shared.icloudBackup {
             
@@ -199,7 +199,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        IAPManager.shared.validateReceipt()
+        UserAlert.shared.alertType = nil
+        IAPManager.shared.validateReceipt(showAlert: false)
         
         if !UserSettings.shared.zonIsCreated {
             CloudKitManager.Zone.createZone { error in

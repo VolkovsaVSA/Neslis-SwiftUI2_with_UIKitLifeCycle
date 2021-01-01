@@ -21,8 +21,17 @@ struct CloudSharingButton: UIViewRepresentable {
     
     func makeUIView(context: UIViewRepresentableContext<CloudSharingButton>) -> UIButton {
         let button = UIButton()
+        var icon = "person.crop.circle.badge.plus"
         
-        button.setImage(UIImage(systemName: "person.crop.circle.badge.plus"), for: .normal)
+        if let shareRecord = recordToShare {
+            if let _ = shareRecord.share {
+                icon = "person.crop.circle.badge.checkmark"
+            } else {
+                icon = "person.crop.circle.badge.plus"
+            }
+        }
+        
+        button.setImage(UIImage(systemName: icon), for: .normal)
         button.addTarget(context.coordinator, action: #selector(context.coordinator.pressed(_:)), for: .touchUpInside)
         
         context.coordinator.shareRecord = recordToShare

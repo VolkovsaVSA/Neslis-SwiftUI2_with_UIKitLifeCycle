@@ -27,10 +27,8 @@ struct LoadingView<Content>: View where Content: View {
     @Binding var isShowing: Bool
     
     var text: String
-    @Binding var messageText: String
-    
-    @Binding var result: Bool
     @Binding var progressBar: Double
+    @Binding var showProgressBar: Bool
     
     
     var content: () -> Content
@@ -44,26 +42,14 @@ struct LoadingView<Content>: View where Content: View {
                     .blur(radius: isShowing ? 3 : 0)
 
                 VStack {
-                    if result {
-                        Text(messageText)
-                            .multilineTextAlignment(.center)
-                            .padding()
-                        Button(TxtLocal.Button.ok) {
-                            isShowing = false
-                            result = false
-                            progressBar = 0
-                        }
-                        .modifier(SettingButtonModifire(disable: false))
-                        .frame(width: 100)
-                        .padding(.bottom)
-                    } else {
-                        Text(text)
-                        ActivityIndicator(isAnimating: .constant(true), style: .large)
-                            .padding()
+                    Text(text)
+                    ActivityIndicator(isAnimating: .constant(true), style: .large)
+                        .padding()
+                    if showProgressBar {
                         ProgressView(value: progressBar, total: 100)
                             .padding(.horizontal)
                     }
-                    
+                   
                 }
                 .frame(width: geometry.size.width / 1.5,
                        height: geometry.size.height / 3)
@@ -71,9 +57,9 @@ struct LoadingView<Content>: View where Content: View {
                 .foregroundColor(Color.primary)
                 .cornerRadius(20)
                 .opacity(isShowing ? 1 : 0)
-
             }
         }
+        
     }
 
 }

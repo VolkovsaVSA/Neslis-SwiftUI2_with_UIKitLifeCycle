@@ -77,6 +77,7 @@ struct PurchaseView: View {
                 .scaledToFill()
             Color.black.opacity(0.7)
         })
+
         .onAppear() {
             DispatchQueue.main.async {
                 IAPManager.shared.getProducts()

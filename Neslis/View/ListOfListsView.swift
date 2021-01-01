@@ -20,6 +20,7 @@ struct ListOfListsView: View {
     
     @ObservedObject var userSettings: UserSettings
     @ObservedObject var progressData: ProgressData
+    @ObservedObject var userAlert = UserAlert.shared
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(
@@ -35,7 +36,7 @@ struct ListOfListsView: View {
     @State var size: CGFloat = 35
     
     var body: some View {
-        LoadingView(isShowing: $progressData.activitySpinnerAnimate, text: progressData.activitySpinnerText, messageText: $progressData.finishMessage, result: $progressData.finishButtonShow, progressBar: $progressData.value, content: {
+        LoadingView(isShowing: $progressData.activitySpinnerAnimate, text: progressData.activitySpinnerText, progressBar: $progressData.value, showProgressBar: $progressData.showProgressBar, content: {
             NavigationView {
                 List {
                     ForEach(lists) { list in
@@ -55,31 +56,19 @@ struct ListOfListsView: View {
                                     }
    
                                 }
-//                                .foregroundColor(CDStack.shared.progressColor(list: list, firstColor: Color.green, secondColor: Color(UIColor.label)))
                                 if userSettings.showProgressBar {
                                     ProgressView(value: CDStack.shared.progressCount(list: list))
                                         //.scaleEffect(x: 1, y: 4, anchor: .center)
                                         .progressViewStyle(LinearProgressViewStyle(tint: CDStack.shared.progressColor(list: list, firstColor: Color.green, secondColor: Color.blue)))
                                 }
-                                
-                                    
                             }
-                            
                             .onReceive(list.objectWillChange) { _ in
                                 refreshingID = UUID()
                             }
-                            
                         }
                     }
                     .onDelete(perform: deleteList)
 
-                    
-//                    .listRowBackground(ProgressView(value: CDStack.shared.progressCount(list: lists[0]))
-//                                        .scaleEffect(x: 1, y: 10, anchor: .center)
-//                                        .progressViewStyle(LinearProgressViewStyle(tint: CDStack.shared.progressColor(list: lists[0], firstColor: Color.green, secondColor: Color.blue).opacity(0.6))))
-                    
-
-                    
                     Button(action: {
                         activeSheet = .newList
                         iconVM.iconSelected = "list.bullet"
@@ -108,12 +97,15 @@ struct ListOfListsView: View {
                             .frame(width: 24, height: 14)
                     }),
                     trailing: Button(action: {
-                        progressData.activitySpinnerText = TxtLocal.Alert.Text.checking
-                        progressData.activitySpinnerAnimate = true
-                        IAPManager.shared.validateReceipt()
+                        DispatchQueue.main.async {
+                            progressData.activitySpinnerText = TxtLocal.Alert.Text.checking
+                            progressData.showProgressBar = false
+                            progressData.activitySpinnerAnimate = true
+                        }
+                        IAPManager.shared.validateReceipt(showAlert: true)
                     }, label: {
                         Text(TxtLocal.Text.iCloud)
-                            .font(.system(size: 12, weight: .thin, design: .default))
+                            .font(.system(size: 12, weight: .regular, design: .default))
                             .padding(4)
                             .accentColor(Color(UIColor.label))
                             .background(userSettings.icloudBackup ? Color.green.opacity(0.9) : Color.red.opacity(0.9))
@@ -131,9 +123,23 @@ struct ListOfListsView: View {
                             .environment(\.managedObjectContext, viewContext)
                     }
                 }
+                .alert(item: $userAlert.alertType) { alert in
+                    switch alert {
+                    case .noAccessToNotification:
+                        return Alert(
+                            title: Text(userAlert.title),
+                            message: Text(userAlert.text),
+                            dismissButton: .cancel(Text(TxtLocal.Button.ok)))
+                    default:
+                        return Alert(title: Text(""))
+                    }
+                }
             }
         })
         .onAppear() {
+            
+            userAlert.alertType = nil
+            
             switch UIDevice.current.userInterfaceIdiom {
             case .unspecified:
                 size = 35

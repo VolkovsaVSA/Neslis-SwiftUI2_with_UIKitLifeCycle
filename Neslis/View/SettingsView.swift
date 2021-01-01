@@ -11,7 +11,13 @@ import MessageUI
 
 struct SettingsView: View {
     
-    @ObservedObject var myAlert = UserAlert.shared
+    enum ActiveSheet: Identifiable {
+        case purchaseView, mailView
+        var id: Int {
+            hashValue
+        }
+    }
+    @State private var activeSheet: ActiveSheet?
 
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(
@@ -21,21 +27,12 @@ struct SettingsView: View {
     var listsCD: FetchedResults<ListCD>
     
     @ObservedObject var userSettings: UserSettings
-    
     @State var acountStatus: CKAccountStatus?
-
     @ObservedObject var progressBar = ProgressData.shared
-    
-    @State var activitySpinnerAnimate = false
-    @State var activitySpinnerText = ""
-    @State var finishMessage = ""
-    @State var finishButtonShow = false
-    @State var showPurchase = false
-    
     @ObservedObject var userAlert = UserAlert.shared
     
     @State var mailResult: Result<MFMailComposeResult, Error>? = nil
-    @State var isShowingMailView = false
+//    @State var isShowingMailView = false
     
 //    fileprivate func attentionAlert() -> Binding<Bool> {
 //        Binding<Bool>(
@@ -47,9 +44,9 @@ struct SettingsView: View {
     fileprivate func loadData(rewrite: Bool) {
         progressBar.setZero()
         
-        activitySpinnerText = TxtLocal.Alert.Text.restoring
-        finishButtonShow = false
-        activitySpinnerAnimate = true
+        progressBar.activitySpinnerText = TxtLocal.Alert.Text.restoring
+        progressBar.showProgressBar = true
+        progressBar.activitySpinnerAnimate = true
         userSettings.icloudBackup = false
         
         if rewrite {
@@ -60,19 +57,21 @@ struct SettingsView: View {
         }
         
         CloudKitManager.FetchFromCloud.fetchListDataFromPrivateDB(db: CloudKitManager.cloudKitPrivateDB) { (lists, error) in
-            
             print("end loading. Progress: \(ProgressData.shared.value)")
 
             if error != nil {
                 print("error load from icloud: \(String(describing: error?.localizedDescription))")
-                finishMessage = TxtLocal.Alert.Text.pleaseCheckTheInternetConnection
+                userAlert.title = TxtLocal.Alert.Title.error
+                userAlert.text = TxtLocal.Alert.Text.pleaseCheckTheInternetConnection
             } else {
-                finishMessage = TxtLocal.Alert.Text.backupDataIsLoadedSuccessfully
+                userAlert.title = TxtLocal.Alert.Title.success
+                userAlert.text = TxtLocal.Alert.Text.backupDataIsLoadedSuccessfully
             }
             
             CDStack.shared.saveContext(context: viewContext)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                finishButtonShow = true
+                progressBar.activitySpinnerAnimate = false
+                userAlert.alertType = .noAccessToNotification
                 userSettings.icloudBackup = true
             }
 
@@ -80,11 +79,12 @@ struct SettingsView: View {
     }
     fileprivate func saveData(rewrite: Bool) {
         
-        finishButtonShow = false
-        activitySpinnerAnimate = true
-        progressBar.setZero()
-        activitySpinnerText = TxtLocal.Alert.Text.saving
-        
+        DispatchQueue.main.async {
+            progressBar.showProgressBar = true
+            progressBar.activitySpinnerAnimate = true
+            progressBar.setZero()
+            progressBar.activitySpinnerText = TxtLocal.Alert.Text.saving
+        }
         
         func saveAllObjects(completion: @escaping (String)->Void) {
             var message = ""
@@ -106,18 +106,32 @@ struct SettingsView: View {
             CloudKitManager.Zone.deleteZone { clearError in
                 if clearError == nil {
                     saveAllObjects { saveMessage1 in
-                        finishMessage = saveMessage1
+                        DispatchQueue.main.async {
+                            userAlert.title = ""
+                            userAlert.text = saveMessage1
+                            progressBar.activitySpinnerAnimate = false
+                            userAlert.alertType = .noAccessToNotification
+                        }
                     }
                 } else {
                     print("clearError: \(clearError!.localizedDescription)")
-                    finishMessage =  TxtLocal.Alert.Text.pleaseCheckTheInternetConnection
+                    DispatchQueue.main.async {
+                        userAlert.title = ""
+                        userAlert.text = TxtLocal.Alert.Text.pleaseCheckTheInternetConnection
+                        progressBar.activitySpinnerAnimate = false
+                        userAlert.alertType = .noAccessToNotification
+                    }
                 }
-                finishButtonShow = true
             }
         } else {
             saveAllObjects { saveMessage2 in
-                finishMessage = saveMessage2
-                finishButtonShow = true
+                DispatchQueue.main.async {
+                    progressBar.activitySpinnerAnimate = false
+                    userAlert.title = ""
+                    userAlert.text = saveMessage2
+                    userAlert.alertType = .noAccessToNotification
+                }
+                
             }
         }
         
@@ -126,34 +140,35 @@ struct SettingsView: View {
         print("\(IAPManager.shared.products)")
         if IAPManager.shared.products.isEmpty {
             DispatchQueue.main.async {
-                myAlert.alertType = .networkError
-                myAlert.text = TxtLocal.Alert.Text.pleaseCheckTheInternetConnection
+                userAlert.alertType = .networkError
+                userAlert.text = TxtLocal.Alert.Text.pleaseCheckTheInternetConnection
             }
         } else {
-            showPurchase = true
+            activeSheet = .purchaseView
         }
     }
     fileprivate func didsetIcloudBackupValue(_ newValue: Bool) {
         if newValue {
-            activitySpinnerAnimate = true
-            activitySpinnerText = TxtLocal.Alert.Text.fetchDataFromICloud
+            progressBar.showProgressBar = true
+            progressBar.activitySpinnerAnimate = true
+            progressBar.activitySpinnerText = TxtLocal.Alert.Text.fetchDataFromICloud
             CloudKitManager.FetchFromCloud.fetchListCountFromPrivateDB { result in
-                
-                activitySpinnerAnimate = false
+                DispatchQueue.main.async {
+                    progressBar.activitySpinnerAnimate = false
+                }
                 
                 switch result {
                 case .success(let count):
                     if count > 0 {
                         DispatchQueue.main.async {
-                            myAlert.alertType = .oldIcloudData
+                            userAlert.alertType = .oldIcloudData
                         }
-                        
                     }
                 case .failure(let error):
                     print(error.localizedDescription)
                     DispatchQueue.main.async {
-                        myAlert.text = error.localizedDescription
-                        myAlert.alertType = .networkError
+                        userAlert.text = error.localizedDescription
+                        userAlert.alertType = .networkError
                         userSettings.icloudBackup = false
                     }
                 }
@@ -161,17 +176,20 @@ struct SettingsView: View {
         }
     }
     fileprivate func saveButtonAction() {
-        activitySpinnerAnimate = true
-        activitySpinnerText = TxtLocal.Alert.Text.fetchDataFromICloud
+        progressBar.showProgressBar = true
+        progressBar.activitySpinnerAnimate = true
+        progressBar.activitySpinnerText = TxtLocal.Alert.Text.fetchDataFromICloud
         
         CloudKitManager.FetchFromCloud.fetchListCountFromPrivateDB { result in
-            activitySpinnerAnimate = false
-            
+            print(#function, " ", result)
+            DispatchQueue.main.async {
+                progressBar.activitySpinnerAnimate = false
+            }
             switch result {
             case .success(let count):
                 if count > 0 {
                     DispatchQueue.main.async {
-                        myAlert.alertType = .saveRewrite
+                        userAlert.alertType = .saveRewrite
                     }
                 } else {
                     saveData(rewrite: true)
@@ -179,37 +197,42 @@ struct SettingsView: View {
             case .failure(let error):
                 print(error.localizedDescription)
                 DispatchQueue.main.async {
-                    myAlert.alertType = .networkError
+                    userAlert.text = error.localizedDescription
+                    userAlert.alertType = .networkError
                 }
             }
         }
     }
     fileprivate func restoreButtonAction() {
         let coreDataCount = CDStack.shared.fetchList(context: viewContext).count
-        activitySpinnerAnimate = true
-        activitySpinnerText = TxtLocal.Alert.Text.fetchDataFromICloud
+        progressBar.showProgressBar = true
+        progressBar.activitySpinnerAnimate = true
+        progressBar.activitySpinnerText = TxtLocal.Alert.Text.fetchDataFromICloud
         
         CloudKitManager.FetchFromCloud.fetchListCountFromPrivateDB { result in
-            activitySpinnerAnimate = false
+            DispatchQueue.main.async {
+                progressBar.activitySpinnerAnimate = false
+            }
+            
             switch result {
             case .success(let count):
                 if count > 0 {
                     if coreDataCount > 0 {
                         DispatchQueue.main.async {
-                            myAlert.alertType = .loadRewrite
+                            userAlert.alertType = .loadRewrite
                         }
                     } else {
                         loadData(rewrite: false)
                     }
                 } else {
                     DispatchQueue.main.async {
-                        myAlert.alertType = .noIcloudData
+                        userAlert.alertType = .noIcloudData
                     }
                 }
             case .failure(let error):
                 print(error.localizedDescription)
                 DispatchQueue.main.async {
-                    myAlert.alertType = .networkError
+                    userAlert.alertType = .networkError
                 }
                 
             }
@@ -237,8 +260,7 @@ struct SettingsView: View {
         case .networkError:
             return Alert(
                 title: Text(TxtLocal.Alert.Title.error),
-                //message: Text(TxtLocal.Alert.Text.pleaseCheckTheInternetConnection),
-                message: Text(myAlert.text),
+                message: Text(userAlert.text),
                 dismissButton: .cancel(Text(TxtLocal.Button.ok))
             )
         case .oldIcloudData:
@@ -258,15 +280,15 @@ struct SettingsView: View {
             )
         case .noAccessToNotification:
             return Alert(
-                title: Text(myAlert.title),
-                message: Text(myAlert.text),
+                title: Text(userAlert.title),
+                message: Text(userAlert.text),
                 dismissButton: .cancel(Text(TxtLocal.Button.ok))
             )
         }
     }
     
     var body: some View {
-        LoadingView(isShowing: $activitySpinnerAnimate, text: activitySpinnerText, messageText: $finishMessage, result: $finishButtonShow, progressBar: $progressBar.value) {
+        LoadingView(isShowing: $progressBar.activitySpinnerAnimate, text: progressBar.activitySpinnerText, progressBar: $progressBar.value, showProgressBar: $progressBar.showProgressBar) {
             NavigationView {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
@@ -276,7 +298,6 @@ struct SettingsView: View {
                             }
                             .modifier(SettingButtonModifire(disable: false))
                             Button(TxtLocal.Button.restorePurchases) {
-                                
                                 IAPManager.shared.restoreCompletedTransaction()
                             }
                             .modifier(SettingButtonModifire(disable: false))
@@ -336,7 +357,7 @@ struct SettingsView: View {
                         Section(header: Text(TxtLocal.Text.feedback).font(.title).foregroundColor(.gray)) {
 
                             Button {
-                                self.isShowingMailView.toggle()
+                                activeSheet = .mailView
                             } label: {
                                 HStack {
                                     VStack(alignment: .leading ,spacing: 0) {
@@ -385,6 +406,8 @@ struct SettingsView: View {
                     .padding(.vertical, 16)
                 }
                 .onAppear {
+                    userAlert.alertType = nil
+                    
                     CloudKitManager.checkIcloudStatus { status in
                         acountStatus = status
                     }
@@ -398,16 +421,18 @@ struct SettingsView: View {
 
                     IAPManager.shared.getProducts()
                 }
-                .alert(item: $myAlert.alertType) { alert in
+                .alert(item: $userAlert.alertType) { alert in
                     return creatAlert(alert)
                 }
-                .sheet(isPresented: $showPurchase) {
-                    PurchaseView()
-                        .environment(\.managedObjectContext, viewContext)
+                .sheet(item: $activeSheet) { item in
+                    switch item {
+                    case .mailView:
+                        MailView(result: $mailResult, recipients: [AppId.feedbackEmail], messageBody: TxtLocal.contentBody.feedbackOnApplication)
+                    case .purchaseView:
+                        PurchaseView()
+                            .environment(\.managedObjectContext, viewContext)
+                    }
                 }
-//                .sheet(isPresented: $isShowingMailView) {
-//                    MailView(result: $mailResult, recipients: [AppId.feedbackEmail], messageBody: TxtLocal.contentBody.feedbackOnApplication)
-//                }
                 .navigationBarTitle(TxtLocal.Navigation.Title.settings)
             }
         }

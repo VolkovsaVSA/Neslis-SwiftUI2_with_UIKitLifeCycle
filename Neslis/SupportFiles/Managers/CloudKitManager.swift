@@ -86,6 +86,8 @@ struct CloudKitManager {
                 }
                 operation.qualityOfService = .userInitiated
                 cloudKitPrivateDB.add(operation)
+            } else {
+                completion(nil)
             }
             
         }
@@ -225,7 +227,6 @@ struct CloudKitManager {
                 operation.configuration.timeoutIntervalForResource = 20
                 operation.modifyRecordsCompletionBlock = { saveRecords, deleteRecordsID, error in
                     if let localError = error {
-                        print(#function, db)
                         print("error operation: \(localError.localizedDescription)")
                         completion(.failure(localError))
                     } else {
@@ -234,11 +235,8 @@ struct CloudKitManager {
                 }
                 operation.perRecordCompletionBlock = { record, error in
                     if let er = error {
-                        print(#function)
                         print("perRecordCompletionBlock: \(er.localizedDescription)")
-                        //print(record.description)
                     }
-                    //print(record.description)
                 }
                 db.add(operation)
             }
@@ -370,10 +368,12 @@ struct CloudKitManager {
             let query = CKQuery(recordType: RecordType.List.rawValue, predicate: predicate)
             
             CloudKitManager.Zone.createZone { error in
+                print(#function)
                 if let zoneErreor = error {
                     completion(.failure(zoneErreor))
                 } else {
                     cloudKitPrivateDB.perform(query, inZoneWith: recordZone.zoneID) { (records, error) in
+//                        print(records, error)
                         if let performError = error {
                             completion(.failure(performError))
                         } else {

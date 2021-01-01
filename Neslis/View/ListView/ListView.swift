@@ -116,7 +116,7 @@ struct ListView: View {
                 })
         })
         .onAppear() {
-            if userSettings.icloudBackup, userSettings.proVersion {
+            if userSettings.icloudBackup && userSettings.proVersion {
                 if !list.isShare {
                     CloudKitManager.Sharing.fetchListRecordForSharing(id: list.id!.uuidString) { (record, error) in
                         if let localError = error {

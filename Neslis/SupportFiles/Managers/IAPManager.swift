@@ -63,11 +63,36 @@ class IAPManager: NSObject {
         SKPaymentQueue.default().add(payment)
     }
     public func restoreCompletedTransaction() {
-        SKPaymentQueue.default().restoreCompletedTransactions()
+        DispatchQueue.main.async {
+//            ProgressData.shared.finishButtonShow = false
+            ProgressData.shared.activitySpinnerText = TxtLocal.Alert.Text.restoring
+            ProgressData.shared.showProgressBar = false
+            ProgressData.shared.activitySpinnerAnimate = true
+        }
+        CloudKitManager.checkIcloudStatus { status in
+            if status == .available {
+                SKPaymentQueue.default().restoreCompletedTransactions()
+            } else {
+                ProgressData.shared.activitySpinnerAnimate = false
+                UserAlert.shared.title = TxtLocal.Alert.Title.error
+                UserAlert.shared.text = TxtLocal.Alert.Text.pleaseCheckTheInternetConnection
+                UserAlert.shared.alertType = .noAccessToNotification
+            }
+        }
+        
     }
     
     
-    func validateReceipt() /*throws*/ {
+    func validateReceipt(showAlert: Bool) /*throws*/ {
+        
+        func noInternet() {
+            DispatchQueue.main.async {
+                UserSettings.shared.proVersion = false
+                UserAlert.shared.title = TxtLocal.Alert.Title.error
+                UserAlert.shared.text = TxtLocal.Alert.Text.pleaseCheckTheInternetConnection
+                UserAlert.shared.alertType = .noAccessToNotification
+            }
+        }
         
         func expirationDate(jsonResponse: [AnyHashable: Any], forProductId productId :String) -> Date? {
             guard let receiptInfo = (jsonResponse["latest_receipt_info"] as? [[AnyHashable: Any]]) else {
@@ -88,6 +113,15 @@ class IAPManager: NSObject {
         guard let appStoreReceiptURL = Bundle.main.appStoreReceiptURL, FileManager.default.fileExists(atPath: appStoreReceiptURL.path) else {
 //            throw ReceiptValidationError.receiptNotFound
             print("guard appStoreReceiptURL")
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()) {
+                UserSettings.shared.proVersion = false
+                UserAlert.shared.title = TxtLocal.Alert.Title.error
+                UserAlert.shared.text = TxtLocal.Alert.Text.youDontHaveTheProversion
+                if showAlert {
+                    UserAlert.shared.alertType = .noAccessToNotification
+                }
+            }
             return
         }
 
@@ -109,16 +143,18 @@ class IAPManager: NSObject {
 
         let semaphore = DispatchSemaphore(value: 0)
 
-        var validationError : ReceiptValidationError?
+        //var validationError : ReceiptValidationError?
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, let httpResponse = response as? HTTPURLResponse, error == nil, httpResponse.statusCode == 200 else {
-                validationError = ReceiptValidationError.jsonResponseIsNotValid(description: error?.localizedDescription ?? "")
+                noInternet()
+//                validationError = ReceiptValidationError.jsonResponseIsNotValid(description: error?.localizedDescription ?? "")
                 semaphore.signal()
                 return
             }
             guard let jsonResponse = (try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers)) as? [AnyHashable: Any] else {
-                validationError = ReceiptValidationError.jsonResponseIsNotValid(description: "Unable to parse json")
+                noInternet()
+//                validationError = ReceiptValidationError.jsonResponseIsNotValid(description: "Unable to parse json")
                 semaphore.signal()
                 return
             }
@@ -150,20 +186,27 @@ class IAPManager: NSObject {
                 if expirationDate != nil {
                     if Date() > expirationDate! {
                         UserSettings.shared.proVersion = false
-                        ProgressData.shared.finishMessage = TxtLocal.Alert.Text.yourSubscriptionIsExpired
+                        UserAlert.shared.title = TxtLocal.Alert.Title.error
+                        UserAlert.shared.text = TxtLocal.Alert.Text.yourSubscriptionHasExpired
                     } else {
-                        ProgressData.shared.finishMessage = TxtLocal.Alert.Text.youHaveTheProVersion
                         UserSettings.shared.proVersion = true
+                        
+                        ProgressData.shared.activitySpinnerAnimate = false
+                        UserAlert.shared.title = TxtLocal.Alert.Title.success
+                        UserAlert.shared.text = TxtLocal.Alert.Text.youHaveTheProVersion
+                        
+                    }
+                    if showAlert {
+                        UserAlert.shared.alertType = .noAccessToNotification
                     }
                 }
                 else {
-                    ProgressData.shared.finishMessage = TxtLocal.Alert.Text.youDontHaveTheProversion
                     UserSettings.shared.proVersion = false
                 }
                 
             }
             
-            //print("expirationDate: \(String(describing: expirationDate))")
+            print("expirationDate: \(String(describing: expirationDate))")
             semaphore.signal()
         }
         task.resume()
@@ -171,7 +214,7 @@ class IAPManager: NSObject {
         semaphore.wait()
 
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-            ProgressData.shared.finishButtonShow = true
+            ProgressData.shared.activitySpinnerAnimate = false
         }
         
         
@@ -184,6 +227,26 @@ class IAPManager: NSObject {
 
 
 extension IAPManager: SKPaymentTransactionObserver {
+    func paymentQueue(_ queue: SKPaymentQueue, removedTransactions transactions: [SKPaymentTransaction]) {
+        print(#function)
+    }
+    
+    func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
+        print(#function)
+        ProgressData.shared.activitySpinnerAnimate = false
+        UserAlert.shared.title = TxtLocal.Alert.Title.error
+        UserAlert.shared.text = TxtLocal.Alert.Text.pleaseCheckTheInternetConnection
+        UserAlert.shared.alertType = .noAccessToNotification
+    }
+    
+    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
+        print(#function)
+        validateReceipt(showAlert: true)
+    }
+    
+    func paymentQueue(_ queue: SKPaymentQueue, updatedDownloads downloads: [SKDownload]) {
+        print(#function)
+    }
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         print(#function)
         for transaction in transactions {
@@ -205,7 +268,7 @@ extension IAPManager: SKPaymentTransactionObserver {
         }
     }
     private func failed(transaction: SKPaymentTransaction) {
-        //print(#function)
+        print(#function)
         if let transactionError = transaction.error as NSError? {
             if transactionError.code != SKError.paymentCancelled.rawValue {
                 print("transaction error \(transactionError.localizedDescription)")
@@ -221,7 +284,7 @@ extension IAPManager: SKPaymentTransactionObserver {
     private func restored(transaction: SKPaymentTransaction) {
         print(#function)
         SKPaymentQueue.default().finishTransaction(transaction)
-        validateReceipt()
+        //validateReceipt()
     }
 }
 
@@ -231,10 +294,10 @@ extension IAPManager: SKProductsRequestDelegate {
         print(#function, #line, self.products.description)
     }
     public func request(_ request: SKRequest, didFailWithError error: Error) {
-        //print("\(#function) \(error.localizedDescription)")
+        print("\(#function) \(error.localizedDescription)")
     }
     public func requestDidFinish(_ request: SKRequest) {
-        //print("\(#function)")
+        print("\(#function)")
     }
 }
 

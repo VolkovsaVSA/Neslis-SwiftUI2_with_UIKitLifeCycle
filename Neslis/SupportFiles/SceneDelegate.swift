@@ -70,7 +70,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func windowScene(_ windowScene: UIWindowScene, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
         
-        IAPManager.shared.validateReceipt()
+        //IAPManager.shared.validateReceipt(showAlert: false)
         //cloudKitShareMetadata.
         progressData.setZero()
         
@@ -85,6 +85,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 } else {
                     DispatchQueue.main.async {
                         self.progressData.activitySpinnerText = TxtLocal.Alert.Text.fetchSharingData
+                        self.progressData.showProgressBar = true
                         self.progressData.activitySpinnerAnimate = true
                     }
                     CloudKitManager.Sharing.fetchShare(cloudKitShareMetadata) { (rc, er) in
@@ -92,16 +93,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             print("fetchShare error:\(error.localizedDescription)")
                             DispatchQueue.main.async {
                                 self.progressData.activitySpinnerAnimate = false
-                                self.progressData.finishMessage = error.localizedDescription
-                                self.progressData.finishButtonShow = true
+                                UserAlert.shared.title = TxtLocal.Alert.Title.error
+                                UserAlert.shared.text = error.localizedDescription
+                                UserAlert.shared.alertType = .noAccessToNotification
+//                                self.progressData.finishMessage = error.localizedDescription
+//                                self.progressData.finishButtonShow = true
                             }
                             
                         }
                         guard let shareRecord = rc else {
                             DispatchQueue.main.async {
                                 self.progressData.activitySpinnerAnimate = false
-                                self.progressData.finishMessage = TxtLocal.Alert.Text.errorLoading
-                                self.progressData.finishButtonShow = true
+                                UserAlert.shared.title = TxtLocal.Alert.Title.error
+                                UserAlert.shared.text = TxtLocal.Alert.Text.errorLoading
+                                UserAlert.shared.alertType = .noAccessToNotification
+//                                self.progressData.finishMessage = TxtLocal.Alert.Text.errorLoading
+//                                self.progressData.finishButtonShow = true
                             }
                             return
                         }
@@ -110,8 +117,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             if let localError = error {
                                 print("shareRecordToObject error:\(localError.localizedDescription)")
                                 DispatchQueue.main.async {
-                                    self.progressData.finishMessage = localError.localizedDescription
-                                    self.progressData.finishButtonShow = true
+                                    self.progressData.activitySpinnerAnimate = false
+                                    UserAlert.shared.title = TxtLocal.Alert.Title.error
+                                    UserAlert.shared.text = TxtLocal.Alert.Text.errorLoading
+                                    UserAlert.shared.alertType = .noAccessToNotification
+//                                    self.progressData.finishMessage = localError.localizedDescription
+//                                    self.progressData.finishButtonShow = true
                                 }
                             } else {
                                 DispatchQueue.main.async {
@@ -132,9 +143,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 .add(acceptSharesOperation)
         } else {
             DispatchQueue.main.async {
-                self.progressData.activitySpinnerAnimate = true
-                self.progressData.finishMessage = TxtLocal.Alert.Text.toAcceptSharedLists
-                self.progressData.finishButtonShow = true
+                self.progressData.activitySpinnerAnimate = false
+                UserAlert.shared.title = TxtLocal.Alert.Title.attention
+                UserAlert.shared.text = TxtLocal.Alert.Text.toAcceptSharedLists
+                UserAlert.shared.alertType = .noAccessToNotification
             }
         }
         
