@@ -75,7 +75,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         progressData.setZero()
         
 
-        if UserSettings.shared.proVersion, UserSettings.shared.icloudBackup {
+        if UserSettings.shared.proVersion && UserSettings.shared.icloudBackup {
             
             let acceptSharesOperation = CKAcceptSharesOperation(shareMetadatas: [cloudKitShareMetadata])
             acceptSharesOperation.qualityOfService = .userInteractive
@@ -96,10 +96,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                 UserAlert.shared.title = TxtLocal.Alert.Title.error
                                 UserAlert.shared.text = error.localizedDescription
                                 UserAlert.shared.alertType = .noAccessToNotification
-//                                self.progressData.finishMessage = error.localizedDescription
-//                                self.progressData.finishButtonShow = true
                             }
-                            
                         }
                         guard let shareRecord = rc else {
                             DispatchQueue.main.async {
@@ -107,8 +104,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                 UserAlert.shared.title = TxtLocal.Alert.Title.error
                                 UserAlert.shared.text = TxtLocal.Alert.Text.errorLoading
                                 UserAlert.shared.alertType = .noAccessToNotification
-//                                self.progressData.finishMessage = TxtLocal.Alert.Text.errorLoading
-//                                self.progressData.finishButtonShow = true
                             }
                             return
                         }
@@ -121,8 +116,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                     UserAlert.shared.title = TxtLocal.Alert.Title.error
                                     UserAlert.shared.text = TxtLocal.Alert.Text.errorLoading
                                     UserAlert.shared.alertType = .noAccessToNotification
-//                                    self.progressData.finishMessage = localError.localizedDescription
-//                                    self.progressData.finishButtonShow = true
                                 }
                             } else {
                                 DispatchQueue.main.async {
@@ -135,7 +128,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         }
 
                         CloudKitManager.Subscription.setSubscription(db: CloudKitManager.cloudKitSharedDB, subscriptionID: CloudKitManager.Subscription.sharedDbSubsID, subscriptionSavedKey: CloudKitManager.Subscription.sharedDbSubsSavedKey)
-                        
                     }
                 }
             }

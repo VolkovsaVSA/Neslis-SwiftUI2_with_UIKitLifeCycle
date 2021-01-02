@@ -253,12 +253,15 @@ extension IAPManager: SKPaymentTransactionObserver {
             switch transaction.transactionState {
             case .deferred:
                 print("deferred")
+                //ProgressData.shared.activitySpinnerAnimate = false
                 break
             case .purchasing:
                 print("purchasing")
+                //ProgressData.shared.activitySpinnerAnimate = false
                 break
             case .failed:
                 print("failed")
+                ProgressData.shared.activitySpinnerAnimate = false
             case .purchased: completed(transaction: transaction)
             case .restored: restored(transaction: transaction)
             @unknown default:
@@ -275,11 +278,13 @@ extension IAPManager: SKPaymentTransactionObserver {
             }
         }
         SKPaymentQueue.default().finishTransaction(transaction)
+        ProgressData.shared.activitySpinnerAnimate = false
     }
     private func completed(transaction: SKPaymentTransaction) {
         print(#function)
         SKPaymentQueue.default().finishTransaction(transaction)
         UserSettings.shared.proVersion = true
+        ProgressData.shared.activitySpinnerAnimate = false
     }
     private func restored(transaction: SKPaymentTransaction) {
         print(#function)
@@ -295,6 +300,7 @@ extension IAPManager: SKProductsRequestDelegate {
     }
     public func request(_ request: SKRequest, didFailWithError error: Error) {
         print("\(#function) \(error.localizedDescription)")
+        ProgressData.shared.activitySpinnerAnimate = false
     }
     public func requestDidFinish(_ request: SKRequest) {
         print("\(#function)")
