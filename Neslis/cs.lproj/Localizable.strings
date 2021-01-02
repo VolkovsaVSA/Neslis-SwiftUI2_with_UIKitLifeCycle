@@ -1,0 +1,207 @@
+/* (No Comment) */
+"/ month" = "/ Měsíc";
+
+/* (No Comment) */
+"/ year" = "/ rok";
+
+/* (No Comment) */
+"Attention!" = "Pozornost!";
+
+/* (No Comment) */
+"Auto numbering" = "Automatické číslování";
+
+/* (No Comment) */
+"Backup data is loaded successfully." = "Záložní data byla úspěšně načtena.";
+
+/* (No Comment) */
+"Backup data is saved successfully." = "Záložní data byla úspěšně uložena.";
+
+/* (No Comment) */
+"Cancel" = "zrušení";
+
+/* (No Comment) */
+"Checking..." = "Probíhá kontrola...";
+
+/* (No Comment) */
+"completed" = "dokončeno";
+
+/* (No Comment) */
+"Data backup" = "Zálohování dat";
+
+/* (No Comment) */
+"Enable iCloud backups and shared lists" = "Povolte zálohování a sdílené seznamy na iCloudu";
+
+/* (No Comment) */
+"Error" = "Chyba";
+
+/* (No Comment) */
+"Error loading" = "Chyba při načítání";
+
+/* (No Comment) */
+"Feedback" = "Zpětná vazba";
+
+/* (No Comment) */
+"Feedback on application 'Neslis'" = "Zpětná vazba k aplikaci „Neslis“";
+
+/* (No Comment) */
+"Fetch data from iCloud" = "Načíst data z iCloudu";
+
+/* (No Comment) */
+"Fetching share data" = "Načítání sdílených dat";
+
+/* (No Comment) */
+"has been changed" = "bylo změněno";
+
+/* (No Comment) */
+"iCloud" = "iCloud";
+
+/* (No Comment) */
+"List settings" = "Nastavení seznamu";
+
+/* (No Comment) */
+"List title" = "Název seznamu";
+
+/* (No Comment) */
+"Lists" = "Seznamy";
+
+/* (No Comment) */
+"Load" = "Zatížení";
+
+/* (No Comment) */
+"Merge" = "Spojit";
+
+/* (No Comment) */
+"New list" = "Nový seznam";
+
+/* (No Comment) */
+"New task" = "Nová úloha";
+
+/* (No Comment) */
+"No backup data in iCloud." = "Na iCloudu nejsou žádná záložní data.";
+
+/* (No Comment) */
+"Notifications of changes to shared lists" = "Oznámení o změnách ve sdílených seznamech";
+
+/* (No Comment) */
+"OK" = "OK";
+
+/* (No Comment) */
+"Other applications" = "Další aplikace";
+
+/* (No Comment) */
+"Please check the internet connection or re-authenticate in an iCloud account or try later." = "Zkontrolujte připojení k internetu nebo se znovu ověřte na účtu iCloud nebo to zkuste později.";
+
+/* (No Comment) */
+"Pro Version" = "Pro verze";
+
+/* (No Comment) */
+"Processing..." = "Zpracovává se...";
+
+/* (No Comment) */
+"Purchase Pro version for backup and sharing lists." = "Zakupte si verzi Pro pro zálohování a sdílení seznamů.";
+
+/* (No Comment) */
+"Purchases" = "Nákupy";
+
+/* (No Comment) */
+"Rate the app" = "Ohodnoťte aplikaci";
+
+/* (No Comment) */
+"Recurring billing. Cancel any time. If you choose to purchase a subscription, payment will be charged to your iTunes account and your account will be charged for renewal 24 hours prior to the end of the current period unless auto-renew is turned off. Auto-renewal is managed by the user and may be turned off at any time by going to your settings in the iTunes Store after purchase. Any unused portion of a free trial period will be forfeited when the user purchases a subscription." = "Opakující se fakturace. Kdykoli zrušit. Pokud se rozhodnete zakoupit předplatné, bude platba zaúčtována na váš účet iTunes a na váš účet bude účtováno prodloužení 24 hodin před koncem aktuálního období, pokud není automatické obnovení vypnuto. Automatické obnovení je spravováno uživatelem a lze jej kdykoli vypnout tak, že po zakoupení přejdete do svého nastavení v iTunes Store. Když si uživatel zakoupí předplatné, veškerá nevyužitá část bezplatného zkušebního období propadne.";
+
+/* (No Comment) */
+"Restore data" = "Obnovit data";
+
+/* (No Comment) */
+"Restore purchases" = "Obnovit nákupy";
+
+/* (No Comment) */
+"Restoring..." = "Obnovování ...";
+
+/* (No Comment) */
+"Rewrite" = "Přepsat";
+
+/* (No Comment) */
+"Save" = "Uložit";
+
+/* (No Comment) */
+"Save data" = "Uložit data";
+
+/* (No Comment) */
+"Saving..." = "Ukládání ...";
+
+/* (No Comment) */
+"Send email to the developer" = "Poslat e-mail vývojáři";
+
+/* (No Comment) */
+"Settings" = "Nastavení";
+
+/* (No Comment) */
+"Shared list" = "Sdílený seznam";
+
+/* (No Comment) */
+"Sharing lists" = "Sdílení seznamů";
+
+/* (No Comment) */
+"Show 'expand all' button" = "Zobrazit tlačítko „rozbalit vše“";
+
+/* (No Comment) */
+"Show checked item" = "Zobrazit zaškrtnutou položku";
+
+/* (No Comment) */
+"Show list counter" = "Zobrazit počítadlo seznamu";
+
+/* (No Comment) */
+"Show progress bar" = "Zobrazit ukazatel průběhu";
+
+/* (No Comment) */
+"Show sublist count" = "Zobrazit počet sublistů";
+
+/* (No Comment) */
+"Success" = "Úspěch";
+
+/* (No Comment) */
+"To accept shared lists buy the Pro version." = "Chcete-li přijímat sdílené seznamy, kupte si verzi Pro.";
+
+/* (No Comment) */
+"To send an email please configure email into settings iOS" = "Chcete-li odeslat e-mail, nakonfigurujte e-mail do nastavení iOS";
+
+/* (No Comment) */
+"Upgrade to Pro" = "Upgradujte na Pro";
+
+/* (No Comment) */
+"Use icon color in the list" = "Použijte barvu ikony v seznamu";
+
+/* (No Comment) */
+"Use the color of the list-icon to visual style the list" = "K vizuálnímu stylu seznamu použijte barvu ikony seznamu";
+
+/* (No Comment) */
+"Visual settings" = "Vizuální nastavení";
+
+/* (No Comment) */
+"You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup." = "Nejste přihlášeni na iCloudu nebo nejsou udělena všechna povolení! Přihlaste se prosím ke svému účtu iCloud a zkontrolujte všechna povolení v nastavení systému pro sdílení seznamů a zálohování.";
+
+/* (No Comment) */
+"You don't have the Pro version! Please upgrade to Pro." = "Nemáte verzi Pro! Upgradujte na Pro.";
+
+/* (No Comment) */
+"You have another iCloud data. Do you want to rewrite this data or merge all data?" = "Máte další data na iCloudu. Chcete tato data přepsat nebo sloučit všechna data?";
+
+/* (No Comment) */
+"You have backup data! Do you want to load this data?" = "Máte záložní data! Chcete načíst tato data?";
+
+/* (No Comment) */
+"You have data on your phone. Do you want to rewrite this data or merge all data?" = "V telefonu máte data. Chcete tato data přepsat nebo sloučit všechna data?";
+
+/* (No Comment) */
+"You have the Pro version. All right!" = "Máte verzi Pro. Dobře!";
+
+/* (No Comment) */
+"You turned off the notification in settings. Please turn on the notifications for this application in the system settings." = "Oznámení jste vypnuli v nastavení. Zapněte prosím oznámení pro tuto aplikaci v nastavení systému.";
+
+/* (No Comment) */
+"Your save" = "Vaše úspory";
+
+/* (No Comment) */
+"Your subscription has expired! Please upgrade to Pro." = "Vaše předplatné vypršelo! Upgradujte na Pro.";
+

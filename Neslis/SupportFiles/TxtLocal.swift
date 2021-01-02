@@ -34,7 +34,7 @@ struct TxtLocal {
             static let yourSubscriptionHasExpired = NSLocalizedString("Your subscription has expired! Please upgrade to Pro.", comment: " ")
             static let youDontHaveTheProversion = NSLocalizedString("You don't have the Pro version! Please upgrade to Pro.", comment: " ")
             static let checking = NSLocalizedString("Checking...", comment: " ")
-//            static let restoringPurchases = NSLocalizedString("Restoring purchases...", comment: " ")
+            static let processing = NSLocalizedString("Processing...", comment: " ")
         }
     }
     struct Button {

@@ -1,0 +1,207 @@
+/* (No Comment) */
+"/ month" = "/ mjesec";
+
+/* (No Comment) */
+"/ year" = "/ godina";
+
+/* (No Comment) */
+"Attention!" = "Pažnja!";
+
+/* (No Comment) */
+"Auto numbering" = "Automatsko numeriranje";
+
+/* (No Comment) */
+"Backup data is loaded successfully." = "Sigurnosne kopije podataka uspješno su učitane.";
+
+/* (No Comment) */
+"Backup data is saved successfully." = "Sigurnosne kopije podataka uspješno su spremljene.";
+
+/* (No Comment) */
+"Cancel" = "Otkazati";
+
+/* (No Comment) */
+"Checking..." = "Provjeravam...";
+
+/* (No Comment) */
+"completed" = "dovršen";
+
+/* (No Comment) */
+"Data backup" = "Sigurnosna kopija podataka";
+
+/* (No Comment) */
+"Enable iCloud backups and shared lists" = "Omogućite sigurnosne kopije i dijeljene popise iCloud";
+
+/* (No Comment) */
+"Error" = "Pogreška";
+
+/* (No Comment) */
+"Error loading" = "Pogreška prilikom učitavanja";
+
+/* (No Comment) */
+"Feedback" = "Povratne informacije";
+
+/* (No Comment) */
+"Feedback on application 'Neslis'" = "Povratne informacije o aplikaciji 'Neslis'";
+
+/* (No Comment) */
+"Fetch data from iCloud" = "Dohvaćanje podataka iz iClouda";
+
+/* (No Comment) */
+"Fetching share data" = "Dohvaćanje podataka o dijeljenju";
+
+/* (No Comment) */
+"has been changed" = "je promijenjen";
+
+/* (No Comment) */
+"iCloud" = "iCloud";
+
+/* (No Comment) */
+"List settings" = "Postavke popisa";
+
+/* (No Comment) */
+"List title" = "Naslov popisa";
+
+/* (No Comment) */
+"Lists" = "Popisi";
+
+/* (No Comment) */
+"Load" = "Opterećenje";
+
+/* (No Comment) */
+"Merge" = "Ići";
+
+/* (No Comment) */
+"New list" = "Novi popis";
+
+/* (No Comment) */
+"New task" = "Novi zadatak";
+
+/* (No Comment) */
+"No backup data in iCloud." = "Nema sigurnosnih kopija podataka u iCloudu.";
+
+/* (No Comment) */
+"Notifications of changes to shared lists" = "Obavijesti o promjenama na dijeljenim popisima";
+
+/* (No Comment) */
+"OK" = "OK";
+
+/* (No Comment) */
+"Other applications" = "Ostale primjene";
+
+/* (No Comment) */
+"Please check the internet connection or re-authenticate in an iCloud account or try later." = "Provjerite internetsku vezu ili ponovno provjerite autentičnost na iCloud računu ili pokušajte kasnije.";
+
+/* (No Comment) */
+"Pro Version" = "Pro verzija";
+
+/* (No Comment) */
+"Processing..." = "Obrada...";
+
+/* (No Comment) */
+"Purchase Pro version for backup and sharing lists." = "Kupite Pro verziju za sigurnosno kopiranje i dijeljenje popisa.";
+
+/* (No Comment) */
+"Purchases" = "Kupnje";
+
+/* (No Comment) */
+"Rate the app" = "Ocijenite aplikaciju";
+
+/* (No Comment) */
+"Recurring billing. Cancel any time. If you choose to purchase a subscription, payment will be charged to your iTunes account and your account will be charged for renewal 24 hours prior to the end of the current period unless auto-renew is turned off. Auto-renewal is managed by the user and may be turned off at any time by going to your settings in the iTunes Store after purchase. Any unused portion of a free trial period will be forfeited when the user purchases a subscription." = "Ponavljanje naplate. Otkažite bilo kada. Ako odlučite kupiti pretplatu, plaćanje će se izvršiti na vaš iTunes račun, a obnova računa naplatit će se 24 sata prije kraja tekućeg razdoblja, osim ako automatsko obnavljanje nije isključeno. Korisnikom upravlja automatsko obnavljanje i može se isključiti u bilo kojem trenutku odlaskom u vaše postavke u iTunes Store nakon kupnje. Svaki neiskorišteni dio besplatnog probnog razdoblja izgubit će se kada korisnik kupi pretplatu.";
+
+/* (No Comment) */
+"Restore data" = "Vrati podatke";
+
+/* (No Comment) */
+"Restore purchases" = "Vratite kupnje";
+
+/* (No Comment) */
+"Restoring..." = "Vraćanje...";
+
+/* (No Comment) */
+"Rewrite" = "Prepisati";
+
+/* (No Comment) */
+"Save" = "Uštedjeti";
+
+/* (No Comment) */
+"Save data" = "Spremi podatke";
+
+/* (No Comment) */
+"Saving..." = "Spremanje...";
+
+/* (No Comment) */
+"Send email to the developer" = "Pošaljite e-poruku programeru";
+
+/* (No Comment) */
+"Settings" = "Postavke";
+
+/* (No Comment) */
+"Shared list" = "Dijeljeni popis";
+
+/* (No Comment) */
+"Sharing lists" = "Popisi za dijeljenje";
+
+/* (No Comment) */
+"Show 'expand all' button" = "Prikaži gumb 'proširi sve'";
+
+/* (No Comment) */
+"Show checked item" = "Prikaži označenu stavku";
+
+/* (No Comment) */
+"Show list counter" = "Prikaži brojač popisa";
+
+/* (No Comment) */
+"Show progress bar" = "Prikaži traku napretka";
+
+/* (No Comment) */
+"Show sublist count" = "Prikaži broj popisa";
+
+/* (No Comment) */
+"Success" = "Uspjeh";
+
+/* (No Comment) */
+"To accept shared lists buy the Pro version." = "Da biste prihvatili dijeljene popise, kupite Pro verziju.";
+
+/* (No Comment) */
+"To send an email please configure email into settings iOS" = "Da biste poslali e-poštu, konfigurirajte e-poštu u postavkama iOS-a";
+
+/* (No Comment) */
+"Upgrade to Pro" = "Nadogradi na pro";
+
+/* (No Comment) */
+"Use icon color in the list" = "Upotrijebite boju ikone na popisu";
+
+/* (No Comment) */
+"Use the color of the list-icon to visual style the list" = "Koristite boju ikone popisa za vizualno oblikovanje popisa";
+
+/* (No Comment) */
+"Visual settings" = "Vizualne postavke";
+
+/* (No Comment) */
+"You are not logged in iCloud, or not all permits granted! Please login to your iCloud account and check all permits in system settings for sharing lists and backup." = "Niste prijavljeni u iCloud ili nisu dodijeljene sve dozvole! Prijavite se na svoj iCloud račun i provjerite sve dozvole u postavkama sustava za dijeljenje popisa i sigurnosne kopije.";
+
+/* (No Comment) */
+"You don't have the Pro version! Please upgrade to Pro." = "Nemate Pro verziju! Molimo nadogradite na Pro.";
+
+/* (No Comment) */
+"You have another iCloud data. Do you want to rewrite this data or merge all data?" = "Imate još jedan iCloud podatak. Želite li prepisati ove podatke ili spojiti sve podatke?";
+
+/* (No Comment) */
+"You have backup data! Do you want to load this data?" = "Imate sigurnosne kopije podataka! Želite li učitati ove podatke?";
+
+/* (No Comment) */
+"You have data on your phone. Do you want to rewrite this data or merge all data?" = "Na telefonu imate podatke. Želite li prepisati ove podatke ili spojiti sve podatke?";
+
+/* (No Comment) */
+"You have the Pro version. All right!" = "Imate Pro verziju. U redu!";
+
+/* (No Comment) */
+"You turned off the notification in settings. Please turn on the notifications for this application in the system settings." = "Isključili ste obavijest u postavkama. Uključite obavijesti za ovu aplikaciju u postavkama sustava.";
+
+/* (No Comment) */
+"Your save" = "Vaša ušteda";
+
+/* (No Comment) */
+"Your subscription has expired! Please upgrade to Pro." = "Vaša je pretplata istekla! Molimo nadogradite na Pro.";
+
