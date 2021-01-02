@@ -25,6 +25,7 @@ struct PurchaseView: View {
         LoadingView(isShowing: $progressData.activitySpinnerAnimate, text: progressData.activitySpinnerText, progressBar: $progressData.value, showProgressBar: $progressData.showProgressBar, content: {
             
             VStack(alignment: .center, spacing: 14) {
+                Spacer()
                 Text(TxtLocal.Text.upgradeToPro)
                     .font(Font.system(size: 24, weight: .bold, design: .default))
                     .lineLimit(2)
@@ -80,6 +81,7 @@ struct PurchaseView: View {
                     .font(.system(size: 12, weight: .thin, design: .default))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.leading)
+                Spacer()
             }
             .padding()
             .background(ZStack{

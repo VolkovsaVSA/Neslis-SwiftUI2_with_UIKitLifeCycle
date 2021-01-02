@@ -149,59 +149,86 @@ struct SettingsView: View {
     }
     fileprivate func didsetIcloudBackupValue(_ newValue: Bool) {
         if newValue {
-            progressBar.showProgressBar = true
-            progressBar.activitySpinnerAnimate = true
-            progressBar.activitySpinnerText = TxtLocal.Alert.Text.fetchDataFromICloud
-            CloudKitManager.FetchFromCloud.fetchListCountFromPrivateDB { result in
-                DispatchQueue.main.async {
-                    progressBar.activitySpinnerAnimate = false
-                }
-                
-                switch result {
-                case .success(let count):
-                    if count > 0 {
-                        DispatchQueue.main.async {
-                            userAlert.alertType = .oldIcloudData
-                        }
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
+            DispatchQueue.main.async {
+                progressBar.showProgressBar = true
+                progressBar.activitySpinnerAnimate = true
+                progressBar.activitySpinnerText = TxtLocal.Alert.Text.fetchDataFromICloud
+            }
+            CloudKitManager.Zone.createZone { error in
+                if let _ = error {
                     DispatchQueue.main.async {
-                        userAlert.text = error.localizedDescription
+                        userAlert.text = TxtLocal.Alert.Text.pleaseCheckTheInternetConnection
                         userAlert.alertType = .networkError
                         userSettings.icloudBackup = false
                     }
+                } else {
+                    CloudKitManager.FetchFromCloud.fetchListCountFromPrivateDB { result in
+                        DispatchQueue.main.async {
+                            progressBar.activitySpinnerAnimate = false
+                        }
+                        
+                        switch result {
+                        case .success(let count):
+                            if count > 0 {
+                                DispatchQueue.main.async {
+                                    userAlert.alertType = .oldIcloudData
+                                }
+                            }
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                            DispatchQueue.main.async {
+                                userAlert.text = error.localizedDescription
+                                userAlert.alertType = .networkError
+                                userSettings.icloudBackup = false
+                            }
+                        }
+                    }
                 }
             }
+            
         }
     }
     fileprivate func saveButtonAction() {
-        progressBar.showProgressBar = true
-        progressBar.activitySpinnerAnimate = true
-        progressBar.activitySpinnerText = TxtLocal.Alert.Text.fetchDataFromICloud
+        DispatchQueue.main.async {
+            progressBar.showProgressBar = true
+            progressBar.activitySpinnerAnimate = true
+            progressBar.activitySpinnerText = TxtLocal.Alert.Text.fetchDataFromICloud
+        }
         
-        CloudKitManager.FetchFromCloud.fetchListCountFromPrivateDB { result in
-            print(#function, " ", result)
-            DispatchQueue.main.async {
-                progressBar.activitySpinnerAnimate = false
-            }
-            switch result {
-            case .success(let count):
-                if count > 0 {
-                    DispatchQueue.main.async {
-                        userAlert.alertType = .saveRewrite
-                    }
-                } else {
-                    saveData(rewrite: true)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
+        CloudKitManager.Zone.createZone { error in
+            if error != nil {
                 DispatchQueue.main.async {
-                    userAlert.text = error.localizedDescription
+                    progressBar.activitySpinnerAnimate = false
+                    userAlert.text = TxtLocal.Alert.Text.pleaseCheckTheInternetConnection
                     userAlert.alertType = .networkError
+                    userSettings.icloudBackup = false
+                }
+            } else {
+                CloudKitManager.FetchFromCloud.fetchListCountFromPrivateDB { result in
+                    print(#function, " ", result)
+                    DispatchQueue.main.async {
+                        progressBar.activitySpinnerAnimate = false
+                    }
+                    switch result {
+                    case .success(let count):
+                        if count > 0 {
+                            DispatchQueue.main.async {
+                                userAlert.alertType = .saveRewrite
+                            }
+                        } else {
+                            saveData(rewrite: true)
+                        }
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                        DispatchQueue.main.async {
+                            userAlert.text = error.localizedDescription
+                            userAlert.alertType = .networkError
+                        }
+                    }
                 }
             }
         }
+        
     }
     fileprivate func restoreButtonAction() {
         let coreDataCount = CDStack.shared.fetchList(context: viewContext).count

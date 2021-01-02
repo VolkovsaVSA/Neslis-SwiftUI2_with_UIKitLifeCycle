@@ -95,6 +95,9 @@
 "Pro Version" = "Version Pro";
 
 /* (No Comment) */
+"Processing..." = "En traitement...";
+
+/* (No Comment) */
 "Purchase Pro version for backup and sharing lists." = "Achetez la version Pro pour les listes de sauvegarde et de partage.";
 
 /* (No Comment) */
@@ -200,5 +203,5 @@
 "Your save" = "Votre économie";
 
 /* (No Comment) */
-"Your subscription is expired! Please upgrade to Pro." = "Votre abonnement est expiré! Veuillez passer à Pro.";
+"Your subscription has expired! Please upgrade to Pro." = "Votre abonnement a expiré! Veuillez passer à Pro.";
 
