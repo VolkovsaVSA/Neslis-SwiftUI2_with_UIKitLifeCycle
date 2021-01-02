@@ -16,7 +16,7 @@ struct PurchaseView: View {
     @Environment(\.managedObjectContext) private var viewContext
     fileprivate func processing() {
         progressData.activitySpinnerAnimate = true
-        progressData.activitySpinnerText = "Processing..."
+        progressData.activitySpinnerText = TxtLocal.Alert.Text.processing
         progressData.showProgressBar = false
     }
     

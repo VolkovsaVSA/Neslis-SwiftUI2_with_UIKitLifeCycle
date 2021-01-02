@@ -59,7 +59,6 @@ class IAPManager: NSObject {
     }
     public func purshase(product: SKProduct) {
         let payment = SKPayment(product: product)
-        
         SKPaymentQueue.default().add(payment)
     }
     public func restoreCompletedTransaction() {
@@ -234,6 +233,7 @@ class IAPManager: NSObject {
 extension IAPManager: SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, removedTransactions transactions: [SKPaymentTransaction]) {
         print(#function)
+        ProgressData.shared.activitySpinnerAnimate = false
     }
     
     func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
