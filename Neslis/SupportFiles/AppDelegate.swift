@@ -17,9 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 
 
-        IAPManager.shared.validateReceipt(showAlert: false)
+//        IAPManager.shared.validateReceipt(showAlert: false)
         
-        if UserSettings.shared.proVersion, UserSettings.shared.icloudBackup {
+        if UserSettings.shared.proVersion && UserSettings.shared.icloudBackup {
             
             if let notification = CKNotification(fromRemoteNotificationDictionary: userInfo), let subscriptionID = notification.subscriptionID {
                 
@@ -200,6 +200,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         UserAlert.shared.alertType = nil
+        UserAlert.shared.title = ""
+        UserAlert.shared.text = ""
         IAPManager.shared.validateReceipt(showAlert: false)
         
         if !UserSettings.shared.zonIsCreated {
@@ -217,7 +219,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        //IAPManager.shared.validateReceipt()
         NotifManager.requestAuthoriz()
         application.registerForRemoteNotifications()
         

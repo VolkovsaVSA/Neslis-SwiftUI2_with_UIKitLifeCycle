@@ -87,10 +87,12 @@ class IAPManager: NSObject {
         func noInternet() {
             DispatchQueue.main.async {
 //                UserSettings.shared.proVersion = false
-                ProgressData.shared.activitySpinnerAnimate = false
+                //ProgressData.shared.activitySpinnerAnimate = false
                 UserAlert.shared.title = TxtLocal.Alert.Title.error
                 UserAlert.shared.text = TxtLocal.Alert.Text.pleaseCheckTheInternetConnection
-                UserAlert.shared.alertType = .noAccessToNotification
+                if showAlert {
+                    UserAlert.shared.alertType = .noAccessToNotification
+                }
             }
         }
         
@@ -195,16 +197,16 @@ class IAPManager: NSObject {
                         UserAlert.shared.text = TxtLocal.Alert.Text.youHaveTheProVersion
                         
                     }
-                    if showAlert {
-                        ProgressData.shared.activitySpinnerAnimate = false
-                        UserAlert.shared.alertType = .noAccessToNotification
-                    }
+//                    if showAlert {
+//                        ProgressData.shared.activitySpinnerAnimate = false
+//                        UserAlert.shared.alertType = .noAccessToNotification
+//                    }
                 }
                 else {
                     UserAlert.shared.title = TxtLocal.Alert.Title.error
                     UserAlert.shared.text = TxtLocal.Alert.Text.youDontHaveTheProversion
-                    ProgressData.shared.activitySpinnerAnimate = false
-                    UserAlert.shared.alertType = .noAccessToNotification
+//                    ProgressData.shared.activitySpinnerAnimate = false
+//                    UserAlert.shared.alertType = .noAccessToNotification
 //                    UserSettings.shared.proVersion = false
                 }
                 
@@ -219,6 +221,9 @@ class IAPManager: NSObject {
 
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
             ProgressData.shared.activitySpinnerAnimate = false
+            if showAlert {
+                UserAlert.shared.alertType = .noAccessToNotification
+            }
         }
         
         

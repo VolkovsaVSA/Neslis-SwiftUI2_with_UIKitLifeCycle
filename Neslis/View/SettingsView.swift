@@ -324,10 +324,10 @@ struct SettingsView: View {
                                 byFullVersion()
                             }
                             .modifier(SettingButtonModifire(disable: false))
-                            Button(TxtLocal.Button.restorePurchases) {
-                                IAPManager.shared.restoreCompletedTransaction()
-                            }
-                            .modifier(SettingButtonModifire(disable: false))
+//                            Button(TxtLocal.Button.restorePurchases) {
+//                                IAPManager.shared.restoreCompletedTransaction()
+//                            }
+//                            .modifier(SettingButtonModifire(disable: false))
                         }
                         
                         Section(header: Text(TxtLocal.Text.iCloud).font(.title).foregroundColor(.gray)) {

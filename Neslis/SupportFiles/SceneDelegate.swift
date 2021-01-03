@@ -70,7 +70,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func windowScene(_ windowScene: UIWindowScene, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
         
-        //IAPManager.shared.validateReceipt(showAlert: false)
+        IAPManager.shared.validateReceipt(showAlert: false)
         //cloudKitShareMetadata.
         progressData.setZero()
         
