@@ -5,6 +5,12 @@
 "/ year" = "/ 年";
 
 /* (No Comment) */
+"1 month Pro" = "1个月专业版";
+
+/* (No Comment) */
+"12 months Pro" = "12个月专业版";
+
+/* (No Comment) */
 "Attention!" = "注意！";
 
 /* (No Comment) */
@@ -91,6 +97,9 @@
 /* (No Comment) */
 "Please check the internet connection or re-authenticate in an iCloud account or try later." = "请检查互联网连接或在iCloud帐户中重新认证，或稍后再试。";
 
+/* No comment provided by engineer. */
+"Privacy Policy" = "隐私政策";
+
 /* (No Comment) */
 "Pro Version" = "专业版";
 
@@ -159,6 +168,12 @@
 
 /* (No Comment) */
 "Success" = "成功";
+
+/* No comment provided by engineer. */
+"Terms & Conditions" = "条款及细则";
+
+/* (No Comment) */
+"Terms & Privacy Policy" = "条款和隐私政策";
 
 /* (No Comment) */
 "To accept shared lists buy the Pro version." = "要接受共享列表，请购买Pro版本。";

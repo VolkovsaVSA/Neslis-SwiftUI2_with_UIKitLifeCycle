@@ -14,6 +14,8 @@ struct PurchaseView: View {
     @ObservedObject var userAlert = UserAlert.shared
     @ObservedObject var progressData = ProgressData.shared
     
+    @State var showTerms = false
+    
     @Environment(\.managedObjectContext) private var viewContext
     fileprivate func processing() {
         progressData.activitySpinnerAnimate = true
@@ -33,7 +35,7 @@ struct PurchaseView: View {
                     .multilineTextAlignment(.center)
                     .foregroundColor(.white)
                 
-                VStack {
+                VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundColor(.green)
@@ -56,11 +58,12 @@ struct PurchaseView: View {
                     processing()
                     IAPManager.shared.purshase(product: IAPManager.shared.products[0])
                 }) {
-                    Text("\(IAPManager.shared.priceOfProduct(product: IAPManager.shared.products[0])) \(TxtLocal.Text.inMonth)")
-                        .multilineTextAlignment(.center)
-                        .font(.title3)
-                        .padding()
-                    
+                    HStack {
+                        Text(TxtLocal.contentBody.oneMonth)
+                        Spacer()
+                        Text("\(IAPManager.shared.priceOfProduct(product: IAPManager.shared.products[0]))")
+                    }
+                    .padding(.horizontal)
                 }
                 .modifier(PurchaseButtonModifire())
                 .frame(height: 50)
@@ -69,24 +72,43 @@ struct PurchaseView: View {
                     processing()
                     IAPManager.shared.purshase(product: IAPManager.shared.products[1])
                 }) {
-                    VStack{
-                        Text("\(IAPManager.shared.priceOfProduct(product: IAPManager.shared.products[1])) \(TxtLocal.Text.inYear)")
-                            .multilineTextAlignment(.center)
-                            .font(.title3)
-                        Text("\(TxtLocal.Text.yourSave) \(Int(round(100 - Double(truncating: IAPManager.shared.products[1].price) / (Double(truncating: IAPManager.shared.products[0].price) * 12) * 100)))%")
-                            .font(Font.system(size: 22, weight: .bold, design: .default))
+                    VStack {
+                        HStack {
+                            Text(TxtLocal.contentBody.oneYear)
+                            Spacer()
+                            Text("\(IAPManager.shared.priceOfProduct(product: IAPManager.shared.products[1]))")
+                        }
+                        .padding(.horizontal)
+                        
+//                        HStack {
+//                            Text("\(TxtLocal.Text.yourSave)")
+//                            Text("\(Int(round(100 - Double(truncating: IAPManager.shared.products[1].price) / (Double(truncating: IAPManager.shared.products[0].price) * 12) * 100)))%")
+//
+//                        }
+//                        .padding(.horizontal)
+//                        .font(Font.system(size: 14, weight: .thin, design: .default))
                     }
                 }
                 .modifier(PurchaseButtonModifire())
+                
                 Button(TxtLocal.Button.restorePurchases) {
                     IAPManager.shared.restoreCompletedTransaction()
                 }
                 .foregroundColor(.red)
-                Text(TxtLocal.Text.recurringBilling)
-                    .font(.system(size: 12, weight: .thin, design: .default))
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.leading)
+                ScrollView {
+                    Text(TxtLocal.Text.recurringBilling)
+                        .font(.system(size: 12, weight: .thin, design: .default))
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.leading)
+                }
                 Spacer()
+                Button(TxtLocal.contentBody.termsConditions) {
+                    showTerms = true
+                }
+                .frame(maxHeight: 10)
+                .fixedSize(horizontal: false, vertical: true)
+                .font(.system(size: 12))
+                .padding(.bottom)
             }
             .padding()
             .background(ZStack{
@@ -113,6 +135,9 @@ struct PurchaseView: View {
             default:
                 return Alert(title: Text(""))
             }
+        }
+        .sheet(isPresented: $showTerms) {
+            TermsConditions()
         }
         .onAppear() {
             DispatchQueue.main.async {

@@ -5,6 +5,12 @@
 "/ year" = "/ год";
 
 /* (No Comment) */
+"1 month Pro" = "1 месяц Pro";
+
+/* (No Comment) */
+"12 months Pro" = "12 месяцев Pro";
+
+/* (No Comment) */
 "Attention!" = "Внимание!";
 
 /* (No Comment) */
@@ -91,6 +97,9 @@
 /* (No Comment) */
 "Please check the internet connection or re-authenticate in an iCloud account or try later." = "Пожалуйста, проверьте подключение к Интернету, повторите аутентификацию в учетной записи iCloud или попробуйте позже.";
 
+/* No comment provided by engineer. */
+"Privacy Policy" = "Политика конфиденциальности";
+
 /* (No Comment) */
 "Pro Version" = "Pro версия";
 
@@ -159,6 +168,12 @@
 
 /* (No Comment) */
 "Success" = "Успех";
+
+/* No comment provided by engineer. */
+"Terms & Conditions" = "Условия и положения";
+
+/* (No Comment) */
+"Terms & Privacy Policy" = "Условия и Политика конфиденциальности";
 
 /* (No Comment) */
 "To accept shared lists buy the Pro version." = "Чтобы принимать общие списки, купите версию Pro.";

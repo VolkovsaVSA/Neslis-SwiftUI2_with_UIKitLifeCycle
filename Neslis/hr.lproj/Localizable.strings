@@ -5,6 +5,12 @@
 "/ year" = "/ godina";
 
 /* (No Comment) */
+"1 month Pro" = "1 mjesec Pro";
+
+/* (No Comment) */
+"12 months Pro" = "12 mjeseci Pro";
+
+/* (No Comment) */
 "Attention!" = "Pažnja!";
 
 /* (No Comment) */
@@ -91,6 +97,9 @@
 /* (No Comment) */
 "Please check the internet connection or re-authenticate in an iCloud account or try later." = "Provjerite internetsku vezu ili ponovno provjerite autentičnost na iCloud računu ili pokušajte kasnije.";
 
+/* No comment provided by engineer. */
+"Privacy Policy" = "Pravila o privatnosti";
+
 /* (No Comment) */
 "Pro Version" = "Pro verzija";
 
@@ -159,6 +168,12 @@
 
 /* (No Comment) */
 "Success" = "Uspjeh";
+
+/* No comment provided by engineer. */
+"Terms & Conditions" = "Uvjeti korištenja";
+
+/* (No Comment) */
+"Terms & Privacy Policy" = "Uvjeti i politika privatnosti";
 
 /* (No Comment) */
 "To accept shared lists buy the Pro version." = "Da biste prihvatili dijeljene popise, kupite Pro verziju.";

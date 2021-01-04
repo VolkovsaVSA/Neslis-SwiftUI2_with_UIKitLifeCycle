@@ -99,6 +99,9 @@ struct TxtLocal {
         static let hasBeenChanged = NSLocalizedString("has been changed", comment: " ")
         static let completed = NSLocalizedString("completed", comment: " ")
         static let feedbackOnApplication = NSLocalizedString("Feedback on application 'Neslis'", comment: " ")
+        static let oneMonth = NSLocalizedString("1 month Pro", comment: " ")
+        static let oneYear = NSLocalizedString("12 months Pro", comment: " ")
+        static let termsConditions = NSLocalizedString("Terms & Privacy Policy", comment: " ")
     }
 }
 

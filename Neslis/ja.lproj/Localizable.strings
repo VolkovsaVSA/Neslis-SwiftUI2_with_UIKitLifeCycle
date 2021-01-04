@@ -5,6 +5,12 @@
 "/ year" = "/年";
 
 /* (No Comment) */
+"1 month Pro" = "1ヶ月プロ";
+
+/* (No Comment) */
+"12 months Pro" = "12ヶ月プロ";
+
+/* (No Comment) */
 "Attention!" = "注意！";
 
 /* (No Comment) */
@@ -91,6 +97,9 @@
 /* (No Comment) */
 "Please check the internet connection or re-authenticate in an iCloud account or try later." = "インターネット接続を確認するか、iCloudアカウントで再認証するか、後で試してください。";
 
+/* No comment provided by engineer. */
+"Privacy Policy" = "個人情報保護方針";
+
 /* (No Comment) */
 "Pro Version" = "プロバージョン";
 
@@ -159,6 +168,12 @@
 
 /* (No Comment) */
 "Success" = "成功";
+
+/* No comment provided by engineer. */
+"Terms & Conditions" = "利用規約";
+
+/* (No Comment) */
+"Terms & Privacy Policy" = "利用規約とプライバシーポリシー";
 
 /* (No Comment) */
 "To accept shared lists buy the Pro version." = "共有リストを受け入れるには、Proバージョンを購入してください。";

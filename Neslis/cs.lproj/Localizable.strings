@@ -5,6 +5,12 @@
 "/ year" = "/ rok";
 
 /* (No Comment) */
+"1 month Pro" = "1 měsíc Pro";
+
+/* (No Comment) */
+"12 months Pro" = "12 měsíců Pro";
+
+/* (No Comment) */
 "Attention!" = "Pozornost!";
 
 /* (No Comment) */
@@ -91,6 +97,9 @@
 /* (No Comment) */
 "Please check the internet connection or re-authenticate in an iCloud account or try later." = "Zkontrolujte připojení k internetu nebo se znovu ověřte na účtu iCloud nebo to zkuste později.";
 
+/* No comment provided by engineer. */
+"Privacy Policy" = "Zásady ochrany osobních údajů";
+
 /* (No Comment) */
 "Pro Version" = "Pro verze";
 
@@ -159,6 +168,12 @@
 
 /* (No Comment) */
 "Success" = "Úspěch";
+
+/* No comment provided by engineer. */
+"Terms & Conditions" = "Všeobecné obchodní podmínky";
+
+/* (No Comment) */
+"Terms & Privacy Policy" = "Podmínky a zásady ochrany osobních údajů";
 
 /* (No Comment) */
 "To accept shared lists buy the Pro version." = "Chcete-li přijímat sdílené seznamy, kupte si verzi Pro.";

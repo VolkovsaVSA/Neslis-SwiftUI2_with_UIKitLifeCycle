@@ -5,6 +5,12 @@
 "/ year" = "/ Jahr";
 
 /* (No Comment) */
+"1 month Pro" = "1 Monat Pro";
+
+/* (No Comment) */
+"12 months Pro" = "12 Monate Pro";
+
+/* (No Comment) */
 "Attention!" = "Beachtung!";
 
 /* (No Comment) */
@@ -94,6 +100,9 @@
 /* (No Comment) */
 "Please check the internet connection or re-authenticate in an iCloud account or try later." = "Bitte überprüfen Sie die Internetverbindung oder authentifizieren Sie sich erneut in einem iCloud-Konto oder versuchen Sie es später.";
 
+/* No comment provided by engineer. */
+"Privacy Policy" = "Datenschutz-Bestimmungen";
+
 /* (No Comment) */
 "Pro Version" = "Pro-Version";
 
@@ -162,6 +171,12 @@
 
 /* (No Comment) */
 "Success" = "Erfolg";
+
+/* No comment provided by engineer. */
+"Terms & Conditions" = "Terms & Bedingungen";
+
+/* (No Comment) */
+"Terms & Privacy Policy" = "Nutzungsbedingungen und Datenschutzbestimmungen";
 
 /* (No Comment) */
 "To accept shared lists buy the Pro version." = "Um gemeinsam genutzte Listen zu akzeptieren, kaufen Sie die Pro-Version.";
